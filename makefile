@@ -28,11 +28,8 @@ LIB = ${DIST}/lib
 
 TIMESTAMP != date -u +'%Y-%m-%d--%T'
 
-GITSHA != git log -n1 --format=format:"%H" | head -c 8
-GITCLEAN != [ "`git diff --stat`" = '' ] || echo "-dirty"
-
 build: build-a build-s build-m build-p
-	@mustache /dev/null views/index.mustache > ${DIST}/index.html
+	@ mustache /dev/null views/index.mustache > ${DIST}/index.html
 	@ patch --dry-run -p1 <relative-paths.diff
 
 lint:
@@ -222,8 +219,6 @@ build-s:
 		> ${DIST}/s/main.css
 
 sync:
-	@ echo ${GITSHA}${GITCLEAN} > ${DIST}/.sync-${env}
-
 	@ rsync -OPr \
 		--checksum \
 		--copy-links \
