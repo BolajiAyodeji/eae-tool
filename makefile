@@ -31,7 +31,7 @@ TIMESTAMP != date -u +'%Y-%m-%d--%T'
 GITSHA != git log -n1 --format=format:"%H" | head -c 8
 GITCLEAN != [ "`git diff --stat`" = '' ] || echo "-dirty"
 
-build: build-a build-s build-m
+build: build-a build-s build-m build-p
 	@mustache /dev/null views/index.mustache > ${DIST}/index.html
 	@find . -name '*.orig' -delete
 
@@ -72,6 +72,36 @@ build-m:
 		${CSS}/m.css \
 		${CSS}/buttons.css \
 		> ${DIST}/m/main.css
+
+build-p:
+	@echo "Building snapshot screen"
+	@mkdir -p ${DIST}/p
+
+	@mustache /dev/null ${VIEWS}/p.mustache > ${DIST}/p/index.html
+
+	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/p/index.html
+
+	@cp \
+		${SRC}/user.js \
+		${SRC}/utils.js \
+		${SRC}/p.js \
+		${DIST}/p/
+
+	@cat \
+		${LIB}/jwt-decode.js \
+		${LIB}/helpers.js \
+		> ${DIST}/p/libs.js
+
+	@echo "window.EAE = {};" | cat - \
+		settings.tmp.json \
+		${SRC}/eae.part.js \
+		> ${DIST}/p/main.js
+
+	@cat \
+		${CSS}/general.css \
+		${CSS}/p.css \
+		${CSS}/buttons.css \
+		> ${DIST}/p/main.css
 
 build-a:
 	@echo "Building analysis screen"
