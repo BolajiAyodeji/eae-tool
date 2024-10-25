@@ -72,30 +72,30 @@ build-m:
 		> ${DIST}/m/main.css
 
 build-p:
-	@echo "Building snapshot screen"
-	@mkdir -p ${DIST}/p
+	@ echo "Building snapshot screen"
+	@ mkdir -p ${DIST}/p
 
-	@mustache /dev/null ${VIEWS}/p.mustache > ${DIST}/p/index.html
+	@ mustache /dev/null ${VIEWS}/p.mustache > ${DIST}/p/index.html
 
-	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/p/index.html
+	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/p/index.html
 
-	@cp \
+	@ cp \
 		${SRC}/user.js \
 		${SRC}/utils.js \
 		${SRC}/p.js \
 		${DIST}/p/
 
-	@cat \
+	@ cat \
 		${LIB}/jwt-decode.js \
 		${LIB}/helpers.js \
 		> ${DIST}/p/libs.js
 
-	@echo "window.EAE = {};" | cat - \
+	@ echo "window.EAE = {};" | cat - \
 		settings.tmp.json \
 		${SRC}/eae.part.js \
 		> ${DIST}/p/main.js
 
-	@cat \
+	@ cat \
 		${CSS}/general.css \
 		${CSS}/p.css \
 		${CSS}/buttons.css \
