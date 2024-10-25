@@ -46,7 +46,7 @@ build-m:
 	@echo "Building my screen"
 	@mkdir -p ${DIST}/m
 
-	@mustache /dev/null ${VIEWS}/m.html > ${DIST}/m/index.html
+	@mustache /dev/null ${VIEWS}/m.mustache > ${DIST}/m/index.html
 
 	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/m/index.html
 
@@ -107,7 +107,7 @@ build-a:
 	@echo "Building analysis screen"
 	@mkdir -p ${DIST}/a
 
-	@mustache /dev/null ${VIEWS}/a.html > ${DIST}/a/index.html
+	@mustache /dev/null ${VIEWS}/a.mustache > ${DIST}/a/index.html
 
 	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/a/index.html
 
@@ -191,7 +191,7 @@ build-s:
 	@echo "Building select screen"
 	@mkdir -p ${DIST}/s
 
-	@mustache /dev/null ${VIEWS}/s.html > ${DIST}/s/index.html
+	@mustache /dev/null ${VIEWS}/s.mustache > ${DIST}/s/index.html
 
 	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/s/index.html
 
