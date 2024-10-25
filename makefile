@@ -33,7 +33,7 @@ GITCLEAN != [ "`git diff --stat`" = '' ] || echo "-dirty"
 
 build: build-a build-s build-m build-p
 	@mustache /dev/null views/index.mustache > ${DIST}/index.html
-	@find . -name '*.orig' -delete
+	@ patch --dry-run -p1 <relative-paths.diff
 
 lint:
 	@ ${BIN}/lint ${SRC}
@@ -43,31 +43,32 @@ deps:
 	DEST=${LIB} ${BIN}/deps
 
 build-m:
-	@echo "Building my screen"
-	@mkdir -p ${DIST}/m
+	@ echo "Building my screen"
+	@ mkdir -p ${DIST}/m
 
-	@mustache /dev/null ${VIEWS}/m.mustache > ${DIST}/m/index.html
+	@ mustache /dev/null ${VIEWS}/m.mustache > ${DIST}/m/index.html
 
-	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/m/index.html
+	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/m/index.html
 
-	@cp \
+	@ cp \
 		${SRC}/user.js \
 		${SRC}/utils.js \
 		${SRC}/m.js \
 		${SRC}/tabs.js \
 		${DIST}/m/
 
-	@cat \
+	@ cat \
 		${LIB}/jwt-decode.js \
 		${LIB}/helpers.js \
+		${LIB}/d3.js \
 		> ${DIST}/m/libs.js
 
-	@echo "window.EAE = {};" | cat - \
+	@ echo "window.EAE = {};" | cat - \
 		settings.tmp.json \
 		${SRC}/eae.part.js \
 		> ${DIST}/m/main.js
 
-	@cat \
+	@ cat \
 		${CSS}/general.css \
 		${CSS}/m.css \
 		${CSS}/buttons.css \
@@ -104,16 +105,16 @@ build-p:
 		> ${DIST}/p/main.css
 
 build-a:
-	@echo "Building analysis screen"
-	@mkdir -p ${DIST}/a
+	@ echo "Building analysis screen"
+	@ mkdir -p ${DIST}/a
 
-	@mustache /dev/null ${VIEWS}/a.mustache > ${DIST}/a/index.html
+	@ mustache /dev/null ${VIEWS}/a.mustache > ${DIST}/a/index.html
 
-	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/a/index.html
+	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/a/index.html
 
-	@cp ${CSS}/ripple.css ${DIST}/a/ripple.css
-	@cp ${CSS}/buttons.css ${DIST}/a/buttons.css
-	@cp \
+	@ cp ${CSS}/ripple.css ${DIST}/a/ripple.css
+	@ cp ${CSS}/buttons.css ${DIST}/a/buttons.css
+	@ cp \
 		${SRC}/utils.js \
 		${SRC}/admin-tiers.js \
 		${SRC}/browser.js \
@@ -152,7 +153,7 @@ build-a:
 		${SRC}/qa-indexes.js \
 		${DIST}/a/
 
-	@cat \
+	@ cat \
 		${LIB}/d3.js \
 		${LIB}/geotiff.js \
 		${LIB}/mapbox-gl.js \
@@ -163,12 +164,12 @@ build-a:
 		${LIB}/helpers.js \
 		> ${DIST}/a/libs.js
 
-	@echo "window.EAE = {};" | cat - \
+	@ echo "window.EAE = {};" | cat - \
 		settings.tmp.json \
 		${SRC}/eae.part.js \
 		> ${DIST}/a/main.js
 
-	@cat \
+	@ cat \
 		${CSS}/general.css \
 		${CSS}/a.css \
 		${CSS}/layout.css \
@@ -188,31 +189,31 @@ build-a:
 		> ${DIST}/a/main.css
 
 build-s:
-	@echo "Building select screen"
-	@mkdir -p ${DIST}/s
+	@ echo "Building select screen"
+	@ mkdir -p ${DIST}/s
 
-	@mustache /dev/null ${VIEWS}/s.mustache > ${DIST}/s/index.html
+	@ mustache /dev/null ${VIEWS}/s.mustache > ${DIST}/s/index.html
 
-	@sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/s/index.html
+	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/s/index.html
 
-	@cp \
+	@ cp \
 		${SRC}/utils.js \
 		${SRC}/browser.js \
 		${SRC}/user.js \
 		${SRC}/s.js \
 		${DIST}/s/
 
-	@cat \
+	@ cat \
 		${LIB}/d3.js \
 		${LIB}/jwt-decode.js \
 		${LIB}/helpers.js \
 		> ${DIST}/s/libs.js
 
-	@echo "window.EAE = {};" | cat - \
+	@ echo "window.EAE = {};" | cat - \
 		settings.tmp.json \
 		> ${DIST}/s/main.js
 
-	@cat \
+	@ cat \
 		${CSS}/general.css \
 		${CSS}/s.css \
 		${CSS}/maparea.css \
@@ -221,9 +222,9 @@ build-s:
 		> ${DIST}/s/main.css
 
 sync:
-	@echo ${GITSHA}${GITCLEAN} > ${DIST}/.sync-${env}
+	@ echo ${GITSHA}${GITCLEAN} > ${DIST}/.sync-${env}
 
-	@rsync -OPr \
+	@ rsync -OPr \
 		--checksum \
 		--copy-links \
 		--delete-before \
@@ -232,7 +233,7 @@ sync:
 		${DIST}/ ${SSH_USER}@${SSH_HOST}:${TOOL_DEST}
 
 synced:
-	@rsync -OPr \
+	@ rsync -OPr \
 		--dry-run \
 		--checksum \
 		--copy-links \
@@ -242,44 +243,44 @@ synced:
 		${DIST}/ ${SSH_USER}@${SSH_HOST}:${TOOL_DEST}
 
 deploy:
-	@touch ${env}.diff development.diff
+	@ touch ${env}.diff development.diff
 
-	@echo "DRY-RUN development => ${env}"
-	@echo "--------"
+	@ echo "DRY-RUN development => ${env}"
+	@ echo "--------"
 	patch --dry-run --strip=1 --reverse <development.diff
-	@echo "--------"
+	@ echo "--------"
 	patch --dry-run --strip=1 <${env}.diff
 
-	@echo ""
-	@echo "PATCH development => ${env}"
-	@echo "--------"
-	@patch --strip=1 --reverse <development.diff
-	@echo "--------"
-	@patch --strip=1 <${env}.diff
+	@ echo ""
+	@ echo "PATCH development => ${env}"
+	@ echo "--------"
+	@ patch --strip=1 --reverse <development.diff
+	@ echo "--------"
+	@ patch --strip=1 <${env}.diff
 
 	bmake reconfig build sync env=${env}
 
-	@echo ""
-	@echo "DRY-RUN ${env} => development"
-	@echo "--------"
+	@ echo ""
+	@ echo "DRY-RUN ${env} => development"
+	@ echo "--------"
 	patch --dry-run --strip=1 --reverse <${env}.diff
-	@echo "--------"
+	@ echo "--------"
 	patch --dry-run --strip=1 <development.diff
 
-	@echo ""
-	@echo "PATCH ${env} => development"
-	@echo "--------"
-	@patch --strip=1 --reverse <${env}.diff
-	@echo "--------"
-	@patch --strip=1 <development.diff
+	@ echo ""
+	@ echo "PATCH ${env} => development"
+	@ echo "--------"
+	@ patch --strip=1 --reverse <${env}.diff
+	@ echo "--------"
+	@ patch --strip=1 <development.diff
 	bmake reconfig build env=development
 
 reconfig:
-	@echo "Building settings.tmp.json - ${env}"
+	@ echo "Building settings.tmp.json - ${env}"
 
-	@printf "\n%s" "EAE['settings'] = " > settings.tmp.json
+	@ printf "\n%s" "EAE['settings'] = " > settings.tmp.json
 
-	@echo '{}' \
+	@ echo '{}' \
 		| jq '.domain = ${DOMAIN}' \
 		| jq '.world = ${WORLD}' \
 		| jq '.title = ${TITLE}' \
@@ -289,4 +290,4 @@ reconfig:
 		| jq '.mapbox_theme = ${MAPBOX_THEME}' \
 		>> settings.tmp.json
 
-	@sed -i -e '$$s/$$/;\n/' settings.tmp.json
+	@ sed -i -e '$$s/$$/;\n/' settings.tmp.json
