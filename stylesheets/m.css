@@ -1,10 +1,10 @@
 body {
-  background-color: #E8E8E7;
+
 }
 
 #playground {
   display: block;
-  width: 60em;
+  max-width: 80em;
   margin: auto;
   justify-content: center;
 }
@@ -14,27 +14,31 @@ body {
 }
 
 #playground main[tab-content][active] {
-  display: flex;
+  display: block;
 }
 
 #tabs {
   display: flex;
-  justify-content: space-evenly;
-  margin-top: 3em;
   cursor: pointer;
+  max-width: 80em;
+  margin: auto;
 }
 
 [tab] {
-  padding: 1em 3em;
+  padding: 1em;
+}
+
+[tab] i {
+  margin-right: 1em;
 }
 
 [tab][active] {
-  background-color: #ebebeb;
+  border-bottom: 5px solid var(--the-green);
 }
 
 #banner {
   background-color: white;
-  padding: 3em 7em;
+  padding: 3em 7em 0;
 }
 
 #banner h1 {
@@ -56,30 +60,48 @@ body {
   padding-left: 0;
 }
 
-#sessions,
-#left {
-  width: 50%;
+#sessions {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 #sessions-controls {
-  display: flex;
-  justify-content: space-between;
   height: 7em;
   align-items: center;
-  margin-left: 1em;
+  width: 100%;
 }
 
 .session-square {
-  padding: 2em;
-  margin-bottom: 1em;
-  margin-left: 1em;
+  margin: 0.7em;
   background-color: white;
   position: relative;
+  width: calc(33% - 2.8em);
+  border: 1px solid lightgray;
+}
+
+.session-square header {
+  padding: 1em;
+  background-color: #E8E8E7;
+}
+
+.session-square content {
+  padding: 1em;
+  display: block;
+}
+
+.session-square footer {
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid lightgray;
+}
+
+.session-square footer a i {
+  margin-right: 0.5em;
 }
 
 .date {
   color: #6B6868;
-  font-style: italic;
   font-size: 0.9em;
 }
 
@@ -90,16 +112,26 @@ h4 {
 
 input#search {
   min-width: 30em;
-  padding: 20px;
+  font-size: 1.2em;
+  padding: 0.8em;
   margin: 2em;
   border: 1px solid #cfcfcf;
   border-radius: 5px;
 }
 
+.title {
+  font-size: 1.2em;
+}
+
+.path {
+  font-size: 0.8em;
+  color: var(--the-gray);
+}
+
 .title-edit {
   position: absolute;
-  top: 1.5em;
-  right: 1.5em;
+  top: 1em;
+  right: 1em;
 }
 
 .title-edit span {
@@ -120,17 +152,7 @@ input#search {
   font-size: small;
 }
 
-.download {
-  position: absolute;
-  bottom: 1.5em;
-  right: 1.5em;
-  color: var(--the-green);
-  font-size: 0.9em;
-  cursor: pointer;
-}
-
 select {
   padding: 0.7em 1.5em;
   font-size: 1.2em;
-  width: 8em;
 }
