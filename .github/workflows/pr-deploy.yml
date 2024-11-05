@@ -26,7 +26,7 @@ jobs:
 
       - name: Build .env
         run: |
-          printf "/$BRANCH_NAME" > views/base.mustache
+          printf "/$DESTINATION" > views/base.mustache
 
           cat <<- EOF >.env
           	DOMAIN = "${{ vars.DOMAIN }}"
