@@ -28,7 +28,7 @@ LIB = ${DIST}/lib
 
 TIMESTAMP != date -u +'%Y-%m-%d--%T'
 
-build: build-a build-s build-m
+build: deps build-a build-s build-m
 	@ mustache /dev/null views/index.mustache > ${DIST}/index.html
 	@ patch --dry-run -p1 <relative-paths.diff
 
