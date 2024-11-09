@@ -9,7 +9,7 @@
 -		"parent_id":      `eq.${c.id}`,
 -		"deployment":     `ov.{${ENV}}`,
 -	});
-+	const coll = [c, c.subgeographies].flat();
++	const coll = [c, c.subgeographies].filter(x => x).flat();
  
  	if (c.datasets_count > 2) coll.unshift(c); // 2 datasets: outline and admin-tiers
  
@@ -52,3 +52,26 @@
  	PARAMS = {
  		"view":    ['inputs', 'filtered', 'outputs'],
  		"output":  ['eai', 'ani', 'demand', 'supply'],
+--- a/src/indexes.js
++++ b/src/indexes.js
+@@ -24,10 +24,6 @@ import {
+ 	analysis_to_dataset,
+ } from './overlord.js';
+ 
+-import {
+-	snapshot,
+-} from  './session.js';
+-
+ const PIES = {};
+ 
+ const bubble = (v,e) => new bubblemessage({ "message": v + "%", "position": "C", "close": false, "noevents": true }, e);
+@@ -152,9 +148,6 @@ export function init() {
+ 	for (const i in tools)
+ 		toolbox.append(ce('a', null, { "id": i, "title": tools[i] }));
+ 
+-	const snap = qs('#snapshot-button');
+-	snap.onclick = snapshot;
+-
+ 	const opacity = qs('#index-graphs-opacity');
+ 	opacity.append(opacity_control({
+ 		"fn": x => MAPBOX.setPaintProperty('output-layer', 'raster-opacity', x),
