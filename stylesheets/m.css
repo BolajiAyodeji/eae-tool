@@ -101,12 +101,13 @@ body {
   border-top: 1px solid lightgray;
 }
 
-.session-square footer a i {
-  margin-right: 0.5em;
+.session-square footer button {
+  padding: 7px 12px;
 }
 
-.session-square button {
-  padding: 7px 12px;
+.session-square footer button i,
+.session-square footer a i {
+  margin-right: 0.5em;
 }
 
 .date {
