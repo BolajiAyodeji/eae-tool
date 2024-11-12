@@ -139,6 +139,23 @@ bubble-message .bubble-message-close-button::before {
   border-top: solid 1px lightgray;
 }
 
+#share-link-modal p {
+  max-width: 32em;
+}
+
+#share-link-input {
+  font-family: monospace;
+  font-size: 1.2em;
+  padding: 7px 5px;
+  color: #414141;
+  width: 32em;
+  text-align: center;
+}
+
+#share-link-copy-button {
+  padding: 0 12px;
+}
+
 @keyframes pulse {
   0%   { opacity: 0.7; }
   50%  { opacity: 1.0; }

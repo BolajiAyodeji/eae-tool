@@ -51,6 +51,52 @@ function download(sessions) {
 	);
 };
 
+function share(sessions) {
+	const div = this.closest('.session-square');
+	const data = div.getAttribute('data');
+
+	const s = sessions.find(s => s.time === +data);
+	if (!s) return;
+
+	const c = tmpl('#share-link-modal-content');
+	console.log(c);
+
+	const u = new URL(location);
+	const url = `${u.protocol}//${u.hostname}/tool/p?${s.time}`;
+
+	function copy() {
+		if (!navigator.clipboard) {
+			FLASH.push({
+				"type":    'error',
+				"timeout": 2000,
+				"title":   "Clipboard functionality not available",
+			});
+
+			this.closest('button').remove();
+
+			return;
+		}
+
+		navigator.clipboard.writeText(url)
+			.then(_ => {
+				FLASH.push({
+					"type":    'success',
+					"timeout": 2000,
+					"title":   "Link copied!",
+				});
+			});
+	};
+
+	bind(c, { url, copy });
+
+	new modal({
+		"id":      'share-link-modal',
+		"header":  "Share link",
+		"content": c,
+		"destroy": true,
+	}).show();
+};
+
 function edit_title(sessions) {
 	const div = this.closest('.session-square');
 	const data = div.getAttribute('data');
@@ -141,8 +187,10 @@ function draw_sessions(sessions, geographies, container, trees) {
 
 	for (const p of document.querySelectorAll('.download'))
 		p.onclick = function() { download.call(this, sessions); };
-};
 
+	for (const p of document.querySelectorAll('.share'))
+		p.onclick = function() { share.call(this, sessions); };
+};
 
 export async function init() {
 	if (!user_id) {
