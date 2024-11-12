@@ -223,8 +223,6 @@ export default class Overlord {
 
 		if (!c) return;
 
-		U.view = c.view;
-
 		config_load_datasets(c);
 
 		const arr = c.datasets.filter(x => DST.get(x.name) || DST.get(x.id));
@@ -245,6 +243,14 @@ export default class Overlord {
 
 			if (c.center?.length === 2)
 				MAPBOX.setCenter(c.center);
+		})();
+
+		O.view = c.view;
+
+		(async function() {
+			await until(_ => qs(`#indexes-list tr[bind=${c.output}]`))
+				.catch(_ => console.warn("Couldn't wait longer for #indexes-list..."))
+				.then(_ => qs(`#indexes-list tr[bind=${c.output}]`).click());
 		})();
 	};
 
