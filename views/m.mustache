@@ -33,31 +33,31 @@
       <h1>Energy Access Explorer User Panel</h1>
 
       <div id="tabs">
-        <div tab="saved-analysis" active>Saved Analysis</div>
-        <div tab="account">Account</div>
+        <div tab="saved-analysis" active>
+          <i class="bi bi-folder-fill"></i>
+          Saved Analysis
+        </div>
+
+        <div tab="account">
+          <i class="bi bi-person-fill"></i>
+          Account
+        </div>
       </div>
     </div>
 
     <div id="playground">
       <main tab-content="saved-analysis" active>
-        <div id="left">
-          <br><br><br>
-          <strong>Filter</strong><br><br>
-          <input id="search" placeholder="Filter by title or geography name">
-        </div>
+        <input id="search"
+               placeholder="Filter by title or geography name">
+
+        <select id="sort">
+          <option value="time">Sort by: Date</option>
+          <option value="title">Sort by: Title</option>
+        </select>
 
         <div id="sessions">
           <div id="sessions-controls">
-            <strong id="sessions-count">0 Sessions</strong>
-
-            <span>
-              <label><strong>Sort by</strong></label>
-              &nbsp; &nbsp; &nbsp;
-              <select id="sort">
-                <option value="time">Date</option>
-                <option value="title">Title</option>
-              </select>
-            </span>
+            <strong id="sessions-count">0 Analyses</strong>
           </div>
         </div>
       </main>
