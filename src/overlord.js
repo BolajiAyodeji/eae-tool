@@ -223,6 +223,8 @@ export default class Overlord {
 
 		if (!c) return;
 
+		U.view = c.view;
+
 		config_load_datasets(c);
 
 		const arr = c.datasets.filter(x => DST.get(x.name) || DST.get(x.id));
