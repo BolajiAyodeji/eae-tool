@@ -70,10 +70,6 @@ bubble-message pre {
 	overflow: unset;
   }
 
-  dialog main {
-	max-width: calc(100% - 40px) !important;
-  }
-
   #playground {
     flex-flow: column nowrap;
     width: unset;

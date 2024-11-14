@@ -3,15 +3,19 @@
 }
 
 @media (max-width: 72em) {
+  #drawer {
+	display: none;
+  }
+
   #output-preview {
-    display: none;
+	display: none;
   }
 
   #left-pane {
-    min-width: unset;
-    width: 100%;
-    position: absolute;
-    z-index: 1;
+	min-width: unset;
+	width: 100%;
+	z-index: 1;
+	display: none;
   }
 
   #left-pane[open] {
@@ -20,7 +24,8 @@
   }
 
   .search-panel {
-	width: calc(100% - 4em);
+	min-width: unset;
+	max-width: unset;
   }
 
   .search-input {
@@ -28,43 +33,60 @@
   }
 
   #right-pane {
-    width: 100%;
-    position: absolute;
+	width: 100%;
+	position: absolute;
+	overflow-y: scroll;
+	height: inherit;
   }
 
   #controls-tabs {
-    display: none;
+	display: none;
   }
 
   #mobile-switcher {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-evenly;
   }
 
   #mobile-switcher > div {
-    flex: 1;
-    text-align: center;
-    padding: 12px;
-    fill: var(--the-color);
+	flex: 1;
+	text-align: center;
+	padding: 12px;
+	fill: var(--the-color);
   }
 
   #mobile-switcher > div.active {
-    background-color: #dedede;
+	background-color: #dedede;
   }
 
   #views {
-    width: 100%;
-    position: fixed;
-    top: unset;
+	width: 100%;
+	position: fixed;
+	top: unset;
 	bottom: 0;
+	margin: auto;
   }
 
   #mapbox-container {
-    position: relative;
+	position: relative;
   }
 
   #playground {
-    box-shadow: 3px 1px 2px rgba(0,0,0,0.9);
+	box-shadow: 3px 1px 2px rgba(0,0,0,0.9);
+  }
+
+  #big-buttons {
+	display: none;
+  }
+
+  dialog.modal {
+	padding: 0;
+  }
+
+  dialog.modal main {
+	margin: 1em 0 !important;
+	width: 100% !important;
+	max-width: unset;
   }
 }

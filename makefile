@@ -219,6 +219,7 @@ build-s:
 		${CSS}/maparea.css \
 		${CSS}/views.css \
 		${CSS}/ripple.css \
+		${CSS}/mobile.css \
 		> ${DIST}/s/main.css
 
 sync:

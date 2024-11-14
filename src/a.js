@@ -34,7 +34,6 @@ import {
 
 import {
 	init as views_init,
-	buttons as views_buttons,
 	right_pane as views_right_pane,
 } from './views.js';
 
@@ -59,10 +58,6 @@ import {
 import {
 	init as timeline_init,
 } from './timeline.js';
-
-import {
-	select_tab as controls_select_tab,
-} from './controls-search.js';
 
 import {
 	init as session_init,
@@ -157,7 +152,7 @@ async function init_1() {
 
 	const mac = navigator.userAgent.indexOf('Mac') > -1;
 
-	if (window.devicePixelRatio !== 1) alert(`
+	if (!MOBILE && window.devicePixelRatio !== 1) alert(`
 Energy Access Explorer is optimised for display settings that differ from yours.
 
 If the layout feels cramped, try zooming out to ${Math.round(1/window.devicePixelRatio * 100)}%.
@@ -387,15 +382,11 @@ function layout() {
 	const n = qs('nav');
 	const p = qs('#playground');
 	const w = qs('#mobile-switcher');
-
-	const m = qs('#maparea', p);
 	const t = qs('#timeline');
 
 	function set_heights() {
 		p.style['height'] = window.innerHeight - n.clientHeight - (MOBILE ? w.clientHeight : 0) + "px";
 	};
-
-	if (MOBILE) m.style['width'] = screen.width + "px";
 
 	if (GEOGRAPHY.timeline)
 		console.warn("TODO #timeline-graphs", qs('#timeline-graphs'));
@@ -409,20 +400,12 @@ function layout() {
 };
 
 function mobile() {
-	controls_select_tab(qs('#controls-tab-all'), "all");
-
-	for (let el of qsa('.controls-subbranch')) {
-		elem_collapse(qs('.controls-container', el), el);
-	}
-
 	const switcher = qs('#mobile-switcher');
 
-	const svgcontrols = ce('div', font_icon('list-task'), { "bind": 'controls', "ripple": "" });
-	const map = ce('div', font_icon('globe'), { "bind": 'map', "ripple": "" });
-	const inputs = ce('div', font_icon('layers-fill'), { "bind": 'inputs', "ripple": "" });
-	const outputs = ce('div', font_icon('pie-chart-fill'), { "bind": 'outputs', "ripple": "" });
+	const map = ce('div', font_icon('map'), { "bind": 'map', "ripple": "" });
+	const outputs = ce('div', font_icon('pie-chart'), { "bind": 'outputs', "ripple": "" });
 
-	const tabs = [svgcontrols, map, inputs, outputs];
+	const tabs = [map, outputs];
 
 	function mobile_switch(v) {
 		switch (v) {
@@ -436,19 +419,8 @@ function mobile() {
 			break;
 		}
 
-		case 'right': {
-			for (let e of ['#left-pane'])
-				qs(e).style.display = 'none';
-
-			for (let e of ['#right-pane'])
-				qs(e).style.display = '';
-
-			break;
-		}
-
-		case 'outputs':
-		case 'inputs': {
-			for (let e of ['#left-pane'])
+		case 'outputs': {
+			for (let e of ['#left-pane', '#views'])
 				qs(e).style.display = 'none';
 
 			for (let e of ['#right-pane'])
@@ -457,16 +429,16 @@ function mobile() {
 			U.view = v;
 
 			views_right_pane();
-			views_buttons();
+
 			break;
 		}
 
 		case 'map':
 		default: {
-			for (let e of ['#right-pane', '#left-pane', '#views'])
+			for (let e of ['#right-pane', '#views'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#views'])
+			for (let e of ['#left-pane', '#views'])
 				qs(e).style.display = '';
 
 			break;
