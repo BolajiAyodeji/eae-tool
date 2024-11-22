@@ -259,7 +259,7 @@ function share_url() {
 	const c = tmpl('#share-link-modal-content');
 
 	const u = new URL(location);
-	const url = `${u.protocol}//${u.hostname}/tool/p?${id}`;
+	const url = `${u.protocol}//${u.hostname}${window.BASE}/tool/p?${id}`;
 
 	function copy() {
 		if (!navigator.clipboard) {

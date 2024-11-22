@@ -58,7 +58,7 @@ function share(sessions) {
 	console.log(c);
 
 	const u = new URL(location);
-	const url = `${u.protocol}//${u.hostname}/tool/p?${s.last}`;
+	const url = `${u.protocol}//${u.hostname}${window.BASE}/tool/p?${s.last}`;
 
 	function copy() {
 		if (!navigator.clipboard) {
