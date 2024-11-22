@@ -515,9 +515,7 @@ This is not fatal but the dataset is now disabled.`,
 				.range(uniform_split(this.raster.intervals.length));
 		}
 
-		if (this.colorscale)
-			console.log(this.id, "has a colorscale already");
-		else if (color_opts)
+		if (and(color_opts, !this.colorscale))
 			this.colorscale = colorscale(color_opts);
 	};
 

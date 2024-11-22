@@ -249,8 +249,11 @@ export default class Overlord {
 
 		(async function() {
 			await until(_ => qs(`#indexes-list tr[bind=${c.output}]`))
-				.catch(_ => console.warn("Couldn't wait longer for #indexes-list..."))
-				.then(_ => qs(`#indexes-list tr[bind=${c.output}]`).click());
+				.catch(_ => {
+					console.warn("Couldn't wait longer for #indexes-list...");
+					return false;
+				})
+				.then(ok => ok ? qs(`#indexes-list tr[bind=${c.output}]`).click(): null);
 		})();
 	};
 

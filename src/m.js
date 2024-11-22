@@ -1,8 +1,4 @@
 import {
-	svg_pie,
-} from './utils.js';
-
-import {
 	extract as user_extract,
 } from './user.js';
 
