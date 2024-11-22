@@ -28,7 +28,10 @@ LIB = ${DIST}/lib
 
 TIMESTAMP != date -u +'%Y-%m-%d--%T'
 
-build: build-a build-s build-m build-p
+clean:
+	@ rm -rf ${LIB} ${DIST}
+
+build: deps build-a build-s build-m build-p
 	@ mustache /dev/null views/index.mustache > ${DIST}/index.html
 	@ patch --dry-run -p1 <relative-paths.diff
 
@@ -216,6 +219,7 @@ build-s:
 		${CSS}/maparea.css \
 		${CSS}/views.css \
 		${CSS}/ripple.css \
+		${CSS}/mobile.css \
 		> ${DIST}/s/main.css
 
 sync:

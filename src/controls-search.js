@@ -67,12 +67,11 @@ export function select_tab(tab, name) {
 	for (let e of qsa('.controls-branch-tab', tabs_el))
 		e.classList.remove('active');
 
-	for (let e of qsa('.controls-branch', contents_el)) {
-		let all = (name === 'all');
-		e.style.display = all ? '' : 'none';
-	}
+	for (let e of qsa('.controls-branch', contents_el))
+		e.style.display = name === 'all' ? '' : 'none';
 
-	tab.classList.add('active');
+	if (tab) tab.classList.add('active');
+	else console.error("select_tab: could not find tab named", name);
 
 	const b = qs('#controls-branch-' + name, contents_el);
 	if (b) b.style.display = 'block';

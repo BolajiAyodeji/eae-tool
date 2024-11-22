@@ -122,7 +122,8 @@ function usertype(gid) {
 	}
 
 	// move the "own criteria" entry to the beggining. CAREFUL: The rest of the presets are ordered with presets.tsv below..."
-	ul.prepend(ul.lastElementChild);
+	if (MOBILE) ul.lastElementChild.remove();
+	else ul.prepend(ul.lastElementChild);
 
 	content.append(ul);
 
@@ -187,8 +188,9 @@ export function init() {
 			};
 
 			const intro = maybe(co, 'configuration', 'introduction');
-			if (intro) {
+			if (intro && !MOBILE) {
 				let p;
+
 				d.onmouseenter = _ => {
 					p = new bubblemessage({
 						"message":  ce('pre', intro),
@@ -196,6 +198,7 @@ export function init() {
 						"position": "C",
 					}, d);
 				};
+
 				d.onmouseleave = _ => {
 					p.remove();
 				};
