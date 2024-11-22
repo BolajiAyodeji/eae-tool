@@ -221,7 +221,7 @@ export default class Overlord {
 		if (and(!c, sessionStorage['config']))
 			c = JSON.parse(sessionStorage['config']);
 
-		if (!c) return;
+		if (!maybe(c, 'datasets', 'length')) return;
 
 		config_load_datasets(c);
 

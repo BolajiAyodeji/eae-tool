@@ -203,7 +203,7 @@ async function init_2() {
 
 	indexes_init();
 
-	let conf = sessionStorage.getItem('config');
+	let conf = sessionStorage['config'];
 	if (conf) conf = JSON.parse(conf);
 
 	const url = new URL(location);
@@ -245,11 +245,13 @@ async function init_2() {
 	await Promise.all(DS.all("on").map(d => d._active(true, false)));
 
 	qa_run();
+
+	return conf;
 };
 
-async function init_3() {
+async function init_3(conf) {
 	O.view = U.view;
-	O.config = null;
+	O.config = conf;
 };
 
 export function clean() {
