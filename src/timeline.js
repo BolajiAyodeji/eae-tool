@@ -92,13 +92,9 @@ function slider(opts) {
 
 	gutter.on('click', _ => _drag(d3.event.offsetX));
 
+	set(steps[init || 0]);
+
 	const node = svg.node();
-
-	(async function() {
-		await until(_ => node.clientWidth);
-		set(steps[init || 0]);
-	})();
-
 	parent.addEventListener('resize', function() {
 		if (parent.style.display !== 'none')
 			w = node.clientWidth;
