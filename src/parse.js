@@ -233,8 +233,7 @@ function mapbox_dasharray(str) {
 
 function specs_set(fs, specs) {
 	const criteria = [{
-		"params":       ['__name'],
-		"__name":       this.name,
+		"param":        null,
 		"radius":       this.vectors['radius'],
 		"fill":         this.vectors['fill'],
 		"stroke":       this.vectors['stroke'],
@@ -279,8 +278,7 @@ function specs_set(fs, specs) {
 
 			if (!ok(c,s,v)) continue;
 
-			if (c.params.indexOf(s.key) < 0)
-				c.params.push(s.key);
+			c.param = s.key;
 
 			if (has(s, 'radius'))
 				fs[i].properties['__radius'] = c['radius'] = s['radius'];
@@ -303,6 +301,8 @@ function specs_set(fs, specs) {
 		if (!criteria.find(x => same(x,c))) criteria.push(c);
 
 		fs[i].properties['__criteria'] = c;
+
+		fs[i].properties['__visible'] = this.selection.includes(c[c.param]);
 	}
 
 	return criteria;

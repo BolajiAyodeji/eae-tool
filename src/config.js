@@ -24,6 +24,8 @@ export function load_datasets(conf) {
 		} else
 			console.warn(`Could not initialise domain for '${ds.id}' - ${ds.datatype}.`);
 
+		if (maybe(d, 'selection', 'length')) ds.selection = d.selection;
+
 		if (typeof d.weight === 'number') ds.weight = d.weight;
 	});
 
@@ -68,6 +70,8 @@ export function generate() {
 			"name":       d.name,
 			"weight":     d.weight,
 			"domain":     d.domain,
+			"criteria":   d.criteria,
+			"selection":  d.selection,
 			"_domain":    d._domain,
 			"index":      d.index,
 			"unit":       d.category.unit,

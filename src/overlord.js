@@ -184,6 +184,12 @@ export default class Overlord {
 			);
 		}
 
+		// this should not be here. waiting for commit().
+		//
+		timeline_visibility();
+
+		if (!arr.find(x => x.summary)) return;
+
 		const a = arr[0];
 		for (const d of arr) {
 			if (!a.summary) {
@@ -192,11 +198,7 @@ export default class Overlord {
 			}
 
 			analysis_dataset_intersect.call(d, a.raster);
-		};
-
-		// this should not be here. waiting for commit().
-		//
-		timeline_visibility();
+		}
 	};
 
 	info_mode() {

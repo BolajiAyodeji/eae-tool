@@ -582,6 +582,8 @@ export default class dscard extends HTMLElement {
 			break;
 		}
 
+		this.checkboxes = [];
+
 		for (let l of this.ds.criteria) {
 			let cb;
 
@@ -589,8 +591,8 @@ export default class dscard extends HTMLElement {
 				'div',
 				[
 					f.call(this, l),
-					ce('span', l.params.map(p => l[p] ?? 'default').slice(1).join(", ")),
-					cb = ce('input', null, { "type": 'checkbox', "checked": '' }),
+					ce('span', l[l.param] || 'default'),
+					cb = ce('input', null, { "type": 'checkbox' }),
 				],
 				{
 					"style": `display: flex; justify-content: space-between;`,
@@ -604,8 +606,16 @@ export default class dscard extends HTMLElement {
 					if (same(fs[i].properties['__criteria'], l))
 						fs[i].properties['__visible'] = cb.checked;
 
+				this.ds.selection = this.checkboxes
+					.filter(c => c[1].checked)
+					.map(c => c[0] || 'default');
+
 				MAPBOX.getSource(this.ds.id).setData(this.ds.vectors.geojson);
 			};
+
+			cb.checked = this.ds.selection.includes(l[l.param]);
+
+			this.checkboxes.push([l[l.param], cb]);
 
 			ul.append(li);
 		}

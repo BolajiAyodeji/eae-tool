@@ -48,6 +48,8 @@ export default class DS {
 
 		this.on = false;
 
+		this.selection = [];
+
 		this._layers = [];
 
 		let config = o.configuration || {};
