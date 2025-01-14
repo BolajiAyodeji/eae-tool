@@ -38,6 +38,8 @@ async function mutant_options() {
 	select.onchange = async e => {
 		const host = DST.get(e.target.value);
 
+		d.selection = [e.target.value];
+
 		await d.mutate(host);
 
 		O.ds(d, { 'mutate': host });

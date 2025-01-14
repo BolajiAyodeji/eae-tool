@@ -361,7 +361,8 @@ This is not fatal but the dataset is now disabled.`,
 		this._domain_select = host._domain_select;
 
 		this.opacity(1);
-		this.card.refresh();
+
+		if (this.card) this.card.refresh();
 
 		return this;
 	};
