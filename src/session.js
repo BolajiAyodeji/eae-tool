@@ -27,7 +27,7 @@ padding: 7px 12px;
 	f.append(i);
 
 	const m = new modal({
-		"header":  "Set Title",
+		"header":  "Save Analysis",
 		"content": f,
 	});
 
