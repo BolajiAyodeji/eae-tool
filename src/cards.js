@@ -533,16 +533,15 @@ export default class dscard extends HTMLElement {
 		attach.call(this, tmpl('#ds-card-template'));
 
 		slot_populate.call(this, Object.assign({}, this.ds, {
-			'range':   range_el.call(this),
-			'info':    this.info(),
-			'opacity': this.opacity(),
-			'close':   this.close(),
-			'weight':  maybe(this.weight_group, 'el'),
-			'ctrls':   maybe(this.weight_group, 'el') && this.ctrls(),
-			'list':    this.list_elements(),
+			'range':        range_el.call(this),
+			'info':         this.info(),
+			'opacity':      this.opacity(),
+			'close':        this.close(),
+			'weight':       maybe(this.weight_group, 'el'),
+			'ctrls':        maybe(this.weight_group, 'el') && this.ctrls(),
+			'list':         this.list_elements(),
+			'legends-list': this.legends(),
 		}));
-
-		this.legends();
 
 		return this;
 	};
@@ -611,9 +610,7 @@ export default class dscard extends HTMLElement {
 			ul.append(li);
 		}
 
-		slot_populate.call(this, {
-			"legends-list": ul,
-		});
+		return ul;
 	};
 
 	list_elements() {
