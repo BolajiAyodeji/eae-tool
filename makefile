@@ -259,6 +259,9 @@ deploy:
 
 	bmake reconfig build sync env=${env}
 
+	@ printf "%s\n\n" ${TIMESTAMP} > .LASTDEPLOY
+	@ git diff >> .LASTDEPLOY
+
 	@ echo ""
 	@ echo "DRY-RUN ${env} => development"
 	@ echo "--------"
@@ -272,6 +275,7 @@ deploy:
 	@ patch --strip=1 --reverse <${env}.diff
 	@ echo "--------"
 	@ patch --strip=1 <development.diff
+
 	bmake reconfig build env=development
 
 reconfig:

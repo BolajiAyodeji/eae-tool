@@ -58,15 +58,14 @@ dialog header {
 
 dialog .close {
   position: absolute;
-  top: 0.5em;
-  right: 0.5em;
+  top: 0.1em;
+  right: 0.2em;
   text-decoration: none;
-  font-size: 1.4em;
-  line-height: 1em;
+  font-size: 2.5em;
   width: 1em;
-  display: block;
+  height: 1em;
   text-align: center;
-  vertical-align: middle;
+  cursor: pointer;
   color: var(--the-white);
 }
 
