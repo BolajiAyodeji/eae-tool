@@ -38,12 +38,3 @@ export function extract(...path) {
 		return null;
 	}
 };
-
-export function envs() {
-	let p = ['production'];
-
-	if (extract('id'))
-		p = p.concat(coalesce(extract('data', 'envs'), []));
-
-	return p;
-};
