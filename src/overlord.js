@@ -234,17 +234,20 @@ export default class Overlord {
 
 		toggle_left_panel(c.tab);
 
+		U.subdiv = c.subdiv || 0;
+		U.divtier = c.divtier || 0;
+
 		(async function() {
 			await until(_ => DS.array.filter(d => d.loading).length === 0)
 				.catch(_ => console.warn("Couldn't wait longer for loading datasets...", DS.array.filter(d => d.loading)));
 
 			O.sort();
 
+			if (c.center)
+				MAPBOX.setCenter(c.center);
+
 			if (c.zoom)
 				MAPBOX.zoomTo(c.zoom);
-
-			if (c.center?.length === 2)
-				MAPBOX.setCenter(c.center);
 		})();
 
 		O.view = c.view;
