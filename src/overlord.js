@@ -237,7 +237,7 @@ export default class Overlord {
 		U.subdiv = c.subdiv || 0;
 		U.divtier = c.divtier || 0;
 
-		(async function() {
+		(async function set_mapbox_position() {
 			await until(_ => DS.array.filter(d => d.loading).length === 0)
 				.catch(_ => console.warn("Couldn't wait longer for loading datasets...", DS.array.filter(d => d.loading)));
 
@@ -252,7 +252,7 @@ export default class Overlord {
 
 		O.view = c.view;
 
-		(async function() {
+		(async function set_indexes() {
 			await until(_ => qs(`#indexes-list tr[bind=${c.output}]`))
 				.catch(_ => {
 					console.warn("Couldn't wait longer for #indexes-list...");
