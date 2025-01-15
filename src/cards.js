@@ -593,7 +593,7 @@ export default class dscard extends HTMLElement {
 				'div',
 				[
 					f.call(this, l),
-					ce('span', l[l.param] || 'default'),
+					ce('span', l.params.map(p => l[p] ?? 'default').join(", ")),
 					cb = ce('input', null, { "type": 'checkbox' }),
 				],
 				{
@@ -615,9 +615,10 @@ export default class dscard extends HTMLElement {
 				MAPBOX.getSource(this.ds.id).setData(this.ds.vectors.geojson);
 			};
 
-			cb.checked = this.ds.selection.includes(l[l.param]);
+			const id = l[l.params[0]] || 'default';
+			cb.checked = this.ds.selection.includes(id);
 
-			this.checkboxes.push([l[l.param], cb]);
+			this.checkboxes.push([id, cb]);
 
 			ul.append(li);
 		}
