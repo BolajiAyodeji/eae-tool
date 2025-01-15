@@ -1,8 +1,4 @@
 import {
-	svg_pie,
-} from './utils.js';
-
-import {
 	extract as user_extract,
 } from './user.js';
 
@@ -142,7 +138,6 @@ function draw_sessions(sessions, geographies, container, trees) {
 	for (const p of document.querySelectorAll('.download'))
 		p.onclick = function() { download.call(this, sessions); };
 };
-
 
 export async function init() {
 	if (!user_id) {
