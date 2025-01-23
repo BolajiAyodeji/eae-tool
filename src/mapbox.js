@@ -1,5 +1,6 @@
 import {
 	super_error,
+	bi_icon,
 } from './utils.js';
 
 import bubblemessage from '../lib/bubblemessage.js';
@@ -37,7 +38,7 @@ class MapboxThemeControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', font_icon('layers-fill'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		let button = ce('button', ce('div', bi_icon('layers-fill'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 
@@ -59,7 +60,7 @@ class MapboxProjectionControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', font_icon('dribbble'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		let button = ce('button', ce('div', bi_icon('dribbble'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 
@@ -81,7 +82,7 @@ class MapboxInfoControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', font_icon('info-circle'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		let button = ce('button', ce('div', bi_icon('info-circle'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 

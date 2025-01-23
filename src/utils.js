@@ -515,3 +515,7 @@ export function raster_pixel_to_coordinates(i) {
 
 	return merc.inverse([o[0] + (x * s), o[1] - (y * s)]);
 };
+
+export function bi_icon(v) {
+	return ce('i', null, { "class": "bi-" + v });
+};

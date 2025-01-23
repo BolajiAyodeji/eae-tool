@@ -1,5 +1,6 @@
 import {
 	elem_collapse,
+	bi_icon,
 } from './utils.js';
 
 import DS from './ds.js';
@@ -157,7 +158,7 @@ export default class dscontrols extends HTMLElement {
 	};
 
 	info() {
-		const e = font_icon('info-circle');
+		const e = bi_icon('info-circle');
 		e.onclick = v => {
 			v.stopPropagation();
 			this.ds.info_modal();
@@ -167,7 +168,7 @@ export default class dscontrols extends HTMLElement {
 	};
 
 	card() {
-		const e = font_icon('list-task');
+		const e = bi_icon('list-task');
 		e.onclick = v => {
 			v.stopPropagation();
 			this.ds.card.discover();

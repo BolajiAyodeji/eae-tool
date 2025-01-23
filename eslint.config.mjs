@@ -57,7 +57,6 @@ export default [{
 			"Whatever": "readonly",
 			"same": "readonly",
 			"json_clone": "readonly",
-			"font_icon": "readonly",
 			"fake_blob_download": "readonly",
 			"unique": "readonly",
 			"unique_by": "readonly",
