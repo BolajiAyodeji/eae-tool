@@ -228,10 +228,17 @@ export async function init() {
 		loading(false);
 	};
 
+	let circle = "not.is.null"; // whatever: everything.
+
+	if (ENV.includes('training') || ENV.includes('staging')) {
+		circle = `in.(${SELF.data.circles})`;
+	}
+
 	API.get("geographies", {
 		"select":     ['*', 'datasets_count'],
 		"adm":        "eq.0",
 		"deployment": `ov.{${ENV}}`,
+		circle,
 	})
 		.then(r => list(r))
 		.catch(error => {
