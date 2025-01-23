@@ -1,3 +1,13 @@
+export async function self() {
+	try {
+		const id = jwt_decode(localStorage['token']).id;
+		SELF = (await API.get('users', { "id": `eq.${id}` }, { "one": true }));
+	} catch (err) {
+		console.log(err);
+		SELF = { "data": { "circles": [], "envs": [] } };
+	}
+};
+
 export function uniform_split(n) {
 	return d3.range(0, 1.000000001, 1 / (n - 1));
 };
@@ -514,4 +524,8 @@ export function raster_pixel_to_coordinates(i) {
 	const s = GEOGRAPHY.resolution;
 
 	return merc.inverse([o[0] + (x * s), o[1] - (y * s)]);
+};
+
+export function bi_icon(v) {
+	return ce('i', null, { "class": "bi-" + v });
 };

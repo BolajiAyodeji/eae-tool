@@ -2,6 +2,7 @@ import {
 	loading,
 	elem_collapse,
 	super_error,
+	bi_icon,
 } from './utils.js';
 
 import {
@@ -404,8 +405,8 @@ function layout() {
 function mobile() {
 	const switcher = qs('#mobile-switcher');
 
-	const map = ce('div', font_icon('map'), { "bind": 'map', "ripple": "" });
-	const outputs = ce('div', font_icon('pie-chart'), { "bind": 'outputs', "ripple": "" });
+	const map = ce('div', bi_icon('map'), { "bind": 'map', "ripple": "" });
+	const outputs = ce('div', bi_icon('pie-chart'), { "bind": 'outputs', "ripple": "" });
 
 	const tabs = [map, outputs];
 
