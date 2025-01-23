@@ -1,5 +1,6 @@
 import {
 	loading,
+	self,
 } from './utils.js';
 
 import modal from '../lib/modal.js';
@@ -164,7 +165,9 @@ async function presets_init() {
 		});
 };
 
-export function init() {
+export async function init() {
+	await self();
+
 	const playground = qs('#playground');
 
 	function hextostring(hex) {

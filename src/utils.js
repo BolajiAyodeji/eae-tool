@@ -1,3 +1,13 @@
+export async function self() {
+	try {
+		const id = jwt_decode(localStorage['token']).id;
+		SELF = (await API.get('users', { "id": `eq.${id}` }, { "one": true }));
+	} catch (err) {
+		console.log(err);
+		SELF = { "data": { "circles": [], "envs": [] } };
+	}
+};
+
 export function uniform_split(n) {
 	return d3.range(0, 1.000000001, 1 / (n - 1));
 };

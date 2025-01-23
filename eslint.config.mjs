@@ -25,6 +25,7 @@ export default [{
 			"jwt_decode": "readonly",
 			"FLASH": "readonly",
 			"API": "readonly",
+			"SELF": "writable",
 			"DST": "readonly",
 			"GEOGRAPHY": "writable",
 			"OUTLINE": "writable",
