@@ -1,5 +1,10 @@
 import DS from './ds.js';
 
+import {
+	vectors_csv as parse_vectors_csv,
+	raster_timeline as parse_raster_timeline,
+} from './parse.js';
+
 import bubblemessage from '../lib/bubblemessage.js';
 
 function slider(opts) {
@@ -291,6 +296,7 @@ function multiline(opts) {
 export async function init() {
 	if (maybe(GEOGRAPHY, 'timeline'))
 		qs('#maparea').append(ce('div', null, { "id": 'timeline' }));
+	else return;
 
 	await until(_ => GEOGRAPHY.timeline_dates.length > 0);
 
@@ -304,7 +310,7 @@ export async function init() {
 		"width":  qs('#maparea').clientWidth - padding,
 		"init":   steps.length - 1,
 		"parent": parent,
-		"drag":   x => O.timeline = GEOGRAPHY.timeline_dates.find(i => i.match(x)),
+		"drag":   x => timeline(GEOGRAPHY.timeline_dates.find(i => i.match(x))),
 	});
 
 	tl.svg.style.left = (padding / 2) + "px";
@@ -313,8 +319,21 @@ export async function init() {
 	return tl;
 };
 
+function timeline(t) {
+	DS.array.forEach(async d => {
+		if (d.datatype.match(/raster-timeline/))
+			parse_raster_timeline.call(d);
+
+		else if (d.datatype.match(/(lines|points|polygons)-timeline/))
+			parse_vectors_csv.call(d);
+	});
+
+	STATE.timeline = t;
+	COMMIT("datasets");
+};
+
 export function lines_draw() {
-	const d = GEOGRAPHY.divisions[U.divtier];
+	const d = GEOGRAPHY.divisions[STATE.divtier];
 
 	const tiercsv = maybe(d, 'csv');
 	if (!tiercsv) return;
@@ -325,7 +344,7 @@ export function lines_draw() {
 	if (!datasets.length) return;
 
 	const series = datasets.reduce((a,c) => {
-		return a.concat(...c.csv.data.filter(r => +r[c.csv.key] === U.subdiv).map(r => ({
+		return a.concat(...c.csv.data.filter(r => +r[c.csv.key] === STATE.subdiv).map(r => ({
 			"values": GEOGRAPHY.timeline_dates.map(k => (r[k] === "" ? undefined : +r[k])),
 			"id":     c.id,
 			"name":   ce('span', [
@@ -376,7 +395,7 @@ export function lines_draw() {
 
 	qs('#lines-graph').append(ml.svg);
 
-	const h = maybe(d.csv.data.find(r => +r[d.csv.key] === +U.subdiv), d.csv.column);
+	const h = maybe(d.csv.data.find(r => +r[d.csv.key] === STATE.subdiv), d.csv.column);
 
 	qs('#lines-header').innerText = h;
 };
@@ -384,11 +403,11 @@ export function lines_draw() {
 export async function lines_update() {
 	if (!GEOGRAPHY.timeline) return;
 
-	if (!(maybe(GEOGRAPHY.divisions, U.divtier, 'csv'))) return;
+	if (!(maybe(GEOGRAPHY.divisions, STATE.divtier, 'csv'))) return;
 
 	const datasets = DS.array.filter(d => and(d.on, d.datatype === 'polygons-timeline'));
 
-	if (and(datasets.length, U.subdiv > -1))
+	if (and(datasets.length, STATE.subdiv > -1))
 		lines_draw();
 	else {
 		qs('#lines-header').innerText = "";

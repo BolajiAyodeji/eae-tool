@@ -17,7 +17,8 @@ import {
 } from './symbols.js';
 
 import {
-	toggle_left_panel,
+	left_panel,
+	sort,
 } from './a.js';
 
 const cards_list = qs('#cards-list');
@@ -41,7 +42,7 @@ async function mutant_options() {
 
 		await d.mutate(host);
 
-		O.ds(d, { 'mutate': host });
+		COMMIT("layers");
 	};
 
 	container.append(select);
@@ -81,7 +82,7 @@ function value_multiselect() {
 		i.onchange = _ => {
 			this.multiselection = [...new Set(inputs.filter(e => e.checked).map(e => +e.value))];
 			ds._domain_select = this.multiselection;
-			O.ds(ds, { 'domain': ds.domain });
+			ds._domain = Object.assign({}, ds.domain);
 		};
 
 		return i;
@@ -182,7 +183,8 @@ function range() {
 
 		d[i] = +v;
 
-		O.ds(ds, { 'domain': d });
+		ds._domain = d;
+		COMMIT("datasets");
 	};
 
 	this.manual_min.oninput = debounce(e => change(e, 'min'), 600);
@@ -227,7 +229,10 @@ function range() {
 		"steps":        steps,
 		"callback1":    (v, cx) => update(this.ds.fn.invert(v), 'min', this.manual_min, cx),
 		"callback2":    (v, cx) => update(this.ds.fn.invert(v), 'max', this.manual_max, cx),
-		"end_callback": _ => O.ds(ds, { 'domain': domain }),
+		"end_callback": _ => {
+			ds._domain = domain;
+			COMMIT("datasets");
+		},
 	});
 
 	return {
@@ -255,7 +260,10 @@ function weight() {
 		"init":         { "min": 0, "max": weights[this.weight-1] },
 		"steps":        weights,
 		"width":        slider_width,
-		"end_callback": v => O.ds(this, { 'weight': s.invert(v) }),
+		"end_callback": v => {
+			this.weight = s.invert(v);
+			COMMIT("datasets");
+		},
 	});
 
 	const el = ce('div', [w.svg, r], { "style": "text-align: center;" });
@@ -453,46 +461,42 @@ export function init() {
 		'forcePlaceholderSize': true,
 		'placeholder':          '<div style="margin: 1px; background-color: rgba(0,0,0,0.3);"></div>',
 	})[0]
-		.addEventListener(
-			'sortupdate',
-			_ => O.sort(),
-		);
+		.addEventListener('sortupdate', _ => {
+			sort(maybe(sortable(cards_list, 'serialize'), 0, 'items').map(c => c.node.ds));
+			COMMIT();
+		});
 
 	const ca = ce('span', 'Clear all datasets', { "class": 'cards-clear' });
 	ca.onclick = _ => {
-		DS.all("on").forEach(x => x.active(false));
-		O.view = U.view;
+		STATE.datasets.forEach(x => x.turn(false));
+		COMMIT("datasets");
 		update();
 	};
 
 	const cp = ce('span', 'Clear filters', { "class": 'cards-clear' });
 	cp.onclick = _ => {
-		DS.all("on").forEach(d => {
-			O.ds(d, { "domain": d.domain });
+		STATE.datasets.forEach(d => {
+			d._domain = Object.assign({}, d.domain);
 			d.card.refresh();
+			COMMIT("datasets");
 		});
-
-		O.view = U.view;
 	};
 
 	qs('#cards #cards-clear-buttons').append(ca,cp);
 };
 
 export function update() {
-	const list = DS.all("on")
-		.map(d => d.card)
-		.filter(c => c); // some datasets (eg boundaries)
+	const list = STATE.datasets
+		.map(d => d.card);
 
-	const cards = dscard.all;
-
-	if (cards.length) sortable(cards_list, 'disable');
+	if (list.length) sortable(cards_list, 'disable');
 
 	for (let i of list) {
-		if (!cards_list.contains(i)) cards_list.prepend(i);
+		cards_list.append(i);
 		i.refresh();
 	}
 
-	if (cards.length) sortable(cards_list, 'enable');
+	if (list.length) sortable(cards_list, 'enable');
 };
 
 export default class dscard extends HTMLElement {
@@ -642,7 +646,10 @@ export default class dscard extends HTMLElement {
 
 	close() {
 		const e = bi_icon('x-lg');
-		e.onclick = O.ds.bind(null, this.ds, { 'active': false });
+		e.onclick = _ => {
+			this.ds.turn(false);
+			COMMIT("datasets");
+		};
 
 		return e;
 	};
@@ -658,13 +665,9 @@ export default class dscard extends HTMLElement {
 	};
 
 	discover() {
-		toggle_left_panel('cards');
+		left_panel('cards');
 		this.scrollIntoView();
 	}
-
-	static get all() {
-		return qsa('ds-card', cards_list, true);
-	};
 };
 
 customElements.define('ds-card', dscard);

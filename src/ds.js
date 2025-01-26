@@ -286,9 +286,9 @@ This is not fatal but the dataset is now disabled.`,
 
 		if (this.card) this.card.disable();
 
-		O.ds(this, { "disable": true });
-
 		this._layers.map(i => MAPBOX.removeLayer(i));
+
+		DST.delete(this.id);
 	};
 
 	get source() {
@@ -515,8 +515,7 @@ This is not fatal but the dataset is now disabled.`,
 				.range(uniform_split(this.raster.intervals.length));
 		}
 
-		if (this.colorscale)
-			console.log(this.id, "has a colorscale already");
+		if (this.colorscale) ;
 		else if (color_opts)
 			this.colorscale = colorscale(color_opts);
 	};
@@ -634,14 +633,7 @@ This is not fatal but the dataset is now disabled.`,
 		}).show();
 	};
 
-	active() {
-		return this._active(...arguments)
-			.then(_ => {
-				if (!this.card) this.card = new dscard(this);
-			});
-	};
-
-	async _active(v, draw) {
+	async active(v, draw) {
 		this.on = v;
 
 		if (v) {
@@ -665,9 +657,9 @@ This is not fatal but the dataset is now disabled.`,
 			if (this.controls) this.controls.loading(false);
 
 			if (this.disabled) return;
-
-			if (draw) this.raise();
 		}
+
+		if (!this.card) this.card = new dscard(this);
 
 		if (this.mutant) this.mutate(this.host);
 
@@ -702,13 +694,6 @@ This is not fatal but the dataset is now disabled.`,
 		else throw new Error(`Loading Error: '${this.id}' tried to load '${arg}', but failed`);
 
 		this.loading = false;
-	};
-
-	raise() {
-		this.layers.map(l => MAPBOX.moveLayer(l.id, MAPBOX.first_symbol));
-
-		if (this.host)
-			this.host.raise();
 	};
 
 	opacity(v) {
@@ -753,6 +738,26 @@ This is not fatal but the dataset is now disabled.`,
 
 		for (let a of t)
 			MAPBOX.setPaintProperty(this.id, a, v);
+	};
+
+	turn(v) {
+		v = v ?? !this.on;
+
+		this.active(v, ['data', 'timeline'].includes(STATE.view));
+
+		let copy = [...STATE.datasets];
+
+		if (this.on) copy = [this, ...STATE.datasets];
+		else copy.splice(copy.indexOf(this), 1);
+
+		STATE.datasets = copy;
+
+		COMMIT("datasets");
+
+		// if (this.summary) {
+		// 	for (const i in this.summary)
+		// 		reset_features_visibility.call(DST.get(i));
+		// }
 	};
 
 	static all(state) {

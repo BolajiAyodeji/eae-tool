@@ -29,7 +29,7 @@ export function valued_polygons() {
 			.filter(r => {
 				let c;
 				if (d.datatype.match("polygons-(timeline)"))
-					c = U.timeline;
+					c = STATE.timeline;
 				else if (d.datatype.match("polygons-(valued)"))
 					c = d.csv.column;
 

@@ -3,7 +3,7 @@ export async function self() {
 		const id = jwt_decode(localStorage['token']).id;
 		SELF = (await API.get('users', { "id": `eq.${id}` }, { "one": true }));
 	} catch (err) {
-		console.log(err);
+		console.warn(err);
 		SELF = { "data": { "circles": [], "envs": [] } };
 	}
 };
@@ -524,6 +524,21 @@ export function raster_pixel_to_coordinates(i) {
 	const s = GEOGRAPHY.resolution;
 
 	return merc.inverse([o[0] + (x * s), o[1] - (y * s)]);
+};
+
+export function extent_contained(extent, raster) {
+	const [left,bottom,right,top] = extent;
+
+	const f = (x,y) => {
+		const v = maybe(coordinates_to_raster_pixel([x,y], raster), 'value');
+		return and(v, v !== raster.nodata);
+	};
+
+	return or(f(left, top),
+	          f(left, bottom),
+	          f(right, top),
+	          f(right, bottom),
+	          f((right - left) / 2, (top - bottom) / 2));
 };
 
 export function bi_icon(v) {

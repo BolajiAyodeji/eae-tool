@@ -89,7 +89,7 @@ function table_refresh() {
 	const table = {};
 	const data = this.csv.data;
 	const k = this.csv.key;
-	const v = this.datatype.match(/-timeline/) ? U.timeline : this.csv.column;
+	const v = this.datatype.match(/-timeline/) ? STATE.timeline : this.csv.column;
 
 	for (let r of data) {
 		const n = +r[v];
@@ -470,7 +470,7 @@ export function polygons() {
 export async function vectors_csv() {
 	await until(_ => this.csv.data && this.vectors.geojson);
 
-	const v = this.timeline ? U.timeline : this.csv.column;
+	const v = this.timeline ? STATE.timeline : this.csv.column;
 
 	if (this.timeline) vectors_timeline.call(this);
 
@@ -514,7 +514,7 @@ function vectors_timeline() {
 };
 
 export async function raster_timeline() {
-	const i = GEOGRAPHY.timeline_dates.indexOf(U.timeline);
-	console.log(i, this.timeline.rasters || "no timeline rasters");
+	const i = GEOGRAPHY.timeline_dates.indexOf(STATE.timeline);
+	console.warn(i, this.timeline.rasters || "no timeline rasters");
 	// this.update_source(this.timeline.rasters[i]);
 };

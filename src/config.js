@@ -1,17 +1,13 @@
 import DS from './ds.js';
 
-import dscard from './cards.js';
-
 import {
 	extract as user_extract,
 	register_login,
 } from './user.js';
 
-export function load_datasets(conf) {
-	const list = DS.array.filter(d => conf.datasets.find(t => t.name === d.id || t.id === d.id));
-
-	conf.datasets.forEach(d => {
-		const ds = list.find(t => d.name === t.id || t.id === d.id);
+export function load_datasets(array) {
+	return Promise.all(array.map(d => {
+		const ds = DS.array.find(t => t.name === d.id || t.id === d.id);
 
 		if (!ds) {
 			console.warn("config load: No such dataset on this geography:", d);
@@ -26,9 +22,9 @@ export function load_datasets(conf) {
 			console.warn(`Could not initialise domain for '${ds.id}'. Valued polygons, right?`);
 
 		if (typeof d.weight === 'number') ds.weight = d.weight;
-	});
 
-	return conf;
+		return ds.active(true, true);
+	}));
 };
 
 export function validate(conf) {
@@ -62,7 +58,7 @@ export function validate(conf) {
 };
 
 export function generate() {
-	const datasets = dscard.all.map(d => d.ds)
+	const datasets = STATE.datasets
 		.map(d => ({
 			"dataset_id": d.dataset_id,
 			"id":         d.id,
@@ -80,15 +76,19 @@ export function generate() {
 		"zoom":      MAPBOX.getZoom(),
 		"center":    MAPBOX.getCenter(),
 		"theme":     EAE['settings'].mapbox_theme,
-		"view":      U.view,
-		"subdiv":    U.subdiv,
-		"divtier":   U.divtier,
-		"tab":       U.tab,
-		"output":    U.output,
-		"variant":   U.variant,
+		"view":      STATE.view,
+		"subdiv":    STATE.subdiv,
+		"divtier":   STATE.divtier,
+		"tab":       STATE.tab,
+		"index":     STATE.index,
+		"variant":   STATE.variant,
 	};
 
 	return config;
+};
+
+export function store() {
+	sessionStorage.setItem('config', JSON.stringify(STATE.config));
 };
 
 export function init() {
@@ -136,10 +136,10 @@ export function init() {
 
 				if (!valid) return;
 
-				O.config = conf;
+				load_datasets(conf.datasets);
 				results.innerText = JSON.stringify(conf, null, "  ");
 
-				O.view = U.view;
+				COMMIT("datasets");
 			};
 		};
 	};

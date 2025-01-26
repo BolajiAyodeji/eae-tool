@@ -1,4 +1,3 @@
-/* global PptxGenJS */
 
 import {
 	coordinates_to_raster_pixel,
@@ -11,6 +10,10 @@ import '../lib/jszip.js';
 import '../lib/pptxgen.js';
 
 import {
+	context,
+} from './complicated.js';
+
+import {
 	analysis_colorscale,
 	medhigh_point_count,
 	getpoints as toplocations_fetch,
@@ -19,16 +22,6 @@ import {
 import {
 	coords_search_pois,
 } from './mapbox.js';
-
-import {
-	generate as config_generate,
-} from './config.js';
-
-import {
-	context,
-} from './overlord.js';
-
-let CONFIG;
 
 const N_POINTS = 20;
 
@@ -274,7 +267,7 @@ function selected_datasets_index($, index) {
 
 	const monospace = { "align": "center", "valign": "middle", "fontFace": "monospace", "fontSize": 9 };
 
-	const selected = CONFIG.datasets
+	const selected = STATE.config.datasets
 		.filter(d => d.index === index)
 		.map(d => ([
 			{
@@ -725,7 +718,7 @@ function toplocations_list(points) {
 
 	const border = tableborder;
 
-	title($, `Locations with highest ${U.output.toUpperCase()} Index`);
+	title($, `Locations with highest ${STATE.index.toUpperCase()} Index`);
 
 	const divs = GEOGRAPHY.divisions.slice(1).map(d => d.name);
 
@@ -888,8 +881,6 @@ export async function pptx() {
 	front.call(p);
 
 	let c = 0;
-
-	CONFIG = config_generate();
 
 	{
 		chapter.call(p, "" + (c++), "Report Summary");
