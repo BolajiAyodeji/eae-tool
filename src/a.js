@@ -514,7 +514,7 @@ async function reload(k,v) {
 	})();
 
 	function filtered_visibility(v) {
-		const a = DS.array.filter(d => d.on).map(d => maybe(d, 'config', 'divisions_tier'));
+		const a = STATE.datasets.map(d => maybe(d, 'config', 'divisions_tier'));
 
 		GEOGRAPHY.divisions.forEach((_,i) => {
 			let y = (a.indexOf(i) < 0) ? 'none' : v;

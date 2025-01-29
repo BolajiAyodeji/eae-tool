@@ -1,5 +1,3 @@
-import DS from './ds.js';
-
 import {
 	uniform_split,
 	colorscale,
@@ -213,8 +211,8 @@ export default async function run(type) {
  */
 
 function datasets(type) {
-	return DS.array
-		.filter(d => and(d.on, d.raster, d.analysis))
+	return STATE.datasets
+		.filter(d => and(d.raster, d.analysis))
 		.filter(d => {
 			if (d.datatype === 'polygons-boundaries') return false;
 
@@ -375,13 +373,13 @@ export function enough_datasets(t) {
 		const required = EAE['indexes'][t].compound;
 
 		for (const r of required)
-			if (!DS.array.find(d => and(d.on, d.analysis, d.index === r))) return false;
+			if (!STATE.datasets.find(d => and(d.analysis, d.index === r))) return false;
 
 		return true;
 	}
 
 	else
-		return DS.array.filter(d => and(d.on, d.analysis, d.index === t)).length > 0;
+		return STATE.datasets.filter(d => and(d.analysis, d.index === t)).length > 0;
 };
 
 export function medhigh_point_count(d, a) {

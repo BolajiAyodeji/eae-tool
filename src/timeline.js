@@ -320,6 +320,8 @@ export async function init() {
 };
 
 function timeline(t) {
+	STATE.timeline = t;
+
 	DS.array.forEach(async d => {
 		if (d.datatype.match(/raster-timeline/))
 			parse_raster_timeline.call(d);
@@ -328,7 +330,6 @@ function timeline(t) {
 			parse_vectors_csv.call(d);
 	});
 
-	STATE.timeline = t;
 	COMMIT("datasets");
 };
 
@@ -338,8 +339,8 @@ export function lines_draw() {
 	const tiercsv = maybe(d, 'csv');
 	if (!tiercsv) return;
 
-	const datasets = DS.array
-		.filter(d => and(d.on, d.datatype === 'polygons-timeline', maybe(d, 'csv', 'data')));
+	const datasets = STATE.datasets
+		.filter(d => and(d.datatype === 'polygons-timeline', maybe(d, 'csv', 'data')));
 
 	if (!datasets.length) return;
 
@@ -405,7 +406,7 @@ export async function lines_update() {
 
 	if (!(maybe(GEOGRAPHY.divisions, STATE.divtier, 'csv'))) return;
 
-	const datasets = DS.array.filter(d => and(d.on, d.datatype === 'polygons-timeline'));
+	const datasets = STATE.datasets.filter(d => d.datatype === 'polygons-timeline');
 
 	if (and(datasets.length, STATE.subdiv > -1))
 		lines_draw();

@@ -3,8 +3,6 @@ import {
 	coordinates_to_raster_pixel,
 } from './utils.js';
 
-import DS from './ds.js';
-
 import '../lib/jszip.js';
 
 import '../lib/pptxgen.js';
@@ -236,11 +234,8 @@ function how_it_works() {
 };
 
 function selected_datasets() {
-	const all = DS.array.filter(d => d.on);
-
-	selected_datasets_index(this.addSlide(), "demand", all);
-
-	selected_datasets_index(this.addSlide(), "supply", all);
+	selected_datasets_index(this.addSlide(), "demand", STATE.datasets);
+	selected_datasets_index(this.addSlide(), "supply", STATE.datasets);
 };
 
 function selected_datasets_index($, index) {
@@ -451,10 +446,10 @@ function analysis(index) {
 
 	case 'supply': {
 		// TODO: points? any points?
-		const points = DS.array.filter(d => and(d.on, (d.index === index), d.datatype === 'points'));
+		const points = STATE.datasets.filter(d => and(d.index === index, d.datatype === 'points'));
 
 		// TODO: lines? transmission + distribution?
-		const lines = DS.array.filter(d => and(d.on, (d.index === index), d.datatype === 'lines'));
+		const lines = STATE.datasets.filter(d => and(d.index === index, d.datatype === 'lines'));
 
 		let points_count = 0;
 		for (const d of points) {
@@ -549,8 +544,8 @@ function analysis(index) {
 				population_count += pop_data[i];
 		}
 
-		const points = DS.array.filter(d => and(d.on, or(d.id === 'health', d.id === "schools")));
-		const lines = DS.array.filter(d => and(d.on, (d.index === 'supply'), d.datatype === 'lines'));
+		const points = STATE.datasets.filter(d => and(or(d.id === 'health', d.id === "schools")));
+		const lines = STATE.datasets.filter(d => and((d.index === 'supply'), d.datatype === 'lines'));
 
 		const health = DST.get('health');
 		const schools = DST.get('schools');
@@ -808,7 +803,7 @@ function toplocations_index(index, points) {
 
 	title($, `High Priority Locations for Energy Interventions (${EAE['indexes'][index]['name']} Info)`);
 
-	const datasets = DS.array.filter(d => and(d.on, d.index === index));
+	const datasets = STATE.datasets.filter(d => d.index === index);
 
 	const divs = GEOGRAPHY.divisions.slice(1).map(d => d.name);
 

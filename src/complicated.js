@@ -76,9 +76,8 @@ export function context(rc, f) {
 		}
 	};
 
-	const p = DS.array
-		.filter(d => and(d.on,
-		                 d.category.name !== 'boundaries',
+	const p = STATE.datasets
+		.filter(d => and(d.category.name !== 'boundaries',
 		                 d.category.name !== 'outline'))
 		.sort((a,b) => {
 			const bi = controls.indexOf(b.id);
