@@ -1,10 +1,3 @@
-import DS from './ds.js';
-
-import {
-	vectors_csv as parse_vectors_csv,
-	raster_timeline as parse_raster_timeline,
-} from './parse.js';
-
 import bubblemessage from '../lib/bubblemessage.js';
 
 function slider(opts) {
@@ -321,15 +314,6 @@ export async function init() {
 
 function timeline(t) {
 	STATE.timeline = t;
-
-	DS.array.forEach(async d => {
-		if (d.datatype.match(/raster-timeline/))
-			parse_raster_timeline.call(d);
-
-		else if (d.datatype.match(/(lines|points|polygons)-timeline/))
-			parse_vectors_csv.call(d);
-	});
-
 	COMMIT("datasets");
 };
 

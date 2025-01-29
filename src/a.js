@@ -1,6 +1,11 @@
 /*eslint no-unreachable: "warn"*/
 
 import {
+	vectors_csv as parse_vectors_csv,
+	raster_timeline as parse_raster_timeline,
+} from './parse.js';
+
+import {
 	loading,
 	elem_collapse,
 	super_error,
@@ -370,9 +375,11 @@ This is fatal. Thanks for all the fish.`;
 					"title":   "Geography Divisions configuration error",
 					"message": `Divisions ${i} not found. Other datasets might fail to load...`,
 				});
+
+				return false;
 			}
 
-			return !!d;
+			return true;
 		});
 
 	ALL
@@ -622,6 +629,14 @@ async function reload(k,v) {
 	if (k === "datasets") {
 		cards_update();
 		mapbox_sort();
+
+		STATE.datasets.forEach(async d => {
+			if (d.datatype.match(/raster-timeline/))
+				parse_raster_timeline.call(d);
+
+			else if (d.datatype.match(/(lines|points|polygons)-timeline/))
+				parse_vectors_csv.call(d);
+		});
 	}
 
 	views_buttons(view);
@@ -808,13 +823,6 @@ export async function sort(ordered) {
 
 		analysis_dataset_intersect.call(d, a.raster);
 	};
-
-	DS.array
-		.filter(d => d.source_config)
-		.forEach(d => {
-			d.loaded = false;
-			d.loadall();
-		});
 };
 
 function reset_features_visibility() {

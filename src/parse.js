@@ -319,8 +319,6 @@ export function points() {
 			}
 		})
 		.then(_ => {
-			if (this.csv) vectors_csv.call(this);
-
 			this.criteria = specs_set.call(
 				this,
 				this.vectors.geojson.features,
@@ -433,14 +431,7 @@ export function polygons() {
 				p.properties['__visible'] = true;
 			}
 		})
-		.then(async _ => {
-			if (this.csv) {
-				if (this.datatype.match(/raster-timeline/))
-					raster_timeline.call(this);
-				else
-					vectors_csv.call(this);
-			}
-
+		.then(_ => {
 			this.criteria = specs_set.call(
 				this,
 				this.vectors.geojson.features,
@@ -467,11 +458,7 @@ export function polygons() {
 		});
 };
 
-export async function vectors_csv() {
-	await until(_ => this.csv.data && this.vectors.geojson);
-
-	const v = this.timeline ? STATE.timeline : this.csv.column;
-
+export function vectors_csv() {
 	if (this.timeline) vectors_timeline.call(this);
 
 	let s;
@@ -489,6 +476,8 @@ export async function vectors_csv() {
 		console.warn("No data for", this.id);
 		return;
 	}
+
+	const v = this.timeline ? STATE.timeline : this.csv.column;
 
 	for (let f of this.vectors.geojson.features) {
 		f.id = f.properties[this.vectors.id];

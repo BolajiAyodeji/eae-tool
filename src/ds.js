@@ -16,6 +16,7 @@ import {
 	raster as parse_raster,
 	points as parse_points,
 	polygons as parse_polygons,
+	vectors_csv as parse_vectors_csv,
 	lines as parse_lines,
 	fail as parse_fail,
 } from './parse.js';
@@ -106,7 +107,10 @@ This is not fatal but the dataset is now disabled.`,
 			Object.assign(this.vectors, this.category.vectors);
 
 			this.vectors.id = b.config.vectors_id;
-			this.vectors.parse = x => parse_polygons.call(x || this);
+			this.vectors.parse = x => {
+				parse_polygons.call(x || this);
+				parse_vectors_csv.call(x || this);
+			};
 
 			indicator = true;
 		}
@@ -158,7 +162,10 @@ This is not fatal but the dataset is now disabled.`,
 				}
 				}
 
-				this.vectors.parse = p;
+				this.vectors.parse = async _ => {
+					await p();
+					if (this.csv) parse_vectors_csv.call(this);
+				};
 			}
 		}
 
