@@ -4,6 +4,10 @@ import {
 	bi_icon,
 } from './utils.js';
 
+import {
+	analysis_to_dataset,
+} from './complicated.js';
+
 import bind from '../lib/bind.js';
 
 import modal from '../lib/modal.js';
@@ -22,10 +26,6 @@ import {
 	analysis,
 	analysis_colorscale,
 } from './analysis.js';
-
-import {
-	analysis_to_dataset,
-} from './overlord.js';
 
 import {
 	snapshot,
@@ -142,8 +142,8 @@ export function init() {
 	for (let i in EAE['indexes'])
 		cos.append(ce('option', EAE['indexes'][i]['name'], { "value": i }));
 
-	cos.value = U.output;
-	cos.onchange = x => { O.index = x.target.value; };
+	cos.value = STATE.index;
+	cos.onchange = x => { STATE.index = x.target.value; };
 
 	const toolbox = qs('#index-layer-toolbox');
 	const tools = {
@@ -199,10 +199,10 @@ export function init() {
 		variant_select.append(ce('option', `Administrative Priority - ${d.name}`, { "value": i }));
 	});
 
-	variant_select.value = U.variant;
-	variant_select.onchange = function(_) {
-		U.variant = this.value;
-		O.view = U.view;
+	variant_select.value = STATE.variant;
+	variant_select.onchange = _ => {
+		STATE.variant = variant_select.value;
+		COMMIT("datasets");
 	};
 
 	qs('#index-graphs').append(graphs, scale);
@@ -237,13 +237,14 @@ export function list() {
 			qs('.radio svg', n).dispatchEvent(new Event((this === n) ? "select" : "unselect"));
 		}
 
-		O.index = this.getAttribute('bind');
+		STATE.index = this.getAttribute('bind');
+		COMMIT("datasets");
 	};
 
 	for (let t in EAE['indexes']) {
 		const node = i_elem(t, EAE['indexes'][t]['name'], EAE['indexes'][t]['description']);
 
-		qs('.radio', node).append(radio(t === U.output));
+		qs('.radio', node).append(radio(t === STATE.index));
 
 		node.onclick = trigger_this.bind(node);
 

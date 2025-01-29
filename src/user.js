@@ -26,10 +26,7 @@ export function register_login() {
 export function extract(...path) {
 	const token = localStorage.getItem('token');
 
-	if (!token) {
-		console.warn("Could not fetch token from localStorage.");
-		return null;
-	};
+	if (!token) return null;
 
 	try {
 		return maybe(jwt_decode(token), ...path);

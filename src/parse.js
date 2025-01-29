@@ -89,7 +89,7 @@ function table_refresh() {
 	const table = {};
 	const data = this.csv.data;
 	const k = this.csv.key;
-	const v = this.datatype.match(/-timeline/) ? U.timeline : this.csv.column;
+	const v = this.datatype.match(/-timeline/) ? STATE.timeline : this.csv.column;
 
 	for (let r of data) {
 		const n = +r[v];
@@ -320,8 +320,6 @@ export function points() {
 			}
 		})
 		.then(_ => {
-			if (this.csv) vectors_csv.call(this);
-
 			this.criteria = specs_set.call(
 				this,
 				this.vectors.geojson.features,
@@ -434,14 +432,7 @@ export function polygons() {
 				p.properties['__visible'] = true;
 			}
 		})
-		.then(async _ => {
-			if (this.csv) {
-				if (this.datatype.match(/raster-timeline/))
-					raster_timeline.call(this);
-				else
-					vectors_csv.call(this);
-			}
-
+		.then(_ => {
 			this.criteria = specs_set.call(
 				this,
 				this.vectors.geojson.features,
@@ -468,11 +459,7 @@ export function polygons() {
 		});
 };
 
-export async function vectors_csv() {
-	await until(_ => this.csv.data && this.vectors.geojson);
-
-	const v = this.timeline ? U.timeline : this.csv.column;
-
+export function vectors_csv() {
 	if (this.timeline) vectors_timeline.call(this);
 
 	let s;
@@ -490,6 +477,8 @@ export async function vectors_csv() {
 		console.warn("No data for", this.id);
 		return;
 	}
+
+	const v = this.timeline ? STATE.timeline : this.csv.column;
 
 	for (let f of this.vectors.geojson.features) {
 		f.id = f.properties[this.vectors.id];
@@ -515,7 +504,7 @@ function vectors_timeline() {
 };
 
 export async function raster_timeline() {
-	const i = GEOGRAPHY.timeline_dates.indexOf(U.timeline);
-	console.log(i, this.timeline.rasters || "no timeline rasters");
+	const i = GEOGRAPHY.timeline_dates.indexOf(STATE.timeline);
+	console.warn(i, this.timeline.rasters || "no timeline rasters");
 	// this.update_source(this.timeline.rasters[i]);
 };

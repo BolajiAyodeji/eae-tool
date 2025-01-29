@@ -136,7 +136,6 @@ build-a:
 		${SRC}/indexes.js \
 		${SRC}/filtered.js \
 		${SRC}/mapbox.js \
-		${SRC}/overlord.js \
 		${SRC}/plot.js \
 		${SRC}/rasters.js \
 		${SRC}/report.js \
@@ -147,6 +146,7 @@ build-a:
 		${SRC}/help.js \
 		${SRC}/a.js \
 		${SRC}/qa.js \
+		${SRC}/complicated.js \
 		${SRC}/qa-controls.js \
 		${SRC}/qa-outputs.js \
 		${SRC}/qa-snapshot.js \
