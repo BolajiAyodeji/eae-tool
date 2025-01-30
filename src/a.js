@@ -815,6 +815,8 @@ export async function sort(ordered) {
 	await mapbox_sort();
 
 	const a = ordered[0];
+	if (!a.summary) return;
+
 	for (const d of ordered) {
 		if (!a.summary) {
 			reset_features_visibility.call(d);

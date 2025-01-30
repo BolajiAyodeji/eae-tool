@@ -763,11 +763,6 @@ This is not fatal but the dataset is now disabled.`,
 		STATE.datasets = copy;
 
 		COMMIT("datasets");
-
-		// if (this.summary) {
-		// 	for (const i in this.summary)
-		// 		reset_features_visibility.call(DST.get(i));
-		// }
 	};
 
 	static get array() {
