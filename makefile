@@ -42,6 +42,8 @@ deps:
 	@mkdir -p ${LIB}/fonts
 	DEST=${LIB} ${BIN}/deps
 
+	sed -i 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
+
 build-m:
 	@ echo "Building my screen"
 	@ mkdir -p ${DIST}/m
