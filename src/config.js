@@ -20,10 +20,10 @@ export function load_datasets(array) {
 		} else
 			console.warn(`Could not initialise domain for '${ds.id}' - ${ds.datatype}.`);
 
-		if (maybe(d, 'selection', 'length')) {
-			ds.selection = d.selection;
-			if (ds.mutant) ds.mutate(DST.get(d.selection[0]));
-		}
+		ds.selection = d.selection;
+
+		if (and(maybe(d.selection, 0), ds.mutant))
+			ds.mutate(DST.get(d.selection[0]));
 
 		if (typeof d.weight === 'number') ds.weight = d.weight;
 

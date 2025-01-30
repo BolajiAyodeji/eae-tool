@@ -621,7 +621,7 @@ export default class dscard extends HTMLElement {
 			};
 
 			const id = l[l.params[0]] || 'default';
-			cb.checked = this.ds.selection.includes(id);
+			cb.checked = this.ds.selection ? this.ds.selection.includes(id) : true;
 
 			this.checkboxes.push([id, cb]);
 
