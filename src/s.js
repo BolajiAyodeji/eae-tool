@@ -237,7 +237,7 @@ export async function init() {
 	if (or(ENV.includes('training'), ENV.includes('staging'))) {
 		params['circle'] = "not.is.null"; // whatever: everything.
 
-		if (!["director", "root"].includes(SELF.data.role))
+		if (!["director", "root"].includes(SELF.role))
 			params['circle'] = `in.(${SELF.data.circles})`;
 	}
 
