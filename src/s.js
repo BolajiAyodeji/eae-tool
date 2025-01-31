@@ -228,18 +228,20 @@ export async function init() {
 		loading(false);
 	};
 
-	let circle = "not.is.null"; // whatever: everything.
-
-	if (ENV.includes('training') || ENV.includes('staging')) {
-		circle = `in.(${SELF.data.circles})`;
-	}
-
-	API.get("geographies", {
+	const params = {
 		"select":     ['*', 'datasets_count'],
 		"adm":        "eq.0",
 		"deployment": `ov.{${ENV}}`,
-		circle,
-	})
+	};
+
+	if (or(ENV.includes('training'), ENV.includes('staging'))) {
+		params['circle'] = "not.is.null"; // whatever: everything.
+
+		if (!["director", "root"].includes(SELF.data.role))
+			params['circle'] = `in.(${SELF.data.circles})`;
+	}
+
+	API.get("geographies", params)
 		.then(r => list(r))
 		.catch(error => {
 			FLASH.push({
