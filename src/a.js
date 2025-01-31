@@ -239,11 +239,11 @@ async function init_1() {
 	let conf = sessionStorage.getItem('config');
 	if (conf) conf = JSON.parse(conf);
 
-	const stamp = url.searchParams.get('snapshot');
-	if (stamp) {
+	const s = url.searchParams.get('snapshot');
+	if (s) {
 		sessionStorage.removeItem('config');
 
-		conf = await API.get('snapshots', { "time": `eq.${stamp}` }, { "one": true })
+		conf = await API.get('rpc/snapshot', { "_time": s }, { "one": true })
 			.catch(_ => {})
 			.then(r => r['config']);
 	}
