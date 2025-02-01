@@ -62,7 +62,7 @@ function footer($) {
 	);
 
 	$.addImage(
-		{ "path": "/images/wri-hbox-white-on-yellow.jpg", "x": 0.5, "y": (a4(100, 'y') - h) + 0.125, "w": (h*3), "h": h/2 },
+		{ "path": `${window.BASE}/images/wri-hbox-white-on-yellow.jpg`, "x": 0.5, "y": (a4(100, 'y') - h) + 0.125, "w": (h*3), "h": h/2 },
 	);
 
 	$.addText(
@@ -108,7 +108,7 @@ function front() {
 
 	const h = 1;
 	$.addImage(
-		{ "path": "/images/wri-box-white-on-yellow.jpg", "x": 0.5, "y": 0.5, "w": (h*2.12), h },
+		{ "path": `${window.BASE}/images/wri-box-white-on-yellow.jpg`, "x": 0.5, "y": 0.5, "w": (h*2.12), h },
 	);
 
 	$.addText(
