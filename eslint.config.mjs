@@ -29,6 +29,7 @@ export default [{
 			"SELF": "writable",
 			"DST": "readonly",
 			"GEOGRAPHY": "writable",
+			"SNAPSHOT": "writable",
 			"OUTLINE": "writable",
 			"MAPBOX": "writable",
 			"INFOMODE": "writable",

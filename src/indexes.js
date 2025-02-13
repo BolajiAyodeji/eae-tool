@@ -156,7 +156,18 @@ export function init() {
 		toolbox.append(ce('a', null, { "id": i, "title": tools[i] }));
 
 	const snap = qs('#save-snapshot-button');
-	snap.onclick = snapshot;
+
+	const suid = maybe(SNAPSHOT, 'user_id');
+
+	if (and(suid, suid !== SELF.id))
+		qs('span', snap).innerText = "Duplicate Analysis";
+	else if (and(suid, suid === SELF.id))
+		qs('span', snap).innerText = "Update Analysis";
+
+	snap.onclick = _ => {
+		if (snapshot())
+			qs('span', snap).innerText = "Update Analysis";
+	};
 
 	const share = qs('#share-snapshot-button');
 	share.onclick = share_url;

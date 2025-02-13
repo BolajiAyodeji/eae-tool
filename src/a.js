@@ -8,6 +8,7 @@ import {
 	elem_collapse,
 	super_error,
 	bi_icon,
+	self,
 } from './utils.js';
 
 import {
@@ -89,10 +90,6 @@ import {
 import {
 	init as timeline_init,
 } from './timeline.js';
-
-import {
-	init as session_init,
-} from './session.js';
 
 import {
 	run as qa_run,
@@ -225,6 +222,8 @@ function state_set(conf, p, v) {
 };
 
 export function init() {
+	self();
+
 	Whatever
 		.then(init_1)
 		.then(init_2)
@@ -245,6 +244,7 @@ async function init_1() {
 
 		conf = await API.get('rpc/snapshot', { "_time": s }, { "one": true })
 			.catch(_ => {})
+			.then(r => SNAPSHOT = r)
 			.then(r => r['config']);
 	}
 
@@ -288,8 +288,6 @@ On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple t
 	mapbox_init();
 
 	if (MOBILE) mobile();
-
-	session_init();
 
 	return conf;
 };

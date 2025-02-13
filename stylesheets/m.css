@@ -56,19 +56,19 @@
   padding-left: 0;
 }
 
-#sessions {
+#snapshots {
   display: flex;
   flex-flow: row wrap;
   margin-bottom: 2em;
 }
 
-#sessions-controls {
+#snapshots-controls {
   margin: 0 2em 2em 2em;
   align-items: center;
   width: 100%;
 }
 
-.session-square {
+.snapshot-square {
   margin: 0.7em;
   background-color: white;
   position: relative;
@@ -79,17 +79,17 @@
   justify-content: space-between;
 }
 
-.session-square header {
+.snapshot-square header {
   padding: 1em;
   background-color: #E8E8E7;
 }
 
-.session-square content {
+.snapshot-square content {
   padding: 1em;
   display: block;
 }
 
-.session-square footer {
+.snapshot-square footer {
   font-size: 0.9em;
   padding: 1em;
   display: flex;
@@ -98,12 +98,12 @@
   border-top: 1px solid lightgray;
 }
 
-.session-square footer button {
+.snapshot-square footer button {
   padding: 7px 12px;
 }
 
-.session-square footer button i,
-.session-square footer a i {
+.snapshot-square footer button i,
+.snapshot-square footer a i {
   margin-right: 0.5em;
 }
 

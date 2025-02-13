@@ -144,12 +144,12 @@
 
           <button id="save-snapshot-button"
                   class="big-green-button">
-            <i class="bi bi-floppy2-fill"></i>Save Analysis
+            <i class="bi bi-floppy2-fill"></i><span>Save Analysis</span>
           </button>
 
           <button id="share-snapshot-button"
                   class="big-green-button">
-            <i class="bi bi-share-fill"></i>Share Analysis
+            <i class="bi bi-share-fill"></i><span>Share Analysis</span>
           </button>
         </div>
 
@@ -214,6 +214,7 @@
     window.API = new pgrest(EAE['settings'].database, FLASH);
 
     window.GEOGRAPHY = null;
+    window.SNAPSHOT = null;
     window.OUTLINE = null;
     window.MAPBOX = null;
     window.INFOMODE = false;
@@ -221,6 +222,7 @@
     window.COORDINATES = [];
     window.MOBILE = false;
     window.DST = new Map();
+    window.SELF = null;
     window.STATE = null;
     window.DEBUG = true;
     window.COMMIT = null;
