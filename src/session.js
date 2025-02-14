@@ -45,7 +45,7 @@ padding: 7px 12px;
 	i.focus();
 };
 
-export function snapshot() {
+export function snapshot(callback) {
 	const user_id = user_extract('id');
 
 	if (!user_id) {
@@ -79,8 +79,11 @@ export function snapshot() {
 			API.post('snapshots', null, { "payload": s })
 				.then(_ => FLASH.push({ "title": "Created Analysis", "type": "success" }))
 				.then(_ => url.searchParams.set('snapshot', s['time']))
-				.then(_ => history.replaceState(null, null, url));
+				.then(_ => history.replaceState(null, null, url))
+				.then(_ => typeof callback === 'function' ? callback() : _);
 		});
+
+		SNAPSHOT = s;
 
 		return s['time'];
 	};

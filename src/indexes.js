@@ -170,7 +170,17 @@ export function init() {
 	};
 
 	const share = qs('#share-snapshot-button');
-	share.onclick = share_url;
+	share.onclick = _ => {
+		const u = new URL(location);
+
+		if (u.searchParams.get('snapshot')) {
+			share_url();
+			return;
+
+		}
+		if (snapshot(share_url))
+			qs('span', snap).innerText = "Update Analysis";
+	};
 
 	const opacity = qs('#index-graphs-opacity');
 	opacity.append(opacity_control({
@@ -268,10 +278,10 @@ export function list() {
 };
 
 function share_url() {
-	const id = snapshot();
 	const c = tmpl('#share-link-modal-content');
 
 	const u = new URL(location);
+	const id = u.searchParams.get('snapshot');
 	const url = `${u.protocol}//${u.hostname}${window.BASE}/tool/p?${id}`;
 
 	function copy() {
