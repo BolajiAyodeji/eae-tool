@@ -92,6 +92,10 @@ export async function graphs(raster) {
 
 	const e = (1000/GEOGRAPHY.resolution)**2;
 
+	const outline_raster = DST.get('outline').raster;
+	const outline_cover = outline_raster.data.filter(x => x != outline_raster.nodata).length;
+	const f = GEOGRAPHY.area ? (GEOGRAPHY.area / outline_cover) : (1/e);
+
 	let g = maybe(t, 'population-density'); if (g) {
 		g['distribution'].forEach((x,i) => PIES['population']['data'][i].push(x));
 
@@ -110,7 +114,7 @@ export async function graphs(raster) {
 
 		PIES['area'].change(1);
 
-		qs('#area-number').innerHTML = Math.round(g['total'] / e).toLocaleString() + "&nbsp;" + "km<sup>2</sup>";
+		qs('#area-number').innerHTML = Math.round(g['total'] * f).toLocaleString() + "&nbsp;" + "km<sup>2</sup>";
 
 		g['distribution'].forEach((x,i) => PIES['area']['data'][i].shift());
 	} else {
