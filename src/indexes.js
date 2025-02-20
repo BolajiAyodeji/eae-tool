@@ -129,8 +129,6 @@ export function init() {
 
 	const user_id = user_extract('id');
 
-	const url = new URL(location);
-
 	const r = tmpl('#ramp');
 
 	qs('.ramp', r).append(
@@ -188,6 +186,7 @@ export function init() {
 			return;
 		}
 
+		const url = new URL(location);
 		const type = url.searchParams.get('output');
 		fake_blob_download((await analysis(type)).tiff, `energyaccessexplorer-${type}.tif`);
 	};
