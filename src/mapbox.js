@@ -464,16 +464,14 @@ function click(e) {
 
 	qs('#points.search-panel').dispatchEvent(new Event('activate'));
 
-	if (STATE.view === "analysis") {
-		const ac = coordinates_to_raster_pixel(ll, {
-			"data":   MAPBOX.getSource('output-source').raster,
-			"nodata": -1,
-		});
+	const ac = coordinates_to_raster_pixel(ll, {
+		"data":   MAPBOX.getSource('output-source').raster,
+		"nodata": -1,
+	});
 
-		if (Number.isFinite(maybe(ac, 'value'))) {
-			dict.unshift(["_analysis_name", EAE['indexes'][STATE.index]['name']], null);
-			props["_analysis_name"] = lowmedhigh_scale(ac.value);
-		}
+	if (Number.isFinite(maybe(ac, 'value'))) {
+		dict.unshift(["_analysis_name", EAE['indexes'][STATE.index]['name']], null);
+		props["_analysis_name"] = lowmedhigh_scale(ac.value);
 	}
 
 	const td = table_data(dict, props, ll);
