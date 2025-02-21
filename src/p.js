@@ -7,17 +7,14 @@ export async function init() {
 	if (keys.length !== 1) window.location = TOOL + '/s';
 	if (!keys[0].match(/[0-9]{13}/)) window.location = TOOL + '/s';
 
-	const stamp = keys[0];
+	const time = keys[0];
 
-	await API.get('snapshots', {
-		"time":   `eq.${stamp}`,
-		"select": `*,session:sessions(geography_id)`,
-	}, { "one": true })
+	await API.get('rpc/snapshot', { "_time": time }, { "one": true })
 		.catch(_ => {})
 		.then(r => {
 			sessionStorage.removeItem('config');
 
-			const gid = r['session']['geography_id'];
-			window.location = TOOL + `/a?id=${gid}&snapshot=${stamp}`;
+			const gid = r['geography_id'];
+			window.location = TOOL + `/a?id=${gid}&snapshot=${time}`;
 		});
 };

@@ -42,6 +42,8 @@ deps:
 	@mkdir -p ${LIB}/fonts
 	DEST=${LIB} ${BIN}/deps
 
+	sed -i 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
+
 build-m:
 	@ echo "Building my screen"
 	@ mkdir -p ${DIST}/m
@@ -136,7 +138,6 @@ build-a:
 		${SRC}/indexes.js \
 		${SRC}/filtered.js \
 		${SRC}/mapbox.js \
-		${SRC}/overlord.js \
 		${SRC}/plot.js \
 		${SRC}/rasters.js \
 		${SRC}/report.js \
@@ -147,6 +148,7 @@ build-a:
 		${SRC}/help.js \
 		${SRC}/a.js \
 		${SRC}/qa.js \
+		${SRC}/complicated.js \
 		${SRC}/qa-controls.js \
 		${SRC}/qa-outputs.js \
 		${SRC}/qa-snapshot.js \

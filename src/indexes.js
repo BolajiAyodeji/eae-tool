@@ -4,6 +4,10 @@ import {
 	bi_icon,
 } from './utils.js';
 
+import {
+	analysis_to_dataset,
+} from './complicated.js';
+
 import bind from '../lib/bind.js';
 
 import modal from '../lib/modal.js';
@@ -22,10 +26,6 @@ import {
 	analysis,
 	analysis_colorscale,
 } from './analysis.js';
-
-import {
-	analysis_to_dataset,
-} from './overlord.js';
 
 import {
 	snapshot,
@@ -144,8 +144,8 @@ export function init() {
 	for (let i in EAE['indexes'])
 		cos.append(ce('option', EAE['indexes'][i]['name'], { "value": i }));
 
-	cos.value = U.output;
-	cos.onchange = x => { O.index = x.target.value; };
+	cos.value = STATE.index;
+	cos.onchange = x => { STATE.index = x.target.value; };
 
 	const toolbox = qs('#index-layer-toolbox');
 	const tools = {
@@ -158,10 +158,31 @@ export function init() {
 		toolbox.append(ce('a', null, { "id": i, "title": tools[i] }));
 
 	const snap = qs('#save-snapshot-button');
-	snap.onclick = snapshot;
+
+	const suid = maybe(SNAPSHOT, 'user_id');
+
+	if (and(suid, suid !== SELF.id))
+		qs('span', snap).innerText = "Duplicate Analysis";
+	else if (and(suid, suid === SELF.id))
+		qs('span', snap).innerText = "Update Analysis";
+
+	snap.onclick = _ => {
+		if (snapshot())
+			qs('span', snap).innerText = "Update Analysis";
+	};
 
 	const share = qs('#share-snapshot-button');
-	share.onclick = share_url;
+	share.onclick = _ => {
+		const u = new URL(location);
+
+		if (u.searchParams.get('snapshot')) {
+			share_url();
+			return;
+
+		}
+		if (snapshot(share_url))
+			qs('span', snap).innerText = "Update Analysis";
+	};
 
 	const opacity = qs('#index-graphs-opacity');
 	opacity.append(opacity_control({
@@ -202,10 +223,10 @@ export function init() {
 		variant_select.append(ce('option', `Administrative Priority - ${d.name}`, { "value": i }));
 	});
 
-	variant_select.value = U.variant;
-	variant_select.onchange = function(_) {
-		U.variant = this.value;
-		O.view = U.view;
+	variant_select.value = STATE.variant;
+	variant_select.onchange = _ => {
+		STATE.variant = variant_select.value;
+		COMMIT("datasets");
 	};
 
 	qs('#index-graphs').append(graphs, scale);
@@ -240,13 +261,14 @@ export function list() {
 			qs('.radio svg', n).dispatchEvent(new Event((this === n) ? "select" : "unselect"));
 		}
 
-		O.index = this.getAttribute('bind');
+		STATE.index = this.getAttribute('bind');
+		COMMIT("datasets");
 	};
 
 	for (let t in EAE['indexes']) {
 		const node = i_elem(t, EAE['indexes'][t]['name'], EAE['indexes'][t]['description']);
 
-		qs('.radio', node).append(radio(t === U.output));
+		qs('.radio', node).append(radio(t === STATE.index));
 
 		node.onclick = trigger_this.bind(node);
 
@@ -259,11 +281,11 @@ export function list() {
 };
 
 function share_url() {
-	const id = snapshot();
 	const c = tmpl('#share-link-modal-content');
 
 	const u = new URL(location);
-	const url = `${u.protocol}//${u.hostname}/tool/p?${id}`;
+	const id = u.searchParams.get('snapshot');
+	const url = `${u.protocol}//${u.hostname}${window.BASE}/tool/p?${id}`;
 
 	function copy() {
 		if (!navigator.clipboard) {

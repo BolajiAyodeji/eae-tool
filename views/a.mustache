@@ -43,7 +43,7 @@
         <a for="config" description="Up/Download Configuration"><i class="bi bi-braces"></i></a>
       </div>
 
-      <div id="left-pane">
+      <div id="left-pane" style="display: none;">
         <div id="cards" class="search-panel">
           <div id="cards-clear-buttons"></div>
           <div id="cards-list" class="search-results"></div>
@@ -144,12 +144,12 @@
 
           <button id="save-snapshot-button"
                   class="big-green-button">
-            <i class="bi bi-floppy2-fill"></i>Save Analysis
+            <i class="bi bi-floppy2-fill"></i><span>Save Analysis</span>
           </button>
 
           <button id="share-snapshot-button"
                   class="big-green-button">
-            <i class="bi bi-share-fill"></i>Share Analysis
+            <i class="bi bi-share-fill"></i><span>Share Analysis</span>
           </button>
         </div>
 
@@ -158,7 +158,7 @@
           <div id="filtered-subgeographies"></div>
         </div>
 
-        <div id="indexes-pane" style="display: none;">
+        <div id="indexes-pane">
           <div id="index-graphs">
             <div id="index-graphs-title" class="up-title"></div>
             <div id="index-graphs-description"></div>
@@ -214,16 +214,18 @@
     window.API = new pgrest(EAE['settings'].database, FLASH);
 
     window.GEOGRAPHY = null;
+    window.SNAPSHOT = null;
     window.OUTLINE = null;
     window.MAPBOX = null;
     window.INFOMODE = false;
     window.COORDINATESMODE = false;
     window.COORDINATES = [];
     window.MOBILE = false;
-    window.O = null;
-    window.U = null;
     window.DST = new Map();
-    window.PARAMS = null;
+    window.SELF = null;
+    window.STATE = null;
+    window.DEBUG = true;
+    window.COMMIT = null;
     window.SUMMARY = null;
   </script>
 

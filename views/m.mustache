@@ -28,7 +28,7 @@
     {{> views/nav}}
 
     <div id="banner">
-      <h1>Energy Access Explorer User Panel</h1>
+      <h1>My EAE</h1>
 
       <div id="tabs">
         <div tab="saved-analysis" active>
@@ -53,9 +53,9 @@
           <option value="title">Sort by: Title</option>
         </select>
 
-        <div id="sessions">
-          <div id="sessions-controls">
-            <strong id="sessions-count">0 Analyses</strong>
+        <div id="snapshots">
+          <div id="snapshots-controls">
+            <strong id="snapshots-count">0 Analyses</strong>
           </div>
         </div>
       </main>
@@ -81,6 +81,8 @@
   </script>
 
   {{> views/m-templates}}
+
+  {{> views/templates}}
 
   {{> views/env }}
 

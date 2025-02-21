@@ -11,9 +11,7 @@ import {
 
 const url = new URL(location);
 
-const session = {};
-
-function set_name(s) {
+function set_name(s, callback) {
 	const i = document.createElement('input');
 	const f = document.createElement('form');
 
@@ -27,18 +25,17 @@ padding: 7px 12px;
 	f.append(i);
 
 	const m = new modal({
-		"header":  "Set Title",
+		"header":  "Save Analysis",
 		"content": f,
 	});
 
 	f.onsubmit = function(e) {
 		e.preventDefault();
-
 		m.remove();
 
-		API.patch('sessions', { "time": `eq.${s.time}` }, { "payload": {
-			"title": i.value,
-		}});
+		s.title = i.value;
+
+		callback();
 
 		return false;
 	};
@@ -48,30 +45,7 @@ padding: 7px 12px;
 	i.focus();
 };
 
-export function init() {
-	const user_id = user_extract('id');
-
-	if (!user_id) return;
-
-	const snapshot_id = url.searchParams.get('snapshot');
-
-	if (snapshot_id) {
-		console.info("Revisiting snapshot.");
-		return;
-	}
-
-	session.time = (new Date()).getTime();
-	session.snapshots = [];
-
-	API.post('sessions', null, { "payload": {
-		"time":         session.time,
-		"user_id":      user_id,
-		"geography_id": GEOGRAPHY.id,
-		"env":          ENV[0],
-	}});
-};
-
-export function snapshot() {
+export function snapshot(callback) {
 	const user_id = user_extract('id');
 
 	if (!user_id) {
@@ -94,22 +68,25 @@ export function snapshot() {
 
 	function post() {
 		const s = {
-			"time":       (new Date()).getTime(),
-			"session_id": session.time,
+			"time":         (new Date()).getTime(),
+			"geography_id": GEOGRAPHY.id,
+			"env":          ENV[0],
+			user_id,
 			config,
 		};
 
-		if (!session.title) set_name(session);
+		set_name(s, _ => {
+			API.post('snapshots', null, { "payload": s })
+				.then(_ => FLASH.push({ "title": "Created Analysis", "type": "success" }))
+				.then(_ => url.searchParams.set('snapshot', s['time']))
+				.then(_ => history.replaceState(null, null, url))
+				.then(_ => typeof callback === 'function' ? callback() : _);
+		});
 
-		session.snapshots.push(s);
-
-		API.post('snapshots', null, { "payload": s })
-			.then(_ => FLASH.push({ "title": "Created Analysis", "type": "success" }))
-			.then(_ => url.searchParams.set('snapshot', s['time']))
-			.then(_ => history.replaceState(null, null, url));
+		SNAPSHOT = s;
 
 		return s['time'];
 	};
 
-	return snapshot_id ? patch() : post();
+	return (snapshot_id && SNAPSHOT.user_id === SELF.id) ? patch() : post();
 };

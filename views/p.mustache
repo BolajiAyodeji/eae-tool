@@ -21,21 +21,10 @@
 
     <link href="./main.css" rel="stylesheet" />
 
-    {{> views/head}}
+    <script>window.BASE = "{{> views/base}}";</script>
   </head>
 
-  <body>
-    {{> views/nav}}
-
-    <div id="banner">
-      <h1>Energy Access Explorer</h1>
-    </div>
-
-    <div id="playground">
-    </div>
-
-    {{> views/loading}}
-  </body>
+  <body></body>
 
   <script type="module">
     import flash from '../lib/flash.js';
@@ -43,7 +32,6 @@
 
     window.FLASH = new flash();
     window.API = new pgrest(EAE['settings'].database, FLASH);
-    window.MOBILE = window.innerWidth < 1152;
   </script>
 
   {{> views/p-templates}}
@@ -54,6 +42,4 @@
     import {init} from './p.js';
     init();
   </script>
-
-  {{> views/gapps}}
 </html>
