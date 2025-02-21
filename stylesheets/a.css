@@ -2,12 +2,12 @@ input[type=checkbox]:checked {
   accent-color: var(--the-yellow);
 }
 
-#left-pane #drawer {
+#left-panel #drawer {
   border-right: 1px solid lightgray;
   background-color: white;
 }
 
-#left-pane #drawer > div {
+#left-panel #drawer > div {
   text-align: center;
   border-bottom: 1px solid lightgray;
 }

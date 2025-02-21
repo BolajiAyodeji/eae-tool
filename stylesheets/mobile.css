@@ -7,14 +7,14 @@
     display: none;
   }
 
-  #left-pane {
+  #left-panel {
     min-width: unset;
     width: 100%;
     z-index: 1;
     display: none;
   }
 
-  #left-pane[open] {
+  #left-panel[open] {
     max-width: 100%;
     min-width: unset;
   }
@@ -28,7 +28,7 @@
     display: none;
   }
 
-  #right-pane {
+  #right-panel {
     width: 100%;
     position: absolute;
     overflow-y: scroll;

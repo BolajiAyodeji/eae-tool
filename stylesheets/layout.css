@@ -14,14 +14,14 @@ body {
   font-size: 0.9em;
 }
 
-#left-pane {
+#left-panel {
   display: flex;
   flex-grow: 0;
   flex-flow: column wrap;
   margin-top: -1px;
 }
 
-#left-pane[open] {
+#left-panel[open] {
   min-width: 40em;
 }
 
@@ -50,20 +50,19 @@ body {
   margin: auto;
 }
 
-#right-pane {
+#right-panel {
   display: flex;
   flex-flow: column nowrap;
   width: 24em;
   overflow-y: auto;
 }
 
-#right-pane .graphs {
+#right-panel .graphs {
   padding: 0 0.5em;
 }
 
 #filtered-pane,
-#indexes-pane {
-  flex-grow: 1;
+#index-graphs {
   border-top: 1px solid lightgray;
 }
 
@@ -103,7 +102,7 @@ body {
   padding: 5px 7px;
 }
 
-#drawer-right-pane {
+#drawer-right-panel {
   border-top: 1px solid lightgray;
   width: inherit;
   box-sizing: border-box;
@@ -112,7 +111,7 @@ body {
   background-color: #F8F8F8;
 }
 
-#drawer-right-pane > div {
+#drawer-right-panel > div {
   display: block;
   width: 100%;
   text-align: center;
@@ -139,7 +138,7 @@ body {
   white-space: pre;
 }
 
-#drawer-right-pane > div:hover #disclaimer-message {
+#drawer-right-panel > div:hover #disclaimer-message {
   display: block;
 }
 
@@ -154,6 +153,10 @@ body {
   margin: 0;
   padding: 0;
   z-index: 0;
+}
+
+.spacer {
+  flex-grow: 1;
 }
 
 canvas#output {

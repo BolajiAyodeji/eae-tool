@@ -136,7 +136,7 @@ build-a:
 		${SRC}/ds.js \
 		${SRC}/parse.js \
 		${SRC}/output-widget.js \
-		${SRC}/indexes.js \
+		${SRC}/right-panel.js \
 		${SRC}/filtered.js \
 		${SRC}/mapbox.js \
 		${SRC}/plot.js \
@@ -175,11 +175,11 @@ build-a:
 		${CSS}/general.css \
 		${CSS}/a.css \
 		${CSS}/layout.css \
-		${CSS}/left-pane.css \
+		${CSS}/left-panel.css \
 		${CSS}/search.css \
 		${CSS}/controls.css \
 		${CSS}/maparea.css \
-		${CSS}/indexes.css \
+		${CSS}/right-panel.css \
 		${CSS}/views.css \
 		${CSS}/filtered.css \
 		${CSS}/ripple.css \

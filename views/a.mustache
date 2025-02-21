@@ -43,7 +43,7 @@
         <a for="config" description="Up/Download Configuration"><i class="bi bi-braces"></i></a>
       </div>
 
-      <div id="left-pane" style="display: none;">
+      <div id="left-panel" style="display: none;">
         <div id="cards" class="search-panel">
           <div id="output-widget" class="search-results">
             <div style="display: flex;">
@@ -172,7 +172,7 @@
         </div>
       </div>
 
-      <div id="right-pane">
+      <div id="right-panel">
         <div id="big-buttons">
           <button id="summary-button"
                   class="big-green-button">Report</button>
@@ -188,13 +188,9 @@
           </button>
         </div>
 
-        <div id="indexes-pane">
-          <div id="index-graphs">
-            <div id="index-graphs-title" class="up-title"></div>
-            <div id="index-graphs-description"></div>
-          </div>
-
-          <div id="index-layer-toolbox"></div>
+        <div id="index-graphs">
+          <div id="index-graphs-title" class="up-title"></div>
+          <div id="index-graphs-description"></div>
         </div>
 
         <div id="filtered-pane" style="display: none;">
@@ -202,7 +198,9 @@
           <div id="filtered-subgeographies"></div>
         </div>
 
-        <div id="drawer-right-pane">
+        <div class="spacer"></div>
+
+        <div id="drawer-right-panel">
           <div id="tiff-download"
                title="Download TIFF image of the current analysis">
             Export

@@ -149,6 +149,10 @@ bubble-message .bubble-message-close-button::before {
   padding: 0 12px;
 }
 
+canvas#output {
+  display: none;
+}
+
 @keyframes pulse {
   0%   { opacity: 0.7; }
   50%  { opacity: 1.0; }

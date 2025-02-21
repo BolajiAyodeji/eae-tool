@@ -410,8 +410,8 @@ async function init_4() {
 
 	output_widget_init();
 
-	qs('#left-pane').style.display = '';
-	qs('#left-pane input[id="controls-search"]').focus();
+	qs('#left-panel').style.display = '';
+	qs('#left-panel input[id="controls-search"]').focus();
 
 	loading(false);
 
@@ -649,20 +649,20 @@ function mobile() {
 	function mobile_switch(v) {
 		switch (v) {
 		case 'controls':{
-			for (let e of ['#left-pane'])
+			for (let e of ['#left-panel'])
 				qs(e).style.display = '';
 
-			for (let e of ['#right-pane', '#views'])
+			for (let e of ['#right-panel', '#views'])
 				qs(e).style.display = 'none';
 
 			break;
 		}
 
 		case 'outputs': {
-			for (let e of ['#left-pane', '#views'])
+			for (let e of ['#left-panel', '#views'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#right-pane'])
+			for (let e of ['#right-panel'])
 				qs(e).style.display = '';
 
 			break;
@@ -670,10 +670,10 @@ function mobile() {
 
 		case 'map':
 		default: {
-			for (let e of ['#right-pane', '#views'])
+			for (let e of ['#right-panel', '#views'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#left-pane', '#views'])
+			for (let e of ['#left-panel', '#views'])
 				qs(e).style.display = '';
 
 			break;
@@ -698,7 +698,7 @@ function mobile() {
 export function left_panel(t) {
 	for (let m of qsa('bubble-message')) m.remove();
 
-	for (let e of qsa('#left-pane > div'))
+	for (let e of qsa('#left-panel > div'))
 		e.style.display = 'none';
 
 	const as = qsa('#drawer a');
@@ -718,7 +718,7 @@ export function left_panel(t) {
 		p.dispatchEvent(new Event('activate'));
 	}
 
-	const l = qs('#left-pane');
+	const l = qs('#left-panel');
 	if (t) l.setAttribute('open', '');
 	else l.removeAttribute('open');
 
@@ -732,13 +732,13 @@ export function left_panel(t) {
 export function right_panel(t) {
 	for (let m of qsa('bubble-message')) m.remove();
 
-	for (let e of qsa('#right-pane > div'))
+	for (let e of qsa('#right-panel > div'))
 		e.style.display = t ? '' : 'none';
 
-	for (let e of qsa('#right-pane'))
+	for (let e of qsa('#right-panel'))
 		e.style.width = t ? '' : '0';
 
-	const l = qs('#left-pane');
+	const l = qs('#left-panel');
 	if (t) l.setAttribute('open', '');
 	else l.removeAttribute('open');
 

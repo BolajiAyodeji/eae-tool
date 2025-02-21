@@ -1,10 +1,8 @@
-#indexes-pane {
+#index-graphs {
   background-color: var(--the-white);
   color: var(--the-color);
   fill: var(--the-color);
-}
 
-#index-graphs {
   background-color: white;
   display: flex;
   flex-flow: row wrap;
@@ -15,10 +13,6 @@
   padding: 0.7em 1em;
   text-align: center;
   width: 100%;
-}
-
-#output-opacity {
-  position: relative;
 }
 
 .index-graphs-container {
