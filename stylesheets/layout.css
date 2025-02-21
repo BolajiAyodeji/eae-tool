@@ -156,31 +156,9 @@ body {
   z-index: 0;
 }
 
-#output-preview {
-  box-sizing: border-box;
-}
-
-#output-preview .header {
-  line-height: 3em;
-}
-
-#canvas-output-select {
-  display: block;
-  padding: 0.7em 1em;
-  width: 20em;
-  margin: auto;
-  margin-bottom: 1em;
-}
-
 canvas#output {
   max-height: 300px;
   max-width: 100%;
-}
-
-#canvas-output-select {
-  border: none;
-  font-size: 1em;
-  background-color: white;
 }
 
 #timeline-graphs {

@@ -135,6 +135,7 @@ build-a:
 		${SRC}/points-loading.js \
 		${SRC}/ds.js \
 		${SRC}/parse.js \
+		${SRC}/output-widget.js \
 		${SRC}/indexes.js \
 		${SRC}/filtered.js \
 		${SRC}/mapbox.js \
@@ -144,7 +145,6 @@ build-a:
 		${SRC}/summary.js \
 		${SRC}/timeline.js \
 		${SRC}/user.js \
-		${SRC}/views.js \
 		${SRC}/help.js \
 		${SRC}/a.js \
 		${SRC}/qa.js \

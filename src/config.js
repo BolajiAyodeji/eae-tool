@@ -82,7 +82,6 @@ export function generate() {
 		"zoom":      MAPBOX.getZoom(),
 		"center":    MAPBOX.getCenter(),
 		"theme":     EAE['settings'].mapbox_theme,
-		"view":      STATE.view,
 		"subdiv":    STATE.subdiv,
 		"divtier":   STATE.divtier,
 		"tab":       STATE.tab,

@@ -132,12 +132,6 @@ bubble-message .bubble-message-close-button::before {
   white-space: pre-line;
 }
 
-#output-preview {
-  background-color: white;
-  text-align: center;
-  border-top: solid 1px lightgray;
-}
-
 #share-link-modal p {
   max-width: 32em;
 }

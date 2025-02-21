@@ -7,10 +7,6 @@
     display: none;
   }
 
-  #output-preview {
-    display: none;
-  }
-
   #left-pane {
     min-width: unset;
     width: 100%;

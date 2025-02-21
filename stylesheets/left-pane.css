@@ -28,3 +28,15 @@
   box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.07);
   background-color: rgba(0, 0, 0, 0.07);
 }
+
+#output-widget {
+  flex: 1 0 300px;
+}
+
+#output-widget details {
+  border: 1px solid lightgray;
+}
+
+#output-widget details > * {
+  padding: 1em;
+}

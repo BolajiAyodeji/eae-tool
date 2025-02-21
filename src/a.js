@@ -16,6 +16,11 @@ import {
 } from './complicated.js';
 
 import {
+	init as output_widget_init,
+	indexes as indexes_list,
+} from './output-widget.js';
+
+import {
 	recount as controls_recount,
 } from './controls.js';
 
@@ -64,12 +69,6 @@ import {
 } from './config.js';
 
 import {
-	buttons as views_buttons,
-	init as views_init,
-	right_pane as views_right_pane,
-} from './views.js';
-
-import {
 	init as mapbox_init,
 } from './mapbox.js';
 
@@ -80,7 +79,6 @@ import {
 
 import {
 	init as indexes_init,
-	list as indexes_list,
 } from './indexes.js';
 
 import {
@@ -266,8 +264,6 @@ async function init_1() {
 		"select": ['*', 'parent_sort_branches', 'parent_sort_subbranches', 'parent_sort_datasets'],
 	}, { "one": true });
 
-	views_init();
-
 	MOBILE = screen.width < 1152;
 
 	GEOGRAPHY.timeline = maybe(GEOGRAPHY, 'configuration', 'timeline');
@@ -288,6 +284,8 @@ On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple t
 	mapbox_init();
 
 	if (MOBILE) mobile();
+
+	document.body.append(ce('canvas', null, { "id": "output" }));
 
 	return conf;
 };
@@ -408,7 +406,10 @@ async function init_3() {
 };
 
 async function init_4() {
-	left_panel("controls");
+	left_panel("cards");
+
+	output_widget_init();
+
 	qs('#left-pane').style.display = '';
 	qs('#left-pane input[id="controls-search"]').focus();
 
@@ -437,9 +438,8 @@ async function reload(k,v) {
 		geographiessearch_load(STATE.divtier, STATE.subdiv);
 
 	const timeline = qs('#timeline');
-	const output_preview = qs('#output-preview');
 
-	const {view, index} = STATE;
+	const {index} = STATE;
 
 	(function special_layers() {
 		if (!MAPBOX.getSource('output-source')) {
@@ -538,16 +538,18 @@ async function reload(k,v) {
 		const x = STATE.variant !== "raster";
 
 		GEOGRAPHY.divisions.forEach((d,i) => {
-			const t = STATE.variant;
+			if (MAPBOX.getLayer(`priority-layer-${i}`)) {
+				const t = x && (STATE.variant === i);
 
-			if (MAPBOX.getLayer(`priority-layer-${i}`))
-				MAPBOX.setLayoutProperty(`priority-layer-${i}`, 'visibility', x && (t === i) ? "visible" : "none");
+				MAPBOX.setLayoutProperty(`priority-layer-${i}`, 'visibility', t ? "visible" : "none");
+				if (t) MAPBOX.moveLayer(`priority-layer-${i}`, MAPBOX.first_symbol);
+			}
 		});
 	};
 
-	function datasets_visibility(v) {
-		return Promise.all(STATE.datasets.map(x => x.active(true, v)));
-	};
+	await (function datasets_visibility() {
+		return Promise.all(STATE.datasets.map(x => x.active(true, true)));
+	})();
 
 	if (k === "datasets") {
 		controls_recount();
@@ -560,69 +562,14 @@ async function reload(k,v) {
 			priority(GEOGRAPHY.divisions[t], a, t);
 	}
 
-	switch (view) {
-	case "analysis": {
-		indexes_list();
+	indexes_list();
 
-		await datasets_visibility(false);
+	if (timeline) timeline_lines_update();
 
-		if (timeline) timeline.style.display = 'none';
+	filtered_visibility('none');
+	filtered_valued_polygons();
 
-		filtered_visibility('none');
-
-		output_visibility(STATE.variant === 'raster' ? 'visible' : 'none');
-
-		priority_visibility_pick();
-
-		views_right_pane();
-
-		output_preview.style.display = 'none';
-
-		break;
-	}
-
-	case "data": {
-		filtered_visibility('none');
-
-		output_visibility('none');
-
-		priority_visibility_pick();
-
-		output_preview.style.display = '';
-
-		views_right_pane();
-
-		await datasets_visibility(true);
-
-		if (timeline) timeline_lines_update();
-
-		break;
-	}
-
-	case "filtered": {
-		if (timeline) timeline.style.display = 'none';
-
-		await datasets_visibility(false);
-
-		filtered_visibility('visible');
-
-		output_visibility('none');
-
-		priority_visibility_pick();
-
-		filtered_valued_polygons();
-
-		output_preview.style.display = '';
-
-		views_right_pane();
-
-		break;
-	}
-
-	default: {
-		throw new Error(`Invalid view '${view}'`);
-	}
-	}
+	priority_visibility_pick();
 
 	if (k === "datasets") {
 		cards_update();
@@ -637,14 +584,20 @@ async function reload(k,v) {
 		});
 	}
 
-	views_buttons(view);
+	if (k === "output") {
+		output_visibility(STATE.variant === 'raster' ? 'visible' : 'none');
+		MAPBOX.moveLayer('output-layer', MAPBOX.first_symbol);
+	}
+
+	if (k === "no-output") {
+		output_visibility('none');
+	}
 
 	timeline_visibility();
 };
 
 export function clean() {
 	STATE.index = 'eai';
-	STATE.view = 'data';
 
 	STATE.datasets.forEach(d => d.active(false, false));
 
@@ -712,10 +665,6 @@ function mobile() {
 			for (let e of ['#right-pane'])
 				qs(e).style.display = '';
 
-			STATE.view = v;
-
-			views_right_pane();
-
 			break;
 		}
 
@@ -780,6 +729,26 @@ export function left_panel(t) {
 	if (tl) tl.dispatchEvent(rs);
 };
 
+export function right_panel(t) {
+	for (let m of qsa('bubble-message')) m.remove();
+
+	for (let e of qsa('#right-pane > div'))
+		e.style.display = t ? '' : 'none';
+
+	for (let e of qsa('#right-pane'))
+		e.style.width = t ? '' : '0';
+
+	const l = qs('#left-pane');
+	if (t) l.setAttribute('open', '');
+	else l.removeAttribute('open');
+
+	const rs = new Event('resize');
+	window.dispatchEvent(rs);
+
+	const tl = qs('#timeline');
+	if (tl) tl.dispatchEvent(rs);
+};
+
 function drawer_init() {
 	const as = qsa('#drawer a');
 
@@ -787,8 +756,7 @@ function drawer_init() {
 
 	for (let a of as) {
 		a.onclick = function() {
-			if (!this.classList.contains('active'))
-				STATE.tab = this.getAttribute('for');
+			left_panel(this.classList.contains('active') ? null : (STATE.tab = this.getAttribute('for')));
 		};
 
 		a.onmouseenter = function() {
@@ -852,3 +820,5 @@ function timeline_visibility() {
 
 	timeline.style.display = v;
 };
+
+window.right_panel = right_panel;

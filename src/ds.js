@@ -753,7 +753,7 @@ This is not fatal but the dataset is now disabled.`,
 	turn(v) {
 		v = v ?? !this.on;
 
-		this.active(v, ['data', 'timeline'].includes(STATE.view));
+		this.active(v, true);
 
 		let copy = [...STATE.datasets];
 

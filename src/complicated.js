@@ -159,8 +159,6 @@ export async function analysis_to_dataset(t) {
 
 	await d.active(true, true);
 
-	STATE.view = 'data';
-
 	await until(_ => d.card);
 
 	qs('#cards #cards-list').prepend(d.card);

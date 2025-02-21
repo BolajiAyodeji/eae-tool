@@ -33,19 +33,55 @@
 
     <div id="playground">
       <div id="drawer">
-        <a for="controls" description="Add Layers"><i class="bi bi-plus-lg"></i></a>
         <a for="cards" description="Active Layers"><i class="bi bi-list-task"></i></a>
+        <a for="controls" description="Add Layers"><i class="bi bi-plus-lg"></i></a>
+        <a for="geographies" description="Change Geographies"><i class="bi bi-globe"></i></a>
         <a for="vectors" description="Search Features"><i class="bi bi-search"></i></a>
         <a for="analysis" description="Top Locations"><i class="bi bi-bar-chart"></i></a>
         <a for="locations" description="Search POI's"><i class="bi bi-geo"></i></a>
-        <a for="geographies" description="Change Geographies"><i class="bi bi-globe"></i></a>
         <a for="points" description="Points Loading"><i class="bi bi-crosshair"></i></a>
         <a for="config" description="Up/Download Configuration"><i class="bi bi-braces"></i></a>
       </div>
 
       <div id="left-pane" style="display: none;">
         <div id="cards" class="search-panel">
+          <div id="output-widget" class="search-results">
+            <div style="display: flex;">
+              <div>
+                Analysis Area
+                <select id="output-variant-select">
+                  <option value="raster">Raster Analysis</option>
+                </select>
+              </div>
+
+              <div>
+                Prioritisation Index <span id="index-info"></span>
+                <select id="index-select"></select>
+              </div>
+            </div>
+
+            <details open>
+              <summary>Map display settings</summary>
+
+              <div>
+                <input id="output-on-map"
+                       type="checkbox" checked>
+                <label for="output-on-map">Show analysis on the map</label>
+              </div>
+
+              <div id="output-opacity">
+                <p><strong>Opacity</strong></p>
+
+                <input id="output-opacity-input"
+                       type="number" min="0" max="100" step="10">
+              </div>
+            </details>
+
+            <div id="output-ramp"></div>
+          </div>
+
           <div id="cards-clear-buttons"></div>
+
           <div id="cards-list" class="search-results"></div>
         </div>
 
@@ -132,7 +168,6 @@
       <div id="visual">
         <div id="maparea">
           <div id="mapbox-container"></div>
-          <div id="views"></div>
           <!-- timeline will go here -->
         </div>
       </div>
@@ -153,11 +188,6 @@
           </button>
         </div>
 
-        <div id="filtered-pane" style="display: none;">
-          <div class="up-title">Considered geographies</div>
-          <div id="filtered-subgeographies"></div>
-        </div>
-
         <div id="indexes-pane">
           <div id="index-graphs">
             <div id="index-graphs-title" class="up-title"></div>
@@ -165,20 +195,19 @@
           </div>
 
           <div id="index-layer-toolbox"></div>
-
-          <table id="indexes-list"></table>
-
-          <select id="output-variant-select">
-            <option value="raster">Raster Analysis</option>
-          </select>
         </div>
 
-        <div id="output-preview">
-          <select id="canvas-output-select"></select>
-          <canvas id="output"></canvas>
+        <div id="filtered-pane" style="display: none;">
+          <div class="up-title">Considered geographies</div>
+          <div id="filtered-subgeographies"></div>
         </div>
 
         <div id="drawer-right-pane">
+          <div id="tiff-download"
+               title="Download TIFF image of the current analysis">
+            Export
+          </div>
+
           <div id="drawer-help">
             Help
           </div>

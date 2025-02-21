@@ -29,7 +29,6 @@ const batches = {
 			"target": 'body',
 			"run":    function() {
 				STATE.index = 'eai';
-				STATE.view = 'data';
 
 				STATE.datasets.forEach(d => d.active(false, false));
 

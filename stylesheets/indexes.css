@@ -4,59 +4,6 @@
   fill: var(--the-color);
 }
 
-#indexes-list {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  background-color: var(--the-white);
-  border-top: 1px solid lightgray;
-}
-
-#indexes-list .element {
-  background-color: var(--the-white);
-  cursor: pointer;
-}
-
-#indexes-list .element[disabled] {
-  color: #ababab;
-}
-
-#indexes-list .element td {
-  line-height: 2.9em;
-  min-width: 1.5em;
-}
-
-#indexes-list .element span {
-  vertical-align: middle;
-}
-
-#indexes-list .element span.name {
-  margin-left: 0.5em;
-}
-
-#indexes-list .element[disabled] span.name:after {
-  content: '(not enough datasets)';
-  font-size: 9px;
-  float: right;
-  margin-right: 10px;
-}
-
-#indexes-list .element span.radio svg {
-  margin-bottom: -0.3em;
-}
-
-#indexes-list .element .radio {
-  margin-left: 10px;
-}
-
-#indexes-list .element[bind="demand"] span.radio:before,
-#indexes-list .element[bind="supply"] span.radio:before {
-  content: ' ';
-  border-right: solid 1px #d9d9d9;
-  margin: 0 0.9em 0 0.6em;
-}
-
 #index-graphs {
   background-color: white;
   display: flex;
@@ -70,19 +17,8 @@
   width: 100%;
 }
 
-#index-graphs-opacity {
+#output-opacity {
   position: relative;
-}
-
-#output-variant-select {
-  border: none;
-  font-size: 1em;
-  background: none;
-  padding: 0.7em 1em;
-  border-top: solid 1px lightgray;
-  border-bottom: solid 1px lightgray;
-  color: var(--the-color);
-  width: 100%;
 }
 
 .index-graphs-container {
@@ -116,28 +52,6 @@
   text-align: center;
   max-width: 40%;
   min-height: 3em;
-}
-
-#index-layer-toolbox {
-  display: flex;
-  justify-content: space-around;
-  border-top: 1px solid lightgray;
-}
-
-#index-layer-toolbox a {
-  display: block;
-  cursor: pointer;
-  color: var(--the-color);
-  padding: 1em 1.2em;
-}
-
-#index-layer-toolbox a:hover {
-  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 5%);
-  background-color: rgba(0, 0, 0, 0.07);
-}
-
-#index-layer-toolbox a i {
-  font-size: 1.4em;
 }
 
 #big-buttons {
