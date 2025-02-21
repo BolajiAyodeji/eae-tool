@@ -44,12 +44,10 @@ function toggle() {
 function opacity() {
 	const container = qs('#output-opacity');
 
-	let v = init ?? 1;
-
 	function paint(x) {
 		if (!MAPBOX.getLayer('output-layer')) return;
 
-		MAPBOX.setPaintProperty('output-layer', 'raster-opacity', v = x);
+		MAPBOX.setPaintProperty('output-layer', 'raster-opacity', x);
 	};
 
 	const input = qs('#output-opacity-input');
@@ -63,8 +61,6 @@ function opacity() {
 			input.value = Math.round(x * 100);
 		},
 	});
-
-	console.log(v);
 
 	input.onchange = _ => control.change({ "min": 0, "max": +((input.value / 100).toFixed(2)) });
 
