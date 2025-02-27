@@ -152,3 +152,16 @@ export function updated_plot(type, index) {
 	qs('#index-graphs-title').innerText = index['name'];
 	qs('#index-graphs-description').innerText = index['description'];
 };
+
+export function toggle(t) {
+	for (let m of qsa('bubble-message')) m.remove();
+
+	for (let e of qsa('#right-panel'))
+		e.style.width = t ? '' : '0';
+
+	const rs = new Event('resize');
+	window.dispatchEvent(rs);
+
+	const tl = qs('#timeline');
+	if (tl) tl.dispatchEvent(rs);
+};

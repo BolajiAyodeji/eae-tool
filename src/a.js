@@ -97,6 +97,10 @@ import {
 	sort as mapbox_sort,
 } from './mapbox.js';
 
+import {
+	init as right_panel_init,
+} from './right-panel.js';
+
 import DS from './ds.js';
 
 import admintiers from './admin-tiers.js';
@@ -409,6 +413,7 @@ async function init_4() {
 	left_panel("cards");
 
 	output_widget_init();
+	right_panel_init();
 
 	qs('#left-panel').style.display = '';
 	qs('#left-panel input[id="controls-search"]').focus();
@@ -729,26 +734,6 @@ export function left_panel(t) {
 	if (tl) tl.dispatchEvent(rs);
 };
 
-export function right_panel(t) {
-	for (let m of qsa('bubble-message')) m.remove();
-
-	for (let e of qsa('#right-panel > div'))
-		e.style.display = t ? '' : 'none';
-
-	for (let e of qsa('#right-panel'))
-		e.style.width = t ? '' : '0';
-
-	const l = qs('#left-panel');
-	if (t) l.setAttribute('open', '');
-	else l.removeAttribute('open');
-
-	const rs = new Event('resize');
-	window.dispatchEvent(rs);
-
-	const tl = qs('#timeline');
-	if (tl) tl.dispatchEvent(rs);
-};
-
 function drawer_init() {
 	const as = qsa('#drawer a');
 
@@ -820,5 +805,3 @@ function timeline_visibility() {
 
 	timeline.style.display = v;
 };
-
-window.right_panel = right_panel;
