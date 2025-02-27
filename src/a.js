@@ -82,10 +82,6 @@ import {
 } from './indexes.js';
 
 import {
-	init as help_init,
-} from './help.js';
-
-import {
 	init as timeline_init,
 } from './timeline.js';
 
@@ -405,7 +401,6 @@ async function init_3() {
 	points_init();
 	config_init();
 	timeline_init();
-	help_init();
 	qa_run();
 };
 
