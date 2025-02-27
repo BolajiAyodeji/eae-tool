@@ -70,17 +70,6 @@ export function init() {
 
 	const user_id = user_extract('id');
 
-	const r = tmpl('#ramp');
-
-	qs('.ramp', r).append(
-		ce('div', "Low"),
-		ce('div', "Medium"),
-		ce('div', "High"),
-	);
-
-	const scale = ce('div', null, { "class": 'index-graphs-scale' });
-	scale.append(analysis_colorscale.svg.cloneNode(true), r);
-
 	const snap = qs('#save-snapshot-button');
 	snap.onclick = _ => {
 		if (snapshot())
@@ -117,13 +106,6 @@ export function init() {
 		const type = STATE.index;
 		fake_blob_download((await analysis(type)).tiff, `energyaccessexplorer-${type}.tif`);
 	};
-
-	const graphs = tmpl('#index-graphs-container-template');
-
-	qs('.index-graphs-group #area-number', graphs).parentElement.append(PIES['area'].svg);
-	qs('.index-graphs-group #population-number', graphs).parentElement.append(PIES['population'].svg);
-
-	qs('#index-graphs').append(graphs, scale);
 };
 
 function share_url() {

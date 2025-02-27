@@ -652,14 +652,14 @@ function mobile() {
 			for (let e of ['#left-panel'])
 				qs(e).style.display = '';
 
-			for (let e of ['#right-panel', '#views'])
+			for (let e of ['#right-panel'])
 				qs(e).style.display = 'none';
 
 			break;
 		}
 
 		case 'outputs': {
-			for (let e of ['#left-panel', '#views'])
+			for (let e of ['#left-panel'])
 				qs(e).style.display = 'none';
 
 			for (let e of ['#right-panel'])
@@ -670,10 +670,10 @@ function mobile() {
 
 		case 'map':
 		default: {
-			for (let e of ['#right-panel', '#views'])
+			for (let e of ['#right-panel'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#left-panel', '#views'])
+			for (let e of ['#left-panel'])
 				qs(e).style.display = '';
 
 			break;

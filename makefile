@@ -180,7 +180,6 @@ build-a:
 		${CSS}/controls.css \
 		${CSS}/maparea.css \
 		${CSS}/right-panel.css \
-		${CSS}/views.css \
 		${CSS}/filtered.css \
 		${CSS}/ripple.css \
 		${CSS}/buttons.css \
@@ -219,7 +218,6 @@ build-s:
 		${CSS}/general.css \
 		${CSS}/s.css \
 		${CSS}/maparea.css \
-		${CSS}/views.css \
 		${CSS}/ripple.css \
 		${CSS}/mobile.css \
 		> ${DIST}/s/main.css

@@ -1,9 +1,10 @@
-#index-graphs {
-  background-color: var(--the-white);
+#right-panel > div {
+  background-color: white;
   color: var(--the-color);
   fill: var(--the-color);
+}
 
-  background-color: white;
+#index-graphs {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
@@ -74,4 +75,22 @@
 
 #save-snapshot-button i, #share-snapshot-button i {
   margin-right: 1em;
+}
+
+#drawer-right-panel {
+  border-top: 1px solid lightgray;
+  width: inherit;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  background-color: #F8F8F8;
+}
+
+#drawer-right-panel > div {
+  display: block;
+  width: 100%;
+  text-align: center;
+  border-right: 1px solid lightgray;
+  cursor: pointer;
+  padding: 1em;
 }

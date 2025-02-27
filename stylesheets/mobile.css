@@ -56,14 +56,6 @@
     background-color: #dedede;
   }
 
-  #views {
-    width: 100%;
-    position: fixed;
-    top: unset;
-    bottom: 0;
-    margin: auto;
-  }
-
   #mapbox-container {
     position: relative;
   }
