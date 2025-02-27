@@ -1,7 +1,13 @@
+#right-panel > span,
 #right-panel > div {
   background-color: white;
   color: var(--the-color);
   fill: var(--the-color);
+  padding: 1em;
+}
+
+#right-panel[closed] > div {
+  display: none;
 }
 
 #index-graphs {
@@ -84,6 +90,7 @@
   display: flex;
   justify-content: space-around;
   background-color: #F8F8F8;
+  padding: 0 !important;
 }
 
 #drawer-right-panel > div {

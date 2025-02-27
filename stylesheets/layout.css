@@ -3,6 +3,8 @@ body {
 }
 
 #playground {
+  position: relative;
+
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -44,6 +46,10 @@ body {
 }
 
 #right-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
   display: flex;
   flex-flow: column nowrap;
   width: 24em;

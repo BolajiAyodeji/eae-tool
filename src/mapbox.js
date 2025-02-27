@@ -119,7 +119,7 @@ export function init() {
 		"style":                 theme_pick(""),
 	});
 
-	MAPBOX.addControl(new mapboxgl.NavigationControl({ "showCompass": false }));
+	MAPBOX.addControl(new mapboxgl.NavigationControl({ "showCompass": false }), 'top-left');
 
 	MAPBOX.zoomTo(MAPBOX.getZoom() * 0.95, {"duration": 0});
 	MAPBOX.doubleClickZoom.disable();
@@ -128,9 +128,9 @@ export function init() {
 
 	MAPBOX.on('click', click);
 
-	MAPBOX.addControl((new MapboxThemeControl()), 'top-right');
-	MAPBOX.addControl((new MapboxProjectionControl()), 'top-right');
-	MAPBOX.addControl((new MapboxInfoControl()), 'top-right');
+	MAPBOX.addControl((new MapboxThemeControl()), 'top-left');
+	MAPBOX.addControl((new MapboxProjectionControl()), 'top-left');
+	MAPBOX.addControl((new MapboxInfoControl()), 'top-left');
 
 	MAPBOX.coords = fit(GEOGRAPHY.envelope);
 	MAPBOX.setStyle(theme_pick(EAE['settings'].mapbox_theme));
@@ -169,7 +169,7 @@ function projection_control_popup(_) {
 	x.style = `
 position: absolute;
 top: 120px;
-right: 10px;
+left: 10px;
 background-color: white;
 box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 border-radius: 4px;
@@ -212,7 +212,7 @@ function theme_control_popup(_) {
 	x.style = `
 position: absolute;
 top: 120px;
-right: 10px;
+left: 10px;
 background-color: white;
 box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 border-radius: 4px;

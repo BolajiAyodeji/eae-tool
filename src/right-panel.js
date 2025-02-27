@@ -106,6 +106,9 @@ export function init() {
 		const type = STATE.index;
 		fake_blob_download((await analysis(type)).tiff, `energyaccessexplorer-${type}.tif`);
 	};
+
+	const collapse = qs('#right-panel-collapse');
+	collapse.onclick = toggle.bind(qs('#right-panel'));
 };
 
 function share_url() {
@@ -153,15 +156,14 @@ export function updated_plot(type, index) {
 	qs('#index-graphs-description').innerText = index['description'];
 };
 
-export function toggle(t) {
-	for (let m of qsa('bubble-message')) m.remove();
+function toggle() {
+	const caret = this.querySelector('#right-panel-collapse span');
 
-	for (let e of qsa('#right-panel'))
-		e.style.width = t ? '' : '0';
-
-	const rs = new Event('resize');
-	window.dispatchEvent(rs);
-
-	const tl = qs('#timeline');
-	if (tl) tl.dispatchEvent(rs);
+	if (this.getAttribute('closed') === '') {
+		this.removeAttribute('closed');
+		caret.className = 'bi-caret-up-fill';
+	} else {
+		this.setAttribute('closed', '');
+		caret.className = 'bi-caret-down-fill';
+	}
 };
