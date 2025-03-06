@@ -27,7 +27,7 @@ export function load_datasets(array) {
 
 		if (typeof d.weight === 'number') ds.weight = d.weight;
 
-		return ds.active(true, true);
+		return ds.active(true, false);
 	}));
 };
 
