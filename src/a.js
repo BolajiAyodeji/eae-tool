@@ -93,6 +93,7 @@ import {
 
 import {
 	sort as mapbox_sort,
+	fit as mapbox_fit,
 } from './mapbox.js';
 
 import DS from './ds.js';
@@ -236,6 +237,8 @@ async function init_1() {
 
 	const s = url.searchParams.get('snapshot');
 	if (s) {
+		loading("Fetching snapshot...");
+
 		sessionStorage.removeItem('config');
 
 		conf = await API.get('rpc/snapshot', { "_time": s }, { "one": true })
@@ -256,6 +259,8 @@ async function init_1() {
 
 	drawer_init();
 	cards_init();
+
+	loading("Fetching geography...");
 
 	GEOGRAPHY = await API.get("geographies", {
 		"id":     `eq.${id}`,
@@ -281,6 +286,8 @@ If the layout feels cramped, try zooming out to ${Math.round(1/window.devicePixe
 On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple times.
 `);
 
+	loading("Inialising mapbox...");
+
 	mapbox_init();
 
 	if (MOBILE) mobile();
@@ -294,6 +301,8 @@ async function init_2(conf) {
 	const divisions = maybe(GEOGRAPHY.configuration, 'divisions').filter(d => d.dataset_id !== null);
 
 	GEOGRAPHY.divisions = [];
+
+	loading("Fetching datasets...");
 
 	const ALL = await API.get("datasets", {
 		"geography_id": `eq.${GEOGRAPHY.id}`,
@@ -323,6 +332,8 @@ This is fatal. Thanks for all the fish.`;
 	})();
 
 	await (function fetch_divisions() {
+		loading("Fetching divisions...");
+
 		const divisions_ids = divisions.slice(1).map(d => d.dataset_id);
 
 		return Promise.all(
@@ -342,6 +353,8 @@ This is fatal. Thanks for all the fish.`;
 	(async function fetch_admintiers() {
 		let o = ALL.find(x => x.category.name === 'admin-tiers');
 
+		loading("Fetching admintrative tiers...");
+
 		if (!o) {
 			const pid = maybe(
 				await API.get(
@@ -360,6 +373,8 @@ This is fatal. Thanks for all the fish.`;
 
 		admintiers(o);
 	})();
+
+	loading("Setting up datasets...");
 
 	GEOGRAPHY.divisions = divisions
 		.map(d => DS.array.find(t => t.dataset_id === d.dataset_id))
@@ -390,6 +405,8 @@ This is fatal. Thanks for all the fish.`;
 };
 
 async function init_3() {
+	loading("Setting up UI elements...");
+
 	indexes_init();
 	controlssearch_init();
 	geographiessearch_init();
@@ -407,9 +424,12 @@ async function init_4() {
 	qs('#left-pane').style.display = '';
 	qs('#left-pane input[id="controls-search"]').focus();
 
-	loading(false);
+	qs('#right-pane').style.display = '';
 
 	COMMIT("datasets");
+	delay(0.3).then(_ => mapbox_fit(GEOGRAPHY.envelope));
+
+	loading(false);
 };
 
 async function reload(k,v) {
