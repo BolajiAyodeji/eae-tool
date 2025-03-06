@@ -393,8 +393,12 @@ export function elem_collapse(el, t, open) {
 	}
 };
 
-export function loading(bool) {
-	qs('#app-loading').style['display'] = bool ? 'block' : 'none';
+export function loading(msg, perc) {
+	const el = qs('#app-loading');
+	el.style['display'] = msg ? 'block' : 'none';
+	qs('#loading-message', el).innerText = (typeof msg === 'string') ? msg : "Loading...";
+
+	if (perc) console.log("perc?", perc);
 };
 
 export function super_error(t, m, e = "error") {
