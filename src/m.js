@@ -175,7 +175,7 @@ function draw_snapshots(snapshots, geographies, container, trees) {
 	for (const p of document.querySelectorAll('.bi.bi-pencil'))
 		p.onclick = function() { edit_title.call(this, snapshots); };
 
-	for (const p of document.querySelectorAll('.bi.bi-x-lg'))
+	for (const p of document.querySelectorAll('.bi.bi-trash3'))
 		p.onclick = function() { drop.call(this, snapshots); };
 
 	for (const p of document.querySelectorAll('.download'))
