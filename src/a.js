@@ -73,10 +73,6 @@ import {
 } from './cards.js';
 
 import {
-	init as indexes_init,
-} from './indexes.js';
-
-import {
 	init as timeline_init,
 } from './timeline.js';
 
@@ -404,7 +400,7 @@ This is fatal. Thanks for all the fish.`;
 async function init_3() {
 	loading("Setting up UI elements...");
 
-	indexes_init();
+	right_panel_init();
 	controlssearch_init();
 	geographiessearch_init();
 	vectorssearch_init();
@@ -419,12 +415,11 @@ async function init_4() {
 	left_panel("cards");
 
 	output_widget_init();
-	right_panel_init();
 
 	qs('#left-panel').style.display = '';
 	qs('#left-panel input[id="controls-search"]').focus();
 
-	qs('#right-pane').style.display = '';
+	qs('#right-panel').style.display = '';
 
 	COMMIT("datasets");
 	delay(0.3).then(_ => mapbox_fit(GEOGRAPHY.envelope));

@@ -11,7 +11,7 @@ import {
 import {
 	graphs as indexes_graphs,
 	updated_plot as indexes_updated_plot,
-} from './indexes.js';
+} from './right-panel.js';
 
 const filter_types = ["key-delta", "exclusion-buffer", "inclusion-buffer"];
 
