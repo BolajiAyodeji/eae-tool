@@ -291,7 +291,7 @@ On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple t
 };
 
 async function init_2(conf) {
-	let select = ["*", "datatype", "category:categories(*)"];
+	let select = ["*", "datatype:type", "category:categories(*)"];
 
 	const divisions = maybe(GEOGRAPHY.configuration, 'divisions').filter(d => d.dataset_id !== null);
 
