@@ -864,7 +864,7 @@ function timeline_visibility() {
 
 function load_datasets(array) {
 	return Promise.all(array.map(d => {
-		const ds = DS.array.find(t => t.name === d.id || t.id === d.id);
+		const ds = DS.array.find(t => t.id === d.name || t.name === d.id || t.id === d.id);
 
 		if (!ds) {
 			console.warn("config load: No such dataset on this geography:", d);
@@ -884,6 +884,6 @@ function load_datasets(array) {
 
 		if (typeof d.weight === 'number') ds.weight = d.weight;
 
-		return ds.active(true, false);
+		return ds.turn(true);
 	}));
 };

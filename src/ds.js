@@ -774,7 +774,7 @@ This is not fatal but the dataset is now disabled.`,
 		if (this.on) copy = [this, ...STATE.datasets];
 		else copy.splice(copy.indexOf(this), 1);
 
-		STATE.datasets = copy;
+		STATE.datasets = copy.filter(Boolean);
 
 		COMMIT("datasets");
 	};
