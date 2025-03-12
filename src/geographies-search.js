@@ -49,8 +49,7 @@ export async function load(x,y) {
 	if (!fs) return;
 
 	const geometry = fs.find(f => f['id'] === y);
-	if (geometry)
-		mapbox_fit(geojsonExtent(geometry), true);
+	if (geometry) mapbox_fit(geojsonExtent(geometry), true);
 
 	const d = GEOGRAPHY.divisions[x];
 	await d.load('vectors');
@@ -68,11 +67,11 @@ export async function init() {
 
 	resultscontainer = qs('#geographies .search-results');
 
-	input.oninput = function(_) {
+	input.oninput = function() {
 		trigger(this.value);
 	};
 
-	input.onfocus = function(_) {
+	input.onfocus = function() {
 		this.value = "";
 		trigger(this.value);
 	};
@@ -134,10 +133,12 @@ function tree($) {
 
 			else if (branch[i] === 1) {
 				const x = ce('div', divisions[j+1].csv.table[i]);
+
 				x.onclick = _ => {
 					STATE.divtier = j+1;
 					STATE.subdiv  = i;
 				};
+
 				d.append(x);
 			}
 
