@@ -394,7 +394,7 @@ This is fatal. Thanks for all the fish.`;
 	// We need all the datasets to be initialised _before_ setting
 	// mutant attributes (order is never guaranteed)
 	//
-	DS.array.filter(d => d.mutant).forEach(d => d.mutant_init());
+	DS.array.filter(d => d.hosts).forEach(d => d.mutant_init());
 
 	await load_datasets(conf.datasets);
 };
@@ -879,7 +879,7 @@ function load_datasets(array) {
 
 		ds.selection = d.selection;
 
-		if (and(maybe(d.selection, 0), ds.mutant))
+		if (and(maybe(d.selection, 0), ds.hosts))
 			ds.mutate(DST.get(d.selection[0]));
 
 		if (typeof d.weight === 'number') ds.weight = d.weight;

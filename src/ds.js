@@ -53,9 +53,7 @@ export default class DS {
 
 		this._layers = [];
 
-		let config = o.configuration || {};
-
-		this.config = config;
+		this.config = {};
 
 		this.analysis = this.category.analysis;
 
@@ -72,7 +70,15 @@ export default class DS {
 
 		this.metadata = o.metadata;
 
-		this.mutant = !!maybe(config.mutant_targets, 'length');
+		this.hosts = null;
+
+		if (o.mutant_configuration) {
+			this.config = o.mutant_configuration;
+			this.hosts = Object.assign([], o.mutant_configuration.hosts);
+		}
+		else if (o.vectors_configuration) {
+			this.config = o.vectors_configuration;
+		}
 
 		DST.set(this.id, this);
 
@@ -337,11 +343,11 @@ This is not fatal but the dataset is now disabled.`,
 	};
 
 	mutant_init() {
-		this.hosts = this.config.mutant_targets.map(i => {
-			const ds = DST.get(i);
+		for (const [i,h] of this.hosts.entries()) {
+			const ds = DST.get(h);
 
 			if (!ds) {
-				const msg = `'${this.id}' claims to have host '${i}'. No such DS '${i}.'`;
+				const msg = `'${this.id}' claims to have host '${h}'. No such DS.`;
 				FLASH.push({
 					"type":    'error',
 					"timeout": 10000,
@@ -353,10 +359,12 @@ This is not fatal but the dataset is now disabled.`,
 				});
 
 				this.disable(msg);
+
+				return;
 			}
 
-			return ds;
-		});
+			this.hosts[i] = ds;
+		}
 
 		const m = this.host = this.hosts.filter(Boolean)[0];
 
@@ -688,7 +696,7 @@ This is not fatal but the dataset is now disabled.`,
 
 		if (!this.card) this.card = new dscard(this);
 
-		if (this.mutant) this.mutate(this.host);
+		if (this.hosts) this.mutate(this.host);
 
 		if (this.controls) this.controls.turn(v);
 
@@ -709,8 +717,8 @@ This is not fatal but the dataset is now disabled.`,
 
 		this.loading = true;
 
-		if (this.mutant) {
-			await until(_ => maybe(this.hosts, 'length') === this.config.mutant_targets.length);
+		if (this.hosts) {
+			await until(_ => this.hosts.every(d => d instanceof DS));
 			return Promise.all(this.hosts.map(d => d.load(arg)));
 		}
 
