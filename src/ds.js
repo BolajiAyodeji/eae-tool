@@ -39,7 +39,7 @@ export default class DS {
 
 		this.category = o.category;
 
-		this.datatype = o.datatype;
+		this.type = o.type;
 
 		this.source_files = o.source_files;
 
@@ -219,7 +219,7 @@ This is not fatal but the dataset is now disabled.`,
 			delete this.controls;
 		}
 
-		switch (this.datatype) {
+		switch (this.type) {
 		case 'points-timeline':
 		case 'lines-timeline':
 		case 'polygons-timeline':
@@ -491,12 +491,12 @@ This is not fatal but the dataset is now disabled.`,
 
 		function colorstops_check() {
 			if (!maybe(this.category, 'colorstops', 'length')) {
-				console.warn(`${this.id}, (${this.datatype}), has no colorstops configured. Using default`);
+				console.warn(`${this.id}, (${this.type}), has no colorstops configured. Using default`);
 				this.category.colorstops = default_colorscale.stops;
 			}
 		};
 
-		switch (this.datatype) {
+		switch (this.type) {
 		case 'polygons-valued': {
 			if (this.csv.key) {
 				colorstops_check.call(this);
@@ -563,7 +563,7 @@ This is not fatal but the dataset is now disabled.`,
 
 			const datasets = this.summary.analysis.datasets.slice(0);
 			const averages = datasets
-				.filter(d => d.datatype === 'raster')
+				.filter(d => d.type === 'raster')
 				.map(d => ({
 					"ds":     d,
 					"raster": average(crop_to(d.raster, { "data": this.summary.analysis.raster, "nodata": -1 })),
@@ -582,7 +582,7 @@ This is not fatal but the dataset is now disabled.`,
 					this.summary.analysis.datasets
 						.filter(d => d.analysis.index === k)
 						.forEach(d => {
-							switch (d.datatype) {
+							switch (d.type) {
 							case 'raster-timeline':
 							case 'raster': {
 								const f = averages.find(a => a.ds === d);
@@ -626,7 +626,7 @@ This is not fatal but the dataset is now disabled.`,
 
 		const features = this.vectors.geojson.features;
 
-		const points = this.datatype.match(/points/);
+		const points = this.type.match(/points/);
 
 		const rows = features.map(f => {
 			const columns = [];
@@ -731,7 +731,7 @@ This is not fatal but the dataset is now disabled.`,
 	opacity(v) {
 		let t = [];
 
-		switch (this.datatype) {
+		switch (this.type) {
 		case 'points': {
 			t = ['circle-opacity', 'circle-stroke-opacity'];
 			break;
@@ -763,7 +763,7 @@ This is not fatal but the dataset is now disabled.`,
 		}
 
 		default: {
-			console.warn("ds.opacity: undecided datatype", this.id, this.datatype);
+			console.warn("ds.opacity: undecided type", this.id, this.type);
 			break;
 		}
 		}

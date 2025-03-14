@@ -291,7 +291,7 @@ On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple t
 };
 
 async function init_2(conf) {
-	let select = ["*", "datatype:type", "category:categories(*)"];
+	let select = ["*", "type", "category:categories(*)"];
 
 	const divisions = maybe(GEOGRAPHY.configuration, 'divisions').filter(d => d.dataset_id !== null);
 
@@ -638,10 +638,10 @@ async function reload(k,v) {
 		mapbox_sort();
 
 		STATE.datasets.forEach(async d => {
-			if (d.datatype.match(/raster-timeline/))
+			if (d.type.match(/raster-timeline/))
 				parse_raster_timeline.call(d);
 
-			else if (d.datatype.match(/(lines|points|polygons)-timeline/))
+			else if (d.type.match(/(lines|points|polygons)-timeline/))
 				parse_vectors_csv.call(d);
 		});
 	}
@@ -875,7 +875,7 @@ function load_datasets(array) {
 			if (typeof d.domain.min === 'number') ds._domain.min = d._domain?.min || d.domain.min;
 			if (typeof d.domain.max === 'number') ds._domain.max = d._domain?.max || d.domain.max;
 		} else
-			console.warn(`Could not initialise domain for '${ds.id}' - ${ds.datatype}.`);
+			console.warn(`Could not initialise domain for '${ds.id}' - ${ds.type}.`);
 
 		ds.selection = d.selection;
 
