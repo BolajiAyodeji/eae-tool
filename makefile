@@ -32,23 +32,25 @@ clean:
 	@ rm -rf ${LIB} ${DIST}
 
 build: deps build-a build-s build-m build-p
-	@ mustache /dev/null views/index.mustache > ${DIST}/index.html
+	@ mustache /tmp/empty.json views/index.mustache > ${DIST}/index.html
 	@ patch --dry-run -p1 <relative-paths.diff
 
 lint:
 	@ ${BIN}/lint ${SRC}
 
 deps:
-	@mkdir -p ${LIB}/fonts
+	@ mkdir -p ${LIB}/fonts
 	DEST=${LIB} ${BIN}/deps
 
-	sed -i 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
+	@ sed -i 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
+
+	@ echo '{}' >/tmp/empty.json
 
 build-m:
 	@ echo "Building my screen"
 	@ mkdir -p ${DIST}/m
 
-	@ mustache /dev/null ${VIEWS}/m.mustache > ${DIST}/m/index.html
+	@ mustache /tmp/empty.json ${VIEWS}/m.mustache > ${DIST}/m/index.html
 
 	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/m/index.html
 
@@ -80,7 +82,7 @@ build-p:
 	@ echo "Building snapshot screen"
 	@ mkdir -p ${DIST}/p
 
-	@ mustache /dev/null ${VIEWS}/p.mustache > ${DIST}/p/index.html
+	@ mustache /tmp/empty.json ${VIEWS}/p.mustache > ${DIST}/p/index.html
 
 	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/p/index.html
 
@@ -110,7 +112,7 @@ build-a:
 	@ echo "Building analysis screen"
 	@ mkdir -p ${DIST}/a
 
-	@ mustache /dev/null ${VIEWS}/a.mustache > ${DIST}/a/index.html
+	@ mustache /tmp/empty.json ${VIEWS}/a.mustache > ${DIST}/a/index.html
 
 	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/a/index.html
 
@@ -194,7 +196,7 @@ build-s:
 	@ echo "Building select screen"
 	@ mkdir -p ${DIST}/s
 
-	@ mustache /dev/null ${VIEWS}/s.mustache > ${DIST}/s/index.html
+	@ mustache /tmp/empty.json ${VIEWS}/s.mustache > ${DIST}/s/index.html
 
 	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/s/index.html
 
