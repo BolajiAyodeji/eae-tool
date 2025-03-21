@@ -244,7 +244,7 @@ async function init_1() {
 
 	conf = conf ?? {
 		"index":    "eai",
-		"view":     "analysis",
+		"view":     "data",
 		"variant":  "raster",
 		"tab":      "controls",
 		"datasets": [],
