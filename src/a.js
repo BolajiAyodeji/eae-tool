@@ -281,7 +281,7 @@ If the layout feels cramped, try zooming out to ${Math.round(1/window.devicePixe
 On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple times.
 `);
 
-	loading("Inialising mapbox...");
+	loading("Initialising mapbox...");
 
 	mapbox_init();
 
@@ -348,7 +348,7 @@ This is fatal. Thanks for all the fish.`;
 	(async function fetch_admintiers() {
 		let o = ALL.find(x => x.category.name === 'admin-tiers');
 
-		loading("Fetching admintrative tiers...");
+		loading("Fetching administrative tiers...");
 
 		if (!o) {
 			const pid = maybe(
