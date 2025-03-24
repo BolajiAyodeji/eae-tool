@@ -33,7 +33,6 @@ clean:
 
 build: deps build-a build-s build-m build-p
 	@ mustache /tmp/empty.json views/index.mustache > ${DIST}/index.html
-	@ patch --dry-run -p1 <relative-paths.diff
 
 lint:
 	@ ${BIN}/lint ${SRC}
