@@ -28,7 +28,7 @@ const slider_width = 472;
 async function mutant_options() {
 	const d = this.ds;
 
-	await until(_ => maybe(d.hosts, 'length') === d.config.mutant_targets.length);
+	await until(_ => d.hosts.every(x => x instanceof DS));
 
 	const container = ce('div', null, { "class": 'control-option' });
 	const select = ce('select');
@@ -308,7 +308,7 @@ function range_el() {
 		];
 	};
 
-	switch (ds.datatype) {
+	switch (ds.type) {
 	case 'points-timeline': {
 		e = points_symbol({
 			"size":        24,
@@ -437,7 +437,7 @@ function range_el() {
 	}
 
 	default: {
-		console.warn("dscard.range_el could not decide datatype.", ds.id);
+		console.warn("dscard.range_el could not decide type.", ds.id);
 		break;
 	}
 	}
@@ -535,7 +535,7 @@ export default class dscard extends HTMLElement {
 		if (this.ds.category.controls.weight)
 			this.weight_group = weight.call(this.ds);
 
-		if (this.ds.mutant) mutant_options.call(this);
+		if (this.ds.hosts) mutant_options.call(this);
 
 		attach.call(this, tmpl('#ds-card-template'));
 
@@ -572,7 +572,7 @@ export default class dscard extends HTMLElement {
 		const ul = ce('div', null, { "style": "font-size: smaller;" });
 
 		let f;
-		switch (this.ds.datatype) {
+		switch (this.ds.type) {
 		case "lines":
 			f = lines_legends_svg;
 			break;
