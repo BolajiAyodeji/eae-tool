@@ -5,7 +5,7 @@ import {
 import modal from '../lib/modal.js';
 
 import {
-	analysis_colorscale,
+	analysis_colorscale_svg,
 } from './analysis.js';
 
 import {
@@ -76,7 +76,7 @@ function ramp() {
 		ce('div', "High"),
 	);
 
-	qs('#output-ramp').append(analysis_colorscale.svg, r);
+	qs('#output-ramp').append(analysis_colorscale_svg, r);
 };
 
 function index_info() {

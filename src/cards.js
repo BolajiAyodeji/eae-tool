@@ -221,9 +221,11 @@ function range() {
 	}
 
 	const s = svg_interval({
-		"background":   ds.colorscale?.svg.querySelector('g').cloneNode(true),
+		"colors":       ds.colorscale?.stops,
 		"sliders":      ds.category.controls.range,
 		"width":        slider_width,
+		"radius":       12,
+		"height":       10,
 		"init":         {
 			"min": this.ds.fn(ds._domain.min),
 			"max": this.ds.fn(ds._domain.max),
@@ -262,6 +264,8 @@ function weight() {
 		"init":         { "min": 0, "max": weights[this.weight-1] },
 		"steps":        weights,
 		"width":        slider_width,
+		"height":       12,
+		"radius":       10,
 		"end_callback": v => {
 			this.weight = s.invert(v);
 			COMMIT("datasets");

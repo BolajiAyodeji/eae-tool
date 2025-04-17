@@ -12,10 +12,8 @@ export function uniform_split(n) {
 	return d3.range(0, 1.000000001, 1 / (n - 1));
 };
 
-export function colorscale(opts) {
+export function colorscale({intervals, stops, domain}) {
 	let s;
-
-	let { intervals, stops, domain, width } = opts;
 
 	if (maybe(intervals, 'length')) {
 		s = d3.scaleQuantile()
@@ -28,30 +26,6 @@ export function colorscale(opts) {
 			.range(stops)
 			.clamp(true);
 	}
-
-	function color_steps(steps, height) {
-		const h = height || 5;
-
-		const svg = d3.create("svg")
-			.attr('class', 'svg-interval');
-
-		const g = svg.append('g');
-
-		steps.forEach((v,i) => {
-			g.append('rect')
-				.attr('fill', v)
-				.attr('stroke', 'none')
-				.attr('x', `${(100/steps.length) * i}%`)
-				.attr('width', `${100/steps.length}%`)
-				.attr('height', h);
-		});
-
-		svg
-			.attr('width', width || "100%")
-			.attr('height', h);
-
-		return svg.node();
-	};
 
 	function rgba(str) {
 		let c;
@@ -80,8 +54,29 @@ export function colorscale(opts) {
 		"fn":        x => rgba(s(x)),
 		"stops":     stops,
 		"intervals": intervals || s.domain(),
-		"svg":       color_steps(stops),
 	};
+};
+
+export function colorscale_svg(stops, height = 16) {
+	const svg = d3.create("svg")
+		.attr('class', 'svg-interval');
+
+	const g = svg.append('g');
+
+	stops.forEach((v,i) => {
+		g.append('rect')
+			.attr('fill', v)
+			.attr('stroke', 'none')
+			.attr('x', `${(100/stops.length) * i}%`)
+			.attr('width', `${100/stops.length}%`)
+			.attr('height', "100%");
+	});
+
+	svg
+		.attr('width', "100%")
+		.attr('height', height);
+
+	return svg.node();
 };
 
 export function svg_pie(data, outer, inner, colors, inner_text, parse, bubble) {
@@ -156,40 +151,55 @@ export function svg_pie(data, outer, inner, colors, inner_text, parse, bubble) {
 	};
 };
 
-export function svg_interval(opts = {}) {
-	const {sliders, background, init, steps, width, callback1, callback2, end_callback} = opts;
-
-	const radius = 6;
+export function svg_interval({radius = 12, width = 256, height = 10, sliders, colors, init, steps, callback1, callback2, end_callback}) {
 	const svgwidth = width;
-	const svgheight = (radius * 2) + 2;
-	const svgmin = radius;
-	const svgmax = svgwidth - (radius/2) - 1;
+	const svgheight = Math.max((radius * 2) + 2, height + 2);
 
-	let norm = d3.scaleLinear().domain([svgmin, svgmax]).range([0,1]);
+	const xmin = radius + 1;
+	const xmax = svgwidth - radius;
+
+	let norm = d3.scaleLinear().domain([xmin, xmax]).range([0,1]);
 	let denorm = norm.invert;
 
 	if (steps) {
-		norm = d3.scaleQuantize().domain([svgmin, svgmax]).range(uniform_split(steps.length));
-		denorm = d3.scaleLinear().domain([0,1]).range([svgmin, svgmax]);
+		norm = d3.scaleQuantize().domain([xmin, xmax]).range(uniform_split(steps.length));
+		denorm = d3.scaleLinear().domain([0,1]).range([xmin, xmax]);
 	}
 
 	const svg = d3.create("svg")
 		.attr('class', 'svg-interval');
 
-	if (background) {
-		svg.node().append(background);
+	const g = svg.append('g');
 
-		svg.attr('class', 'svg-interval transparent');
+	if (colors?.length) {
+		const c = g.append('g')
+			.attr('id', 'colors');
 
-		d3.select(background)
-			.attr("transform", "translate(0,4)");
+		const x = d3.scaleLinear().domain([0,100]).range([xmin,xmax]);
+
+		colors.forEach((v,i) => {
+			c.append('rect')
+				.attr('fill', v)
+				.attr('stroke', 'none')
+				.attr('x', `${x((100/colors.length) * i)}`)
+				.attr('y', (svgheight - height) / 2)
+				.attr('width', `${(xmax - xmin)/colors.length}`)
+				.attr('height', height);
+		});
+	} else {
+		g.append('rect')
+			.attr('id', 'gutter')
+			.attr('stroke', 'none')
+			.attr('stroke-width', 0.1)
+			.attr('fill', 'lightgray')
+			.attr('x', xmin)
+			.attr('y', (svgheight - height) / 2)
+			.attr('width', xmax - xmin)
+			.attr('height', height);
 	}
 
-	const g = svg.append('g');
-	const ticks = g.append('g').attr('class', 'ticks');
-
-	const gutter = g.append('rect');
-	const marked = g.append('rect');
+	const marked = g.append('rect')
+		.attr('id', 'marked');
 
 	const marked_fill = getComputedStyle(document.body).getPropertyValue('--the-green');
 
@@ -197,37 +207,16 @@ export function svg_interval(opts = {}) {
 	const c2 = g.append('circle');
 
 	svg
-		.attr('width', svgwidth + 2)
-		.attr('height', svgheight + 2);
-
-	gutter
-		.attr('stroke', background ? 'none' : 'black')
-		.attr('stroke-width', 0.1)
-		.attr('fill', 'transparent')
-		.attr('x', 1)
-		.attr('y', (svgheight / 2) - 1)
-		.attr('rx', 0)
-		.attr('ry', 0)
-		.attr('width', svgwidth - 2)
-		.attr('height', 1);
-
-	ticks.selectAll('rect.tick')
-		.data(steps || []).enter()
-		.append('rect')
-		.attr('class', 'tick')
-		.attr('x', d => denorm(d))
-		.attr('y', radius - 2)
-		.attr('fill', background ? 'none' : 'lightgray')
-		.attr('stroke', background ? 'none' : 'black')
-		.attr('width', 0.5)
-		.attr('height', radius + 2);
+		.attr('width', svgwidth)
+		.attr('height', svgheight);
 
 	marked
-		.attr('fill', background ? "transparent" : marked_fill)
+		.attr('id', 'marked')
+		.attr('fill', colors ? "transparent" : marked_fill)
 		.attr('stroke', 'none')
 		.attr('x', 1)
-		.attr('y', (svgheight / 2) - 1.5)
-		.attr('height', 2);
+		.attr('y', (svgheight - height) / 2)
+		.attr('height', height);
 
 	c1
 		.attr('r', radius)
@@ -266,7 +255,7 @@ export function svg_interval(opts = {}) {
 		d3.drag()
 			.on('drag', _ => {
 				const c2x = c2.attr('cx');
-				const cx = x_position = Math.min(c2x, Math.max(d3.event.x, svgmin));
+				const cx = x_position = Math.min(c2x, Math.max(d3.event.x, xmin));
 
 				dragged(c1, cx, callback1);
 			})
@@ -281,7 +270,7 @@ export function svg_interval(opts = {}) {
 		d3.drag()
 			.on('drag', _ => {
 				const c1x = c1.attr('cx');
-				const cx = x_position = Math.max(c1x, Math.min(d3.event.x, svgmax));
+				const cx = x_position = Math.max(c1x, Math.min(d3.event.x, xmax));
 
 				dragged(c2, cx, callback2);
 			})
@@ -320,7 +309,6 @@ export function opacity_control({ fn, init }) {
 	let opacity_value = init ?? 1;
 
 	const grad = svg_interval({
-		"width":        256,
 		"init":         { "min": 0, "max": opacity_value },
 		"sliders":      'single',
 		"callback2":    x => opacity_value = x,

@@ -4,6 +4,7 @@ import bubblemessage from '../lib/bubblemessage.js';
 
 import analysis_run, {
 	analysis_colorscale,
+	analysis_colorscale_svg,
 } from './analysis.js';
 
 import {
@@ -47,7 +48,7 @@ async function summary() {
 	SUMMARY = {};
 
 	const scale = ce('div');
-	scale.append(analysis_colorscale.svg.cloneNode(true), r);
+	scale.append(analysis_colorscale_svg.cloneNode(true), r);
 
 	const bubble = (v,e) => new bubblemessage({ "message": v + "%", "position": "C", "close": false, "noevents": true }, e);
 

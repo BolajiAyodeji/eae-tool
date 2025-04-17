@@ -1,6 +1,7 @@
 import {
 	uniform_split,
 	colorscale,
+	colorscale_svg,
 	raster_pixel_to_coordinates,
 } from './utils.js';
 
@@ -21,6 +22,8 @@ export const analysis_colorscale = colorscale({
 	"stops":  uniform_split(5).map(x => d3.interpolateMagma(x)),
 	"domain": { "min": 0, "max": 1 },
 });
+
+export const analysis_colorscale_svg = colorscale_svg(analysis_colorscale.stops);
 
 export const lowmedhigh_scale = d3.scaleQuantize()
 	.domain([0,1])

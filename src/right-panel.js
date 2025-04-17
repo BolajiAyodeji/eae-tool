@@ -18,6 +18,7 @@ import {
 import {
 	analysis,
 	analysis_colorscale,
+	analysis_colorscale_svg,
 } from './analysis.js';
 
 import {
@@ -79,7 +80,7 @@ export function init() {
 	);
 
 	const scale = ce('div', null, { "class": 'index-graphs-scale' });
-	scale.append(analysis_colorscale.svg.cloneNode(true), r);
+	scale.append(analysis_colorscale_svg.cloneNode(true), r);
 
 	const snap = qs('#save-snapshot-button');
 	snap.onclick = _ => {

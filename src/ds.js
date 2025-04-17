@@ -1,5 +1,6 @@
 import {
 	colorscale,
+	colorscale_svg,
 	uniform_split,
 } from './utils.js';
 
@@ -30,6 +31,8 @@ export const default_colorscale = colorscale({
 	"stops":  d3.schemeRdBu[5].reverse(),
 	"domain": { "min": 0, "max": 1 },
 });
+
+export const default_colorscale_svg = colorscale_svg(default_colorscale.stops);
 
 export default class DS {
 	constructor(o) {
