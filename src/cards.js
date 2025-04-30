@@ -2,7 +2,6 @@ import DS from './ds.js';
 
 import {
 	svg_interval,
-	opacity_control,
 	uniform_split,
 	bi_icon,
 } from './utils.js';
@@ -465,7 +464,7 @@ export function init() {
 	sortable(cards_list, {
 		'items':                'ds-card',
 		'forcePlaceholderSize': true,
-		'placeholder':          '<div style="margin: 1px; background-color: rgba(0,0,0,0.3);"></div>',
+		'placeholder':          '<div style="margin: 1em;"></div>',
 	})[0]
 		.addEventListener('sortupdate', _ => {
 			sort(maybe(sortable(cards_list, 'serialize'), 0, 'items').map(c => c.node.ds));
@@ -547,6 +546,7 @@ export default class dscard extends HTMLElement {
 			'range':        range_el.call(this),
 			'info':         this.info(),
 			'opacity':      this.opacity(),
+			'visibility':   this.visibility(),
 			'close':        this.close(),
 			'weight':       maybe(this.weight_group, 'el'),
 			'ctrls':        maybe(this.weight_group, 'el') && this.ctrls(),
@@ -653,7 +653,7 @@ export default class dscard extends HTMLElement {
 
 	ctrls() {
 		const e = bi_icon('gear');
-		e.onclick = _ => qs('.advanced-controls', this).style.display = ((this.show_advanced = !this.show_advanced)) ? 'block' : 'none';
+		e.onclick = _ => qs('aside', this).style.display = ((this.show_advanced = !this.show_advanced)) ? 'block' : 'none';
 
 		return e;
 	}
@@ -668,14 +668,28 @@ export default class dscard extends HTMLElement {
 		return e;
 	};
 
+	visibility() {
+		const checkbox = ce('input', null, { "type": "checkbox" });
+
+		const ds = this.ds;
+
+		checkbox.onchange = function() {
+			console.log(ds, this.checked);
+			ds.visibility(this.checked);
+		};
+
+		return checkbox;
+	};
+
 	opacity() {
-		return opacity_control({
-			"fn": x => {
+		return svg_interval({
+			"init":         { "min": 0, "max": this.opacity_value },
+			"sliders":      'single',
+			"callback2":    x => {
 				this.opacity_value = x;
 				this.ds.opacity(x);
 			},
-			"init": maybe(this.ds, 'vectors', 'opacity'),
-		});
+		}).svg;
 	};
 
 	discover() {

@@ -13,6 +13,12 @@ import {
 	bi_icon,
 } from './utils.js';
 
+let checkbox;
+
+export let opacity = 1;
+
+export let shown = true;
+
 function variants() {
 	const variant_select = qs('#output-variant-select');
 
@@ -28,43 +34,24 @@ function variants() {
 	};
 };
 
-function toggle() {
-	const checkbox = qs('#output-on-map');
-
-	checkbox.onchange = function() {
-		if (!MAPBOX.getLayer('output-layer')) return;
-
-		const v = this.checked;
-		if (v) MAPBOX.moveLayer('output-layer', MAPBOX.first_symbol);
-
-		COMMIT(v ? "output" : "no-output");
+function toggle_init() {
+	checkbox.onchange = _ => {
+		shown = checkbox.checked;
+		COMMIT();
 	};
 };
 
-function opacity() {
-	const container = qs('#output-opacity');
-
-	function paint(x) {
-		if (!MAPBOX.getLayer('output-layer')) return;
-
-		MAPBOX.setPaintProperty('output-layer', 'raster-opacity', x);
-	};
-
-	const input = qs('#output-opacity-input');
-
+export function opacity_init() {
 	const control = svg_interval({
-		"width":        420,
-		"init":         { "min": 0, "max": 1 },
-		"sliders":      'single',
-		"callback2":    x => {
-			paint(x);
-			input.value = Math.round(x * 100);
+		"init":      { "min": 0, "max": 1 },
+		"sliders":   'single',
+		"callback2": x => {
+			opacity = x;
+			COMMIT();
 		},
 	});
 
-	input.onchange = _ => control.change({ "min": 0, "max": +((input.value / 100).toFixed(2)) });
-
-	container.append(control.svg);
+	qs('#output-opacity').append(control.svg);
 };
 
 function ramp() {
@@ -135,10 +122,12 @@ export function indexes() {
 };
 
 export function init() {
+	checkbox = qs('#output-on-map');
+
 	variants();
 	indexes();
-	toggle();
-	opacity();
+	toggle_init();
+	opacity_init();
 	index_info();
 	ramp();
 };

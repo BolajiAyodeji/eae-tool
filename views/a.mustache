@@ -44,7 +44,7 @@
 
       <div id="left-panel" style="display: none;">
         <div id="cards" class="search-panel">
-          <div id="output-widget" class="search-results">
+          <div id="output-widget">
             <div style="display: flex;">
               <div>
                 Analysis Area
@@ -59,24 +59,21 @@
               </div>
             </div>
 
-            <details open>
-              <summary>Map display settings</summary>
-
+            <div style="display: flex; justify-content: space-between;">
               <div>
                 <input id="output-on-map"
                        type="checkbox" checked>
-                <label for="output-on-map">Show analysis on the map</label>
+                <label for="output-on-map">Show analysis</label>
               </div>
 
               <div id="output-opacity">
-                <p><strong>Opacity</strong></p>
-
-                <input id="output-opacity-input"
-                       type="number" min="0" max="100" step="10">
+                <strong>Opacity</strong>
               </div>
-            </details>
+            </div>
 
-            <div id="output-ramp"></div>
+            <div id="output-ramp">
+              <strong>Priority</strong>
+            </div>
           </div>
 
           <div id="cards-clear-buttons"></div>

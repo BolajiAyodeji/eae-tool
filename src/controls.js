@@ -267,7 +267,6 @@ function header_click() {
 
 		if (e.target.closest('svg') === svg)
 			this.ds.turn();
-
 		else
 			svg.dispatchEvent(new Event('click', { "bubbles": true }));
 	};

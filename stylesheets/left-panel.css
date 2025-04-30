@@ -30,7 +30,8 @@
 }
 
 #output-widget {
-  flex: 1 0 300px;
+  flex: 1 0 0;
+  padding: 1.5em;
 }
 
 #output-widget details {

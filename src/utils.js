@@ -303,26 +303,6 @@ export function svg_interval({radius = 12, width = 256, height = 10, sliders, co
 	};
 };
 
-export function opacity_control({ fn, init }) {
-	const o = tmpl('#opacity-control');
-
-	let opacity_value = init ?? 1;
-
-	const grad = svg_interval({
-		"init":         { "min": 0, "max": opacity_value },
-		"sliders":      'single',
-		"callback2":    x => opacity_value = x,
-		"end_callback": _ => fn(+opacity_value),
-	});
-
-	const b = qs('.opacity-box', o);
-	qs('.slider', o).append(grad.svg);
-	qs('i', o).onclick = _ => b.style.display = 'block';
-	b.onmouseleave = _ => b.style.display = 'none';
-
-	return o;
-};
-
 export function elem_collapse(el, t, open) {
 	function triangle(d) {
 		let t;

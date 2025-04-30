@@ -18,6 +18,8 @@ import {
 import {
 	init as output_widget_init,
 	indexes as indexes_list,
+	shown as output_shown,
+	opacity as output_opacity,
 } from './output-widget.js';
 
 import {
@@ -538,9 +540,16 @@ async function reload(k,v) {
 		});
 	};
 
-	function output_visibility(v) {
-		if (MAPBOX.getLayer('output-layer'))
-			MAPBOX.setLayoutProperty('output-layer', 'visibility', v);
+	function output_visibility() {
+		if (!MAPBOX.getLayer('output-layer')) return;
+
+		let v = STATE.variant === 'raster' && output_shown;
+
+		MAPBOX.setLayoutProperty('output-layer', 'visibility', v ? 'visible' : 'none');
+
+		MAPBOX.setPaintProperty('output-layer', 'raster-opacity', output_opacity);
+
+		MAPBOX.moveLayer('output-layer', MAPBOX.first_symbol);
 	};
 
 	function priority_visibility_pick() {
@@ -548,9 +557,11 @@ async function reload(k,v) {
 
 		GEOGRAPHY.divisions.forEach((d,i) => {
 			if (MAPBOX.getLayer(`priority-layer-${i}`)) {
-				const t = x && (STATE.variant === i);
+				const t = and(x, STATE.variant === i, output_shown);
 
+				MAPBOX.setPaintProperty(`priority-layer-${i}`, 'fill-opacity', output_opacity);
 				MAPBOX.setLayoutProperty(`priority-layer-${i}`, 'visibility', t ? "visible" : "none");
+
 				if (t) MAPBOX.moveLayer(`priority-layer-${i}`, MAPBOX.first_symbol);
 			}
 		});
@@ -578,11 +589,9 @@ async function reload(k,v) {
 	filtered_visibility('none');
 	filtered_valued_polygons();
 
-	priority_visibility_pick();
-
 	if (k === "datasets") {
 		cards_update();
-		mapbox_sort();
+		await mapbox_sort();
 
 		STATE.datasets.forEach(async d => {
 			if (d.type.match(/raster-timeline/))
@@ -593,14 +602,9 @@ async function reload(k,v) {
 		});
 	}
 
-	if (k === "output") {
-		output_visibility(STATE.variant === 'raster' ? 'visible' : 'none');
-		MAPBOX.moveLayer('output-layer', MAPBOX.first_symbol);
-	}
+	priority_visibility_pick();
 
-	if (k === "no-output") {
-		output_visibility('none');
-	}
+	output_visibility();
 
 	timeline_visibility();
 };
