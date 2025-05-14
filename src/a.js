@@ -442,13 +442,14 @@ async function reload(k,v) {
 		return;
 	}
 
-	if (or(k === "subdiv", k === "divtier"))
+	if (or(k === "subdiv", k === "divtier")) {
 		geographiessearch_load(STATE.divtier, STATE.subdiv);
+	}
 
 	const timeline = qs('#timeline');
 	const output_preview = qs('#output-preview');
 
-	const {view, index} = STATE;
+	const {view, index, variant} = STATE;
 
 	(function special_layers() {
 		if (!MAPBOX.getSource('output-source')) {
@@ -544,13 +545,11 @@ async function reload(k,v) {
 	};
 
 	function priority_visibility_pick() {
-		const x = STATE.variant !== "raster";
+		const x = variant !== "raster";
 
 		GEOGRAPHY.divisions.forEach((d,i) => {
-			const t = STATE.variant;
-
 			if (MAPBOX.getLayer(`priority-layer-${i}`))
-				MAPBOX.setLayoutProperty(`priority-layer-${i}`, 'visibility', x && (t === i) ? "visible" : "none");
+				MAPBOX.setLayoutProperty(`priority-layer-${i}`, 'visibility', x && (variant === i) ? "visible" : "none");
 		});
 	};
 
@@ -579,7 +578,7 @@ async function reload(k,v) {
 
 		filtered_visibility('none');
 
-		output_visibility(STATE.variant === 'raster' ? 'visible' : 'none');
+		output_visibility(variant === 'raster' ? 'visible' : 'none');
 
 		priority_visibility_pick();
 
