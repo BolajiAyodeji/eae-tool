@@ -442,6 +442,10 @@ async function reload(k,v) {
 		return;
 	}
 
+	if (k === "datasets") {
+		controls_recount();
+	}
+
 	if (or(k === "subdiv", k === "divtier")) {
 		geographiessearch_load(STATE.divtier, STATE.subdiv);
 	}
@@ -557,16 +561,10 @@ async function reload(k,v) {
 		return Promise.all(STATE.datasets.map(x => x.active(true, v)));
 	};
 
-	if (k === "datasets") {
-		controls_recount();
+	const a = await analysis_plot_active(index, true);
 
-		const a = await analysis_plot_active(index, true);
-
-		const t = STATE.variant;
-
-		if (GEOGRAPHY.divisions[t])
-			priority(GEOGRAPHY.divisions[t], a, t);
-	}
+	if (GEOGRAPHY.divisions[variant])
+		priority(GEOGRAPHY.divisions[variant], a, variant);
 
 	switch (view) {
 	case "analysis": {
