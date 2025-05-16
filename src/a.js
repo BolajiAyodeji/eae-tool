@@ -445,12 +445,17 @@ async function reload(k,v) {
 		return;
 	}
 
-	if (or(k === "subdiv", k === "divtier"))
+	if (k === "datasets") {
+		controls_recount();
+	}
+
+	if (or(k === "subdiv", k === "divtier")) {
 		geographiessearch_load(STATE.divtier, STATE.subdiv);
+	}
 
 	const timeline = qs('#timeline');
 
-	const {index} = STATE;
+	const {index, variant} = STATE;
 
 	(function special_layers() {
 		if (!MAPBOX.getSource('output-source')) {
@@ -553,7 +558,7 @@ async function reload(k,v) {
 	};
 
 	function priority_visibility_pick() {
-		const x = STATE.variant !== "raster";
+		const x = variant !== "raster";
 
 		GEOGRAPHY.divisions.forEach((d,i) => {
 			if (MAPBOX.getLayer(`priority-layer-${i}`)) {
@@ -571,16 +576,10 @@ async function reload(k,v) {
 		return Promise.all(STATE.datasets.map(x => x.active(true, true)));
 	})();
 
-	if (k === "datasets") {
-		controls_recount();
+	const a = await analysis_plot_active(index, true);
 
-		const a = await analysis_plot_active(index, true);
-
-		const t = STATE.variant;
-
-		if (GEOGRAPHY.divisions[t])
-			priority(GEOGRAPHY.divisions[t], a, t);
-	}
+	if (GEOGRAPHY.divisions[variant])
+		priority(GEOGRAPHY.divisions[variant], a, variant);
 
 	indexes_list();
 

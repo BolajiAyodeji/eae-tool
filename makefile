@@ -41,7 +41,7 @@ deps:
 	@ mkdir -p ${LIB}/fonts
 	DEST=${LIB} ${BIN}/deps
 
-	@ sed -i'' 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
+	@ sed -i.orig 's/var PptxGenJS=/window.PptxGenJS=/' ${LIB}/pptxgen.js
 
 	@ echo '{}' >/tmp/empty.json
 
@@ -287,4 +287,4 @@ reconfig:
 		| jq '.mapbox_theme = ${MAPBOX_THEME}' \
 		>> settings.tmp.json
 
-	@ sed -i'' -e '$$s/$$/;\n/' settings.tmp.json
+	@ sed -i.orig -e '$$s/$$/;\n/' settings.tmp.json
