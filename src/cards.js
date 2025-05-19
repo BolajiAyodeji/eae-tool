@@ -1,5 +1,7 @@
 import DS from './ds.js';
 
+import bind from '../lib/bind.js';
+
 import {
 	svg_interval,
 	uniform_split,
@@ -542,16 +544,15 @@ export default class dscard extends HTMLElement {
 
 		attach.call(this, tmpl('#ds-card-template'));
 
-		slot_populate.call(this, Object.assign({}, this.ds, {
-			'range':        range_el.call(this),
-			'info':         this.info(),
-			'opacity':      this.opacity(),
-			'visibility':   this.visibility(),
-			'close':        this.close(),
-			'weight':       maybe(this.weight_group, 'el'),
-			'ctrls':        maybe(this.weight_group, 'el') && this.ctrls(),
-			'list':         this.list_elements(),
 			'legends-list': this.legends(),
+		bind(this, Object.assign({}, this.ds, {
+			"range":      range_el.call(this),
+			"info":       this.info(),
+			"opacity":    this.opacity(),
+			"visibility": this.visibility(),
+			"close":      this.close(),
+			"weight":     maybe(this.weight_group, 'el'),
+			"controls":   maybe(this.weight_group, 'el') && this.controls(),
 		}));
 
 		return this;
@@ -562,12 +563,6 @@ export default class dscard extends HTMLElement {
 	};
 
 	refresh() {
-		qs('[slot=range]', this)
-			.replaceChildren(this.range_el = range_el.call(this));
-
-		this.opacity_value = 1;
-		qs('[slot=opacity]', this)
-			.replaceChildren(this.opacity());
 	};
 
 	legends() {

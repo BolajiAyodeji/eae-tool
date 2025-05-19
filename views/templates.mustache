@@ -1,4 +1,6 @@
 <template id="ds-controls-template">
+  <link rel="stylesheet" href="../lib/bootstrap-icons.css">
+
   <style>
     @import url("./ripple.css");
     @import url("./buttons.css");
@@ -28,7 +30,7 @@
       cursor: pointer;
     }
 
-    ::slotted([slot=description]) {
+    [bind=description] {
       display: block;
 
       padding-bottom: 0.9em;
@@ -37,19 +39,19 @@
       color: #a3a3a3;
     }
 
-    ::slotted([slot=description]:empty) {
+    [bind=description]:empty {
       padding: 0 !important;
       margin: 0 !important;
     }
 
-    [name=name] {
+    [bind=name] {
       flex: 1;
       display: block;
       margin: auto 0.5em;
       line-height: 1.5em;
     }
 
-    [name=checkbox] {
+    [bind=checkbox] {
       flex: 0;
       display: block;
       margin-bottom: -4px;
@@ -129,26 +131,28 @@
       visibility: visible;
     }
 
-    :host(:not(.active)) buttons [name=card] {
+    :host(:not(.active)) buttons [bind=card] {
       display: none;
     }
   </style>
 
   <main>
-    <div class="loading"><div class="spinner"></div></div>
+    <div class="loading">
+      <div class="spinner"></div>
+    </div>
 
     <header ripple>
-      <slot name="checkbox"></slot>
-      <slot name="name"></slot>
+      <span bind="checkbox"></span>
+      <span bind="name"></span>
 
       <buttons>
-        <slot name="card"></slot>
-        <slot name="info"></slot>
+        <span bind="card"></span>
+        <span bind="info"></span>
       </buttons>
     </header>
 
     <content>
-      <slot name="description"></slot>
+      <span bind="description"></span>
     </content>
   </main>
 </template>
@@ -276,51 +280,69 @@
 
     <div style="padding: 0.5em;">
       <header>
-        <slot name="name"></slot>
+        <span bind="name"></span>
 
         <buttons>
-          <slot name="close"></slot>
-          <slot name="ctrls"></slot>
+          <span bind-if="controls"
+                bind="controls"></span>
+
+          <span bind="close"></span>
         </buttons>
       </header>
 
-      <subheader>
-        (<slot name="index"></slot>)
+      <subheader bind-if="index">
+        (<span bind="index"></span>)
       </subheader>
 
-      <slot name="range"></slot>
-      <slot name="ramp"></slot>
+      <span bind="range"></span>
+      <span bind="ramp"></span>
+      <span bind="legends-list"></span>
     </div>
   </main>
 
   <aside style="display: none;">
     <div class="group">
-      <div class="weight-group">
-        <slot name="weight"></slot>
+      <div style="display: flex;
+                  justify-content: space-around;">
+        <div bind-if="manual-min">
+          Min value <span bind="manual-min"></span>
+        </div>
+
+        <div>
+          Max value <span bind="manual-max"></span>
+        </div>
       </div>
+
+      Importance <span bind="weight"></span>
     </div>
 
     <div class="group"
          style="display: flex;
                 justify-content: space-between;">
       <div style="display: flex;">
-        <slot name="visibility"></slot> Visibility
+        Visibility <span bind="visibility"></span>
       </div>
 
       <div style="display: flex;">
-        Opacity: <slot name="opacity"></slot>
+        Opacity <span bind="opacity"></span>
       </div>
     </div>
 
-    <div class="group">
-      <slot name="info"></slot> About
+    <div class="group"
+         style="display: flex;
+                justify-content: space-around;">
+      <div>
+        <span bind="info"></span> About
+      </div>
 
-      <slot name="list"></slot> Table
+      <div bind-if="list">
+        <span bind="list"></span> Table
+      </div>
     </div>
 
-    <div class="group">
-      <slot name="legends-list"></slot>
-      <slot name="mutant-options"></slot>
+    <div bind-if="mutant-options"
+         class="group">
+      <span bind="mutant-options"></span>
     </div>
   </aside>
 </template>
@@ -343,23 +365,6 @@
     </style>
 
     <div class="ramp"></div>
-  </div>
-</template>
-
-<template id="controls-manual-input">
-  <div class="controls-manual-container"
-       style="position: absolute;
-              display: flex;
-              opacity: 0.7;">
-    <span style="display: block;
-                 position: absolute;
-                 top: -37px;
-                 border-style: outset;
-                 border-color: transparent transparent black;
-                 border-radius: 2px;
-                 border-width: 33px;
-                 transform: scale(1, 0.125);">
-    </span>
   </div>
 </template>
 

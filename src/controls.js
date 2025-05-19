@@ -13,6 +13,8 @@ import {
 	enough_datasets,
 } from './analysis.js';
 
+import bind from '../lib/bind.js';
+
 const contents_el = qs('#controls-contents');
 
 function branch_recount() {
@@ -73,12 +75,12 @@ export default class dscontrols extends HTMLElement {
 
 		this.header.onclick = header_click.call(this);
 
-		slot_populate.call(this, Object.assign({}, this.ds, {
+		bind(this, Object.assign({}, this.ds, {
 			"checkbox":    this.checkbox.svg,
 			"description": this.ds.description || this.ds.category.description,
 			"card":        this.card(),
 			"info":        this.info(),
-		}));
+		}), { "final": false });
 
 		this.inject();
 
