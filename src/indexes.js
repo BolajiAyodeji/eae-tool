@@ -207,9 +207,8 @@ export function init() {
 			return;
 		}
 
-		const url = new URL(location);
-		const type = url.searchParams.get('output');
-		fake_blob_download((await analysis(type)).tiff, `energyaccessexplorer-${type}.tif`);
+		const t = STATE.index;
+		fake_blob_download((await analysis(t)).tiff, `energyaccessexplorer-${t}.tif`);
 	};
 
 	const graphs = tmpl('#index-graphs-container-template');
