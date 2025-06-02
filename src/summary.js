@@ -176,13 +176,13 @@ export default async function analyse(raster) {
 
 	let a = new Float32Array(raster.length).fill(-1);
 
-	let f = d3.scaleQuantize()
+	const fn = d3.scaleQuantize()
 		.domain([0,1])
 		.range(default_colorscale.intervals);
 
 	for (let i = 0; i < raster.length; i += 1) {
 		const r = raster[i];
-		a[i] = (r === -1) ? -1 : f(r);
+		a[i] = (r === -1) ? -1 : fn(r);
 	}
 
 	let population_groups = [0, 0, 0, 0, 0];

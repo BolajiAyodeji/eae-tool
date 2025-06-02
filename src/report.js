@@ -1,4 +1,3 @@
-
 import {
 	coordinates_to_raster_pixel,
 } from './utils.js';
