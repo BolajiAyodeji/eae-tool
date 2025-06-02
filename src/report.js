@@ -644,13 +644,22 @@ function analysis_left($, index) {
 		},
 	]], textopts({ x, "y": 2.6, "w": "25%" }));
 
-	const i = SUMMARY[index]['canvas'].toDataURL();
+	const c = SUMMARY[index]['canvas'];
+	const data = c.toDataURL('image/png');
+
+	const r = c.width / c.height;
+
+	let w = 3;
+	let h = 3;
+
+	if (c.width > c.height) h = 3/r;
+	if (c.height > c.width) w = 3*r;
 
 	$.addImage({
-		"x":      "10%",
-		"y":      3.5,
-		"sizing": { "type": "contain", "h": "30%", "w": "30%" },
-		"data":   `data:image/png;base64,${i}`,
+		"x": "10%",
+		"y": 3.5,
+		w, h,
+		data,
 	});
 };
 
