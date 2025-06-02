@@ -47,7 +47,7 @@
           <div id="output-widget">
             <h4>Generate Analysis</h4>
 
-            <div style="display: flex;">
+            <div id="selects">
               <div>
                 Analysis Area
                 <select id="output-variant-select">
@@ -61,24 +61,24 @@
               </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between;">
-              <div>
+            <div id="output-ramp">
+              <span>Priority</span>
+            </div>
+
+            <div class="output-group">
+              <div id="output-visibility">
                 <input id="output-on-map"
                        type="checkbox" checked>
                 <label for="output-on-map">Show analysis</label>
               </div>
 
               <div id="output-opacity">
-                <strong>Opacity</strong>
+                <span>Opacity</span>
               </div>
-            </div>
-
-            <div id="output-ramp">
-              <strong>Priority</strong>
             </div>
           </div>
 
-          <div id="cards-clear-buttons"></div>
+          <div id="cards-buttons"></div>
 
           <div id="cards-list" class="search-results"></div>
         </div>

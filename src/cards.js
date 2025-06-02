@@ -412,14 +412,24 @@ export function init() {
 			COMMIT();
 		});
 
-	const ca = ce('span', 'Clear all datasets', { "class": 'cards-clear' });
+	const ca = ce('button', 'Remove all datasets', { "style": "color: #c30000;" });
 	ca.onclick = _ => {
 		STATE.datasets.forEach(x => x.turn(false));
 		COMMIT("datasets");
 		update();
 	};
 
-	const cp = ce('span', 'Clear filters', { "class": 'cards-clear' });
+	const cs = ce('button', 'Show all layers');
+	cs.onclick = _ => {
+		STATE.datasets.forEach(x => x.visibility(true));
+	};
+
+	const cv = ce('button', 'Hide all layers');
+	cv.onclick = _ => {
+		STATE.datasets.forEach(x => x.visibility(false));
+	};
+
+	const cp = ce('button', 'Reset all settings');
 	cp.onclick = _ => {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain);
@@ -427,7 +437,7 @@ export function init() {
 		});
 	};
 
-	qs('#cards #cards-clear-buttons').append(ca,cp);
+	qs('#cards #cards-buttons').append(cs,cv,cp,ca);
 };
 
 export function update() {

@@ -1,5 +1,5 @@
 input[type=checkbox]:checked {
-  accent-color: var(--the-yellow);
+  accent-color: var(--the-green);
 }
 
 #left-panel #drawer {
