@@ -573,7 +573,7 @@ async function reload(k,v) {
 	};
 
 	await (function datasets_visibility() {
-		return Promise.all(STATE.datasets.map(x => x.active(true, true)));
+		return Promise.all(STATE.datasets.map(x => x.active(true, x.visible)));
 	})();
 
 	const a = await analysis_plot_active(index, true);

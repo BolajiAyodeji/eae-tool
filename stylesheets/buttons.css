@@ -2,7 +2,7 @@ buttons {
   display: flex;
 }
 
-buttons > * {
+buttons span {
   display: block;
   cursor: pointer;
 
@@ -14,7 +14,7 @@ buttons > * {
   text-align: center;
 }
 
-buttons *:hover {
+buttons span:hover {
   box-shadow: inset 0px 0px 5px rgb(0 0 0 / 5%);
   background-color: rgba(0, 0, 0, 0.07);
 }

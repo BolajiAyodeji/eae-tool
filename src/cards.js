@@ -4,7 +4,6 @@ import bind from '../lib/bind.js';
 
 import {
 	svg_interval,
-	uniform_split,
 	bi_icon,
 } from './utils.js';
 
@@ -38,38 +37,19 @@ async function mutant_options() {
 
 	select.value = d.host.id;
 
-	select.onchange = async e => {
+	select.onchange = e => {
 		const host = DST.get(e.target.value);
 
 		d.selection = [e.target.value];
 
-		await d.mutate(host);
-
-		COMMIT("layers");
+		d.mutate(host)
+			.then(_ => COMMIT("layers"));
 	};
 
 	container.append(select);
 
 	this.mutant_options = container;
-
-	slot_populate.call(this, {
-		"mutant-options": container,
-	});
-};
-
-function ramp(...els) {
-	const r = tmpl('#ramp');
-
-	for (const e of els)
-		qs('.ramp', r).append(e);
-
-	const div = qs(':scope > div', r);
-
-	if (!div) return r;
-	div.style['width'] = `${slider_width + 2}px`;
-	div.style['margin'] = 'auto';
-
-	return r;
+	qs('.mutant-options', this).append(this.mutant_options);
 };
 
 function value_multiselect() {
@@ -114,63 +94,21 @@ function range() {
 	const ds = this.ds;
 	const cat = this.ds.category;
 
-	const domain = {};
-
 	let {min,max} = ds.domain;
 
 	const diff = Math.abs(max - min);
-	let d = 3 - Math.ceil(Math.log10(diff || 1));
-	if (d < 0) d = 0;
+	let f = 3 - Math.ceil(Math.log10(diff || 1));
+	if (f < 0) f = 0;
 
 	if (and(cat.unit === "%",
 	        or(and(min === 0, max === 100),
-	           and(min === 100, max === 0)))) d = 0;
-
-	const update = (v, i, el, cx) => {
-		el.value = (+v).toFixed(d);
-
-		const man = maybe(this, 'manual_' + i);
-		if (man) {
-			man.value = v;
-		}
-
-		const ctrl = maybe(this, 'cr_' + i);
-		if (ctrl?.style) {
-			ctrl.style.left = cx + "px";
-		}
-
-		domain[i] = parseFloat(v);
-	};
+	           and(min === 100, max === 0)))) f = 0;
 
 	const step = maybe(ds, 'raster', 'intervals') ? undefined :
-		0.1 * Math.pow(10, Math.floor(Math.log10(Math.abs(ds.domain.max - ds.domain.min))));
+		0.1 * Math.pow(10, Math.floor(Math.log10(Math.abs(max - min))));
 
-	this.cr_max = tmpl('#controls-manual-input').firstElementChild;
-	this.cr_min = tmpl('#controls-manual-input').firstElementChild;
-
-	this.manual_min = ce('input', null, {
-		"bind":  "min",
-		"type":  "number",
-		"min":   ds.domain.min,
-		"max":   ds.domain.max,
-		"step":  step,
-		"value": ds._domain.min,
-	});
-
-	this.manual_max = ce('input', null, {
-		"bind":  "max",
-		"type":  "number",
-		"min":   ds.domain.min,
-		"max":   ds.domain.max,
-		"step":  step,
-		"value": ds._domain.max,
-	});
-
-	const change = (e,i) => {
-		let v = +e.target.value;
-
-		const { min, max } = ds.domain;
-
+	const input_change = (e,i) => {
+		const v = +e.value;
 		const d = ds._domain;
 
 		if (or(
@@ -179,26 +117,39 @@ function range() {
 			and(i === 'min', v > d['max']),
 			and(i === 'max', v < d['min']),
 		)) {
-			e.target.reportValidity();
-			e.target.setCustomValidity("Value out of range");
+			e.reportValidity();
+			e.setCustomValidity("Value out of range");
 			return;
 		}
 
-		d[i] = +v;
+		d[i] = v;
 
-		ds._domain = d;
-		COMMIT("datasets");
+		this.values();
 	};
 
-	this.manual_min.oninput = debounce(e => change(e, 'min'), 600);
-	this.manual_max.oninput = debounce(e => change(e, 'max'), 600);
+	this.manual_min = ce('input', null, {
+		"type":    "number",
+		"min":     min,
+		"max":     max,
+		"step":    step,
+		"value":   ds._domain.min,
+	});
 
-	this.cr_min.append(this.manual_min);
-	this.cr_max.append(this.manual_max);
+	this.manual_min.oninput = debounce(input_change.bind(null, this.manual_min, 'min'), 600);
+
+	this.manual_max = ce('input', null, {
+		"type":  "number",
+		"min":   min,
+		"max":   max,
+		"step":  step,
+		"value": ds._domain.max,
+	});
+
+	this.manual_max.oninput = debounce(input_change.bind(null, this.manual_max, 'max'), 600);
 
 	switch (maybe(cat, 'controls', 'range')) {
 	case 'single':
-		this.cr_min = "";
+		this.manual_min = null;
 		break;
 
 	case 'double':
@@ -207,21 +158,26 @@ function range() {
 	case null:
 	case 'none':
 	default:
-		this.cr_min = "";
-		this.cr_max = "";
+		this.manual_min = null;
+		this.manual_max = null;
 		break;
 	}
 
 	let steps;
 	if (maybe(cat, 'controls', 'range_steps')) {
 		steps = [];
-		const s = (ds.domain.max - ds.domain.min) / (cat.controls.range_steps - 1);
+		const s = (max - min) / (cat.controls.range_steps - 1);
 
 		for (let i = 0; i < cat.controls.range_steps; i += 1)
-			steps[i] = ds.domain.min + (s * i);
+			steps[i] = min + (s * i);
 	}
 
-	const s = svg_interval({
+	const svg_change = (v, i) => {
+		const d = ds._domain;
+		d[i] = this.ds.fn.invert(parseFloat(v));
+	};
+
+	this.range_svg = svg_interval({
 		"colors":       ds.colorscale?.stops,
 		"sliders":      ds.category.controls.range,
 		"width":        slider_width,
@@ -232,55 +188,36 @@ function range() {
 			"max": this.ds.fn(ds._domain.max),
 		},
 		"steps":        steps,
-		"callback1":    (v, cx) => update(this.ds.fn.invert(v), 'min', this.manual_min, cx),
-		"callback2":    (v, cx) => update(this.ds.fn.invert(v), 'max', this.manual_max, cx),
+		"callback1":    v => svg_change(v, 'min'),
+		"callback2":    v => svg_change(v, 'max'),
 		"end_callback": _ => {
-			ds._domain = domain;
+			this.values();
 			COMMIT("datasets");
 		},
 	});
 
 	return {
-		"elements": [s.svg, this.cr_min, this.cr_max],
-		"svg":      s.svg,
-		"change":   s.change,
+		"elements": [this.range_svg.svg],
+		"svg":      this.range_svg.svg,
 	};
 };
 
 function weight() {
-	const weights = [1,2,3,4,5];
+	const el = ce('select', null, { "bind": 'weight' });
 
-	const s = d3.scaleLinear()
-		.domain(weights)
-		.range(uniform_split(5));
+	el.prepend(
+		...["Low", "Low-Medium", "Medium", "Medium-High", "High"]
+			.map((e,i) => ce('option', e, { "value": i + 1 }))
+			.reverse());
 
-	const r = ramp(
-		ce('div', weights[0]),
-		ce('div', "importance", { "class": "unit-ramp" }),
-		ce('div', weights[weights.length - 1]),
-	);
+	el.value = this.weight;
 
-	const w = svg_interval({
-		"sliders":      "single",
-		"init":         { "min": 0, "max": weights[this.weight-1] },
-		"steps":        weights,
-		"width":        slider_width,
-		"height":       12,
-		"radius":       10,
-		"end_callback": v => {
-			this.weight = s.invert(v);
-			COMMIT("datasets");
-		},
-	});
-
-	const el = ce('div', [w.svg, r], { "style": "text-align: center;" });
-
-	return {
-		el,
-		"svg":    w.svg,
-		"change": w.change,
-		"ramp":   r,
+	el.onchange = e => {
+		this.weight = +e.target.value;
+		COMMIT("datasets");
 	};
+
+	return el;
 };
 
 function range_el() {
@@ -338,7 +275,7 @@ function range_el() {
 	}
 
 	case 'lines-timeline': {
-		e = points_symbol({
+		e = lines_symbol({
 			"size":        24,
 			"fill":        ds.vectors.fill,
 			"stroke":      ds.vectors.stroke,
@@ -452,11 +389,13 @@ function range_el() {
 		qs('.ramp', r).append(...ramp_domain.call(this));
 	}
 
+	this.range = g;
+
 	d.append(
-		...coalesce(maybe((this.range_el = g), 'elements'), []),
+		...coalesce(maybe(this.range, 'elements'), []),
 		coalesce(r, ""),
 		coalesce(o, ""),
-		coalesce(e, ""),
+		coalesce(this.legends(), e, ""),
 	);
 
 	return d;
@@ -484,7 +423,6 @@ export function init() {
 	cp.onclick = _ => {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain);
-			d.card.refresh();
 			COMMIT("datasets");
 		});
 	};
@@ -500,7 +438,6 @@ export function update() {
 
 	for (let i of list) {
 		cards_list.append(i);
-		i.refresh();
 	}
 
 	if (list.length) sortable(cards_list, 'enable');
@@ -512,7 +449,6 @@ export default class dscard extends HTMLElement {
 	multiselection = [];
 
 	connectedCallback() {
-		delay(1).then(_ => this.refresh());
 	};
 
 	constructor(d) {
@@ -533,8 +469,6 @@ export default class dscard extends HTMLElement {
 	};
 
 	render() {
-		this.setAttribute('bind', this.ds.id);
-
 		this.content = qs('content', this);
 
 		if (this.ds.category.controls.weight)
@@ -544,16 +478,19 @@ export default class dscard extends HTMLElement {
 
 		attach.call(this, tmpl('#ds-card-template'));
 
-			'legends-list': this.legends(),
 		bind(this, Object.assign({}, this.ds, {
-			"range":      range_el.call(this),
-			"info":       this.info(),
-			"opacity":    this.opacity(),
-			"visibility": this.visibility(),
-			"close":      this.close(),
-			"weight":     maybe(this.weight_group, 'el'),
-			"controls":   maybe(this.weight_group, 'el') && this.controls(),
-		}));
+			"range":          range_el.call(this),
+			"info":           this.info(),
+			"opacity":        this.opacity(),
+			"visibility":     this.visibility(),
+			"close":          this.close(),
+			"weight":         this.weight_group,
+			"controls":       this.weight_group && this.controls(),
+			"list":           this.list_elements(),
+			"manual-min":     this.manual_min,
+			"manual-max":     this.manual_max,
+			"mutant-options": this.mutant_options,
+		}), { "final": false });
 
 		return this;
 	};
@@ -562,13 +499,26 @@ export default class dscard extends HTMLElement {
 		this.remove();
 	};
 
-	refresh() {
+	values(d) {
+		if (d === undefined) d = this.ds._domain;
+
+		this.manual_min.value = d['min'];
+		this.manual_max.value = d['max'];
+
+		if (!this.range_svg) return;
+
+		this.range_svg.change({
+			"min": this.ds.fn(d['min']),
+			"max": this.ds.fn(d['max']),
+		});
+
+		COMMIT("datasets");
 	};
 
 	legends() {
 		if (!this.ds.criteria || this.ds.criteria.length < 2) return;
 
-		const ul = ce('div', null, { "style": "font-size: smaller;" });
+		const ul = ce('table', null, { "class": "legends-list" });
 
 		let f;
 		switch (this.ds.type) {
@@ -593,17 +543,11 @@ export default class dscard extends HTMLElement {
 		for (let l of this.ds.criteria) {
 			let cb;
 
-			const li = ce(
-				'div',
-				[
-					f.call(this, l),
-					ce('span', l.params.map(p => l[p] ?? 'default').join(", ")),
-					cb = ce('input', null, { "type": 'checkbox' }),
-				],
-				{
-					"style": `display: flex; justify-content: space-between;`,
-				},
-			);
+			const li = ce('tr', [
+				ce('td', f.call(this, l)),
+				ce('td', l.params.map(p => l[p] ?? 'default').join(", ")),
+				ce('td', cb = ce('input', null, { "type": 'checkbox' })),
+			]);
 
 			cb.onchange = _ => {
 				const fs = this.ds.vectors.geojson.features;
@@ -646,7 +590,7 @@ export default class dscard extends HTMLElement {
 		return e;
 	};
 
-	ctrls() {
+	controls() {
 		const e = bi_icon('gear');
 		e.onclick = _ => qs('aside', this).style.display = ((this.show_advanced = !this.show_advanced)) ? 'block' : 'none';
 
@@ -664,16 +608,17 @@ export default class dscard extends HTMLElement {
 	};
 
 	visibility() {
-		const checkbox = ce('input', null, { "type": "checkbox" });
+		const c = ce('input', null, { "type": "checkbox" });
 
 		const ds = this.ds;
 
-		checkbox.onchange = function() {
-			console.log(ds, this.checked);
+		c.checked = true;
+
+		c.onchange = function() {
 			ds.visibility(this.checked);
 		};
 
-		return checkbox;
+		return c;
 	};
 
 	opacity() {

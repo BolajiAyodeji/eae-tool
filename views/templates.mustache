@@ -246,10 +246,6 @@
       cursor: -webkit-grab;
     }
 
-    .weight-group {
-      margin-top: 2em;
-    }
-
     .collection {
       list-style-type: none;
       padding: 0;
@@ -265,6 +261,16 @@
     .collection svg {
       transform: scale(0.7);
       margin-right: 0.7em;
+    }
+
+    .legends-list {
+      font-size: smaller;
+    }
+
+    .mutant-options select {
+      background-color: white;
+      border: 1px solid lightgray;
+      padding: 5px 7px;
     }
 
     subheader {
@@ -297,6 +303,10 @@
       <span bind="range"></span>
       <span bind="ramp"></span>
       <span bind="legends-list"></span>
+
+      <span bind-if="hosts"
+            bind="mutant-options"
+            class="mutant-options"></span>
     </div>
   </main>
 
@@ -311,9 +321,11 @@
         <div>
           Max value <span bind="manual-max"></span>
         </div>
-      </div>
 
-      Importance <span bind="weight"></span>
+        <div>
+          Importance <span bind="weight"></span>
+        </div>
+      </div>
     </div>
 
     <div class="group"
@@ -338,11 +350,6 @@
       <div bind-if="list">
         <span bind="list"></span> Table
       </div>
-    </div>
-
-    <div bind-if="mutant-options"
-         class="group">
-      <span bind="mutant-options"></span>
     </div>
   </aside>
 </template>

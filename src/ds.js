@@ -35,6 +35,8 @@ export const default_colorscale = colorscale({
 export const default_colorscale_svg = colorscale_svg(default_colorscale.stops);
 
 export default class DS {
+	visible = true;
+
 	constructor(o) {
 		this.id = o.name || o.category.name;
 
@@ -376,8 +378,14 @@ This is not fatal but the dataset is now disabled.`,
 		this.vectors = m.vectors;
 		this.colorscale = m.colorscale;
 
-		this.domain = m.domain;
-		this._domain = m._domain;
+		const min = Math.min(...this.hosts.map(h => h.domain.min));
+		const max = Math.max(...this.hosts.map(h => h.domain.max));
+
+		this.domain = { min, max };
+		this._domain = { min, max };
+
+		this.fn = this.host.fn;
+
 		this._domain_select = m._domain_select;
 	};
 
@@ -391,13 +399,7 @@ This is not fatal but the dataset is now disabled.`,
 		this.vectors = host.vectors;
 		this.colorscale = host.colorscale;
 
-		this.domain = host.domain;
-		this._domain = host._domain;
-		this._domain_select = host._domain_select;
-
 		this.opacity(1);
-
-		if (this.card) this.card.refresh();
 
 		return this;
 	};
@@ -481,6 +483,8 @@ This is not fatal but the dataset is now disabled.`,
 	};
 
 	async visibility(t) {
+		this.visible = t;
+
 		this.layers.map(l => MAPBOX.setLayoutProperty(l.id, 'visibility', t ? 'visible' : 'none'));
 
 		if (this.host) {

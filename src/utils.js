@@ -181,9 +181,9 @@ export function svg_interval({radius = 12, width = 256, height = 10, sliders, co
 			c.append('rect')
 				.attr('fill', v)
 				.attr('stroke', 'none')
-				.attr('x', `${x((100/colors.length) * i)}`)
+				.attr('x', x((100/colors.length) * i))
 				.attr('y', (svgheight - height) / 2)
-				.attr('width', `${(xmax - xmin)/colors.length}`)
+				.attr('width', (xmax - xmin) / colors.length)
 				.attr('height', height);
 		});
 	} else {

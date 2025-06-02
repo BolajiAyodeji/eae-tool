@@ -1,6 +1,4 @@
-export function points_symbol(opts) {
-	const {size,fill,stroke,strokewidth} = opts;
-
+export function points_symbol({size, fill, stroke, strokewidth}) {
 	const svg = d3.create('svg')
 		.attr('class', 'svg-point')
 		.attr('width', size)
@@ -18,9 +16,7 @@ export function points_symbol(opts) {
 	return svg.node();
 };
 
-export function lines_symbol(opts) {
-	const {size,dasharray,stroke,width,fill} = opts;
-
+export function lines_symbol({size, dasharray, stroke, fill, strokewidth = 1}) {
 	const svg = d3.create('svg')
 		.attr('width', size)
 		.attr('height', size);
@@ -31,16 +27,15 @@ export function lines_symbol(opts) {
 		.attr('fill', fill)
 		.attr('stroke-dasharray', dasharray)
 		.attr('stroke', stroke)
-		.attr('stroke-width', width * 2);
+		.attr('stroke-width', strokewidth * 2);
 
 	return svg.node();
 };
 
-export function polygons_symbol(opts) {
-	const {size,stroke,strokewidth,fill,opacity} = opts;
-
+export function polygons_symbol({size, stroke, strokewidth, fill, opacity}) {
 	const svg = d3.create('svg')
 		.attr('class', 'svg-polygon')
+		.attr('style', "vertical-align: middle;")
 		.attr('width', size)
 		.attr('height', size);
 
@@ -56,53 +51,28 @@ export function polygons_symbol(opts) {
 };
 
 export function lines_legends_svg(l) {
-	const svg = d3.create('svg')
-		.attr('width', 24)
-		.attr('height', 24)
-		.attr('style', "vertical-align: middle;")
-		.attr('viewBox', "-3 0 32 32");
-
-	svg
-		.append('path')
-		.attr('d', "M 0.5625,23.71875 C 2.0625,8.0625 14.439788,10.706994 17.625,7.5 20.810212,4.2930056 23.71875,0.375 23.71875,0.375")
-		.attr('fill', 'none')
-		.attr('stroke', l['stroke'] || 'black')
-		.attr('stroke-width', l['stroke-width'])
-		.attr('stroke-dasharray', l['dasharray']);
-
-	return svg.node();
+	return lines_symbol({
+		"size":             22,
+		"fill":             'none',
+		"stroke":           l['stroke'] || 'black',
+		"stroke-width":     l['stroke-width'],
+		"stroke-dasharray": l['dasharray'],
+	});
 };
 
 export function points_legends_svg(l) {
-	const svg = d3.create('svg')
-		.attr('width', 24)
-		.attr('height', 24)
-		.attr('style', "vertical-align: middle;")
-		.attr('viewBox', "-3 0 32 32");
-
-	svg.append('circle')
-		.attr('r', 10)
-		.attr('cx', 12)
-		.attr('cy', 12)
-		.attr('fill', this.ds.vectors.fill)
-		.attr('stroke', l['stroke'] || 'black')
-		.attr('stroke-width', l['stroke-width']);
-
-	return svg.node();
+	return points_symbol({
+		"size":         18,
+		"fill":         this.ds.vectors.fill,
+		"stroke":       l['stroke'] || 'black',
+		"stroke-width": l['stroke-width'],
+	});
 };
 
 export function polygons_legends_svg(l) {
-	const svg = d3.create('svg')
-		.attr('width', 24)
-		.attr('height', 24)
-		.attr('style', "vertical-align: middle;")
-		.attr('viewBox', "-3 0 32 32");
-
-	svg
-		.append('path')
-		.attr('d', "M 5.5532202,7.3474994 24.062506,2.1642083 26.51526,25.827 1.3896115,25.827438 Z")
-		.attr('fill', this.ds.vectors.fill)
-		.attr('stroke', l['stroke']);
-
-	return svg.node();
+	return polygons_symbol({
+		"size":   24,
+		"fill":   this.ds.vectors.fill,
+		"stroke": l['stroke'],
+	});
 };
