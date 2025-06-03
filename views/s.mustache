@@ -32,6 +32,8 @@
     {{> views/loading}}
   </body>
 
+  {{> views/env }}
+
   <script type="module">
     import flash from '../lib/flash.js';
     import pgrest from '../lib/pgrest.js';
@@ -41,8 +43,6 @@
     window.MOBILE = window.innerWidth < 1152;
     window.SELF = null;
   </script>
-
-  {{> views/env }}
 
   <script type="module">
     import {init} from './s.js';
