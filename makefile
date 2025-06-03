@@ -119,10 +119,6 @@ build-a:
 	@ sed -r -i.orig 's/--TIMESTAMP--/${TIMESTAMP}/' ${DIST}/a/index.html
 	@ rm ${DIST}/a/index.html.orig
 
-	@ cp ${CSS}/card.css ${DIST}/a/card.css
-	@ cp ${CSS}/control.css ${DIST}/a/control.css
-	@ cp ${CSS}/ripple.css ${DIST}/a/ripple.css
-	@ cp ${CSS}/buttons.css ${DIST}/a/buttons.css
 	@ cp \
 		${SRC}/utils.js \
 		${SRC}/admin-tiers.js \
@@ -194,6 +190,8 @@ build-a:
 		${CSS}/mobile.css \
 		${CSS}/cards.css \
 		${CSS}/config.css \
+		${CSS}/card.css	\
+		${CSS}/control.css \
 		> ${DIST}/a/main.css
 
 build-s:

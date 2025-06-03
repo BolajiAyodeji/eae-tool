@@ -1,23 +1,19 @@
-@import url("../lib/bootstrap-icons.css");
-@import url("./ripple.css");
-@import url("./buttons.css");
-
-main {
+ds-controls main {
   background-color: var(--the-darker-white);
   border-bottom: solid 1px #d9d9d9;
   color: var(--the-color);
   position: relative;
 }
 
-main.active {
+ds-controls main.active {
   background-color: white;
 }
 
-main.disabled {
+ds-controls main.disabled {
   color: #9ca9b5;
 }
 
-header {
+ds-controls header {
   display: flex;
   justify-content: space-between;
 
@@ -27,7 +23,7 @@ header {
   cursor: pointer;
 }
 
-[bind=description] {
+ds-controls [bind=description] {
   display: block;
 
   padding-bottom: 0.9em;
@@ -36,47 +32,47 @@ header {
   color: #a3a3a3;
 }
 
-[bind=description]:empty {
+ds-controls [bind=description]:empty {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-[bind=name] {
+ds-controls [bind=name] {
   flex: 1;
   display: block;
   margin: auto 0.5em;
   line-height: 1.5em;
 }
 
-[bind=checkbox] {
+ds-controls [bind=checkbox] {
   flex: 0;
   display: block;
   margin-bottom: -4px;
   transform: scale(0.6);
 }
 
-.svg-interval {
+ds-controls .svg-interval {
   filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.3));
 }
 
-.ramp {
+ds-controls .ramp {
   font-size: 0.8em;
 }
 
-.control-option {
+ds-controls .control-option {
   margin-left: 1.5em;
   margin-right: 2.5em;
   margin-bottom: 0.9em;
 }
 
-.collection {
+ds-controls .collection {
   font-size: 0.85em;
   margin-bottom: 1em;
   margin-top: 0;
   color: #666;
 }
 
-select {
+ds-controls select {
   border: none;
   box-sizing: content-box;
 
@@ -87,7 +83,7 @@ select {
   background-color: white;
 }
 
-.loading {
+ds-controls .loading {
   position: absolute;
   display: none;
   background-color: rgba(0,0,0,0.15);
@@ -99,11 +95,11 @@ select {
   z-index: 1;
 }
 
-.loading .spinner {
+ds-controls .loading .spinner {
   display: block;
   position: relative;
-  top: 4px;
-  left: 10px;
+  top: -2px;
+  left: 3px;
   border: 1px solid #333;
   border-radius: 50%;
   border-top: 1px solid white;
@@ -119,15 +115,19 @@ select {
   100% { transform: rotate(360deg); }
 }
 
-buttons {
+ds-controls buttons {
   visibility: hidden;
   justify-content: flex-end;
 }
 
-:host(:hover) buttons {
+ds-controls buttons button {
+  margin: 0 0.25em;
+}
+
+ds-controls:hover buttons {
   visibility: visible;
 }
 
-:host(:not(.active)) buttons [bind=card] {
+ds-controls:not(.active) buttons [bind=card] {
   display: none;
 }

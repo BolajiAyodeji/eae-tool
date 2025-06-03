@@ -1,7 +1,4 @@
-@import url("../lib/bootstrap-icons.css");
-@import url("./buttons.css");
-
-:host {
+ds-card {
   background-color: white;
   display: flex;
   flex-flow: column;
@@ -19,14 +16,14 @@
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.3));
 }
 
-header {
+ds-card header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   user-select: none;
 }
 
-main {
+ds-card main {
   display: flex;
   justify-content: space-between;
 
@@ -34,46 +31,41 @@ main {
   color: var(--the-color);
 }
 
-content {
+ds-card content {
   flex: 1;
   display: block;
   padding: 0.5em;
 }
 
-aside {
+ds-card aside {
   background-color: #f6f6f6;
 }
 
-aside .group {
-  border-top: solid 1px #d4d4d4;
+ds-card aside .group {
+  border: solid 1px lightgray;
   padding: 1em;
+  margin: 1em;
+  background-color: white;
 }
 
-.svg-interval,
-.svg-point,
-.svg-polygon,
-.svg-pie {
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
-}
-
-[name=title] {
+ds-card [name=title] {
   flex: 1;
   margin-right: 5px;
 }
 
-[name=info] svg {
+ds-card [name=info] svg {
   width: 18px;
   margin-top: -2px;
 }
 
-[name=unit] {
+ds-card [name=unit] {
   display: inline-block;
   font-weight: bold;
   font-size: small;
   color: gray;
 }
 
-handle {
+ds-card handle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,34 +77,45 @@ handle {
   cursor: -webkit-grab;
 }
 
-.collection {
+ds-card .collection {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.collection div,
-.collection svg {
+ds-card .collection div,
+ds-card .collection svg {
   display: inline-block;
   vertical-align: middle;
 }
 
-.collection svg {
+ds-card .collection svg {
   transform: scale(0.7);
   margin-right: 0.7em;
 }
 
-.legends-list {
+ds-card .legends-list {
   font-size: smaller;
 }
 
-.mutant-options select {
+ds-card .mutant-options select {
   background-color: white;
   border: 1px solid lightgray;
   padding: 5px 7px;
 }
 
-subheader {
+ds-card subheader {
   font-size: 0.9em;
   color: #777;
+}
+
+ds-card aside buttons {
+  justify-content: left;
+  margin: 1em;
+}
+
+ds-card aside buttons button {
+  border: 1px solid lightgray;
+  padding: 7px 12px;
+  margin-left: 0;
 }
