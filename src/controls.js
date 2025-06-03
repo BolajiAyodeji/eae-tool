@@ -67,7 +67,7 @@ export default class dscontrols extends HTMLElement {
 	render() {
 		this.checkbox = toggle_switch.call(this.ds, this.on);
 
-		attach.call(this, tmpl('#ds-controls-template'));
+		this.append(tmpl('#ds-controls-template'));
 
 		this.main = qs('main', this);
 		this.header = qs('header', this);
@@ -78,8 +78,8 @@ export default class dscontrols extends HTMLElement {
 		bind(this, Object.assign({}, this.ds, {
 			"checkbox":    this.checkbox.svg,
 			"description": this.ds.description || this.ds.category.description,
-			"card":        this.card(),
-			"info":        this.info(),
+			"card":        (_, e) => { e.stopPropagation(); this.ds.card.discover(); },
+			"info":        (_, e) => { e.stopPropagation(); this.ds.info_modal(); },
 		}), { "final": false });
 
 		this.inject();
@@ -164,26 +164,6 @@ export default class dscontrols extends HTMLElement {
 
 		if (this.checkbox) this.checkbox.svg.remove();
 	};
-
-	info() {
-		const e = bi_icon('info-circle');
-		e.onclick = v => {
-			v.stopPropagation();
-			this.ds.info_modal();
-		};
-
-		return e;
-	};
-
-	card() {
-		const e = bi_icon('list-task');
-		e.onclick = v => {
-			v.stopPropagation();
-			this.ds.card.discover();
-		};
-
-		return e;
-	}
 };
 
 customElements.define('ds-controls', dscontrols);

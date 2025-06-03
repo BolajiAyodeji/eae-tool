@@ -9,8 +9,15 @@
       <span bind="name"></span>
 
       <buttons>
-        <span bind="card"></span>
-        <span bind="info"></span>
+        <button bind-listen="click"
+                bind-func="card">
+          <i class="bi-list-task"></i>
+        </button>
+
+        <button bind-listen="click"
+                bind-func="info">
+          <i class="bi-info-circle"></i>
+        </button>
       </buttons>
     </header>
 
@@ -31,16 +38,24 @@
         <span bind="name"></span>
 
         <buttons>
-          <span bind-if="controls"
-                bind="controls"></span>
+          <button bind-if="weight-group"
+                  bind-listen="click"
+                  bind-func="settings">
+            <i class="bi-gear"></i>
+          </button>
 
-          <span bind="close"></span>
+          <button bind-listen="click"
+                  bind-func="close">
+            <i class="bi-x-lg"></i>
+          </button>
         </buttons>
       </header>
 
       <subheader bind-if="index">
         (<span bind="index"></span>)
       </subheader>
+
+      <br bind-unless="index">
 
       <span bind="range"></span>
       <span bind="ramp"></span>
@@ -57,15 +72,15 @@
       <div style="display: flex;
                   justify-content: space-around;">
         <div bind-if="manual-min">
-          Min value <span bind="manual-min"></span>
+          Min <span bind="manual-min"></span>
         </div>
 
         <div>
-          Max value <span bind="manual-max"></span>
+          Max <span bind="manual-max"></span>
         </div>
 
         <div>
-          Importance <span bind="weight"></span>
+          Importance <span bind="weight-group"></span>
         </div>
       </div>
     </div>
@@ -74,7 +89,10 @@
          style="display: flex;
                 justify-content: space-between;">
       <div style="display: flex;">
-        Visibility <span bind="visibility"></span>
+        Visibility <input type="checkbox"
+                          bind-listen="change"
+                          bind-func="visibility"
+                          checked />
       </div>
 
       <div style="display: flex;">
@@ -82,17 +100,18 @@
       </div>
     </div>
 
-    <div class="group"
-         style="display: flex;
-                justify-content: space-around;">
-      <div>
-        <span bind="info"></span> About
-      </div>
+    <buttons>
+      <button bind-listen="click"
+              bind-func="info">
+        <i class="bi-info-circle"></i> <span>About</span>
+      </button>
 
-      <div bind-if="list">
-        <span bind="list"></span> Table
-      </div>
-    </div>
+      <button bind-if="has-geojson"
+              bind-listen="click"
+              bind-func="table">
+        <i class="bi-table"></i> <span>Table</span>
+      </button>
+    </buttons>
   </aside>
 </template>
 

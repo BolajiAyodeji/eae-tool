@@ -4,7 +4,6 @@ import bind from '../lib/bind.js';
 
 import {
 	svg_interval,
-	bi_icon,
 } from './utils.js';
 
 import {
@@ -202,7 +201,9 @@ function range() {
 	};
 };
 
-function weight() {
+function weight_group() {
+	if (!this.category.controls.weight) return null;
+
 	const el = ce('select', null, { "bind": 'weight' });
 
 	el.prepend(
@@ -458,9 +459,6 @@ export default class dscard extends HTMLElement {
 	manual_max;
 	multiselection = [];
 
-	connectedCallback() {
-	};
-
 	constructor(d) {
 		if (!(d instanceof DS)) throw new Error(`dscard: Expected a ds but got ${d}`);
 		super();
@@ -481,22 +479,22 @@ export default class dscard extends HTMLElement {
 	render() {
 		this.content = qs('content', this);
 
-		if (this.ds.category.controls.weight)
-			this.weight_group = weight.call(this.ds);
+		this.weight_group = weight_group.call(this.ds);
 
 		if (this.ds.hosts) mutant_options.call(this);
 
-		attach.call(this, tmpl('#ds-card-template'));
+		this.append(tmpl('#ds-card-template'));
 
 		bind(this, Object.assign({}, this.ds, {
 			"range":          range_el.call(this),
-			"info":           this.info(),
+			"info":           _ => this.ds.info_modal(),
+			"visibility":     (_, e) => this.ds.visibility(e.target.checked),
 			"opacity":        this.opacity(),
-			"visibility":     this.visibility(),
-			"close":          this.close(),
-			"weight":         this.weight_group,
-			"controls":       this.weight_group && this.controls(),
-			"list":           this.list_elements(),
+			"close":          _ => { this.ds.turn(false); COMMIT("datasets"); },
+			"weight-group":   this.weight_group,
+			"settings":       _ => { qs('aside', this).style.display = (this.show_advanced = !this.show_advanced) ? 'block' : 'none'; },
+			"table":          _ => this.ds.features_table_modal(),
+			"has-geojson":    maybe(this.ds, 'vectors', 'geojson'),
 			"manual-min":     this.manual_min,
 			"manual-max":     this.manual_max,
 			"mutant-options": this.mutant_options,
@@ -582,53 +580,6 @@ export default class dscard extends HTMLElement {
 		}
 
 		return ul;
-	};
-
-	list_elements() {
-		if (!this.ds.vectors?.geojson) return "";
-
-		const e = bi_icon('table');
-		e.onclick = this.ds.features_table_modal.bind(this.ds);
-
-		return e;
-	};
-
-	info() {
-		const e = bi_icon('info-circle');
-		e.onclick = this.ds.info_modal.bind(this.ds);
-
-		return e;
-	};
-
-	controls() {
-		const e = bi_icon('gear');
-		e.onclick = _ => qs('aside', this).style.display = ((this.show_advanced = !this.show_advanced)) ? 'block' : 'none';
-
-		return e;
-	}
-
-	close() {
-		const e = bi_icon('x-lg');
-		e.onclick = _ => {
-			this.ds.turn(false);
-			COMMIT("datasets");
-		};
-
-		return e;
-	};
-
-	visibility() {
-		const c = ce('input', null, { "type": "checkbox" });
-
-		const ds = this.ds;
-
-		c.checked = true;
-
-		c.onchange = function() {
-			ds.visibility(this.checked);
-		};
-
-		return c;
 	};
 
 	opacity() {
