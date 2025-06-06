@@ -71,13 +71,11 @@ export function init() {
 
 	const user_id = user_extract('id');
 
-	const r = tmpl('#ramp');
-
-	qs('.ramp', r).append(
-		ce('div', "Low"),
-		ce('div', "Medium"),
-		ce('div', "High"),
-	);
+	const r = bind(tmpl('#ramp'), {
+		"left":   "Low",
+		"middle": "Medium",
+		"right":  "High",
+	});
 
 	const scale = ce('div', null, { "class": 'index-graphs-scale' });
 	scale.append(analysis_colorscale_svg.cloneNode(true), r);

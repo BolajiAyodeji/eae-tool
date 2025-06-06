@@ -65,14 +65,18 @@
               <span>Priority</span>
             </div>
 
-            <div class="output-group">
+            <div class="visibility-group">
               <div id="output-visibility">
-                <input id="output-on-map"
-                       type="checkbox" checked>
-                <label for="output-on-map">Show analysis</label>
+                <label>
+                  <input id="output-on-map"
+                         type="checkbox" checked>
+                  &nbsp;
+                  Show analysis
+                </label>
               </div>
 
-              <div id="output-opacity">
+              <div id="output-opacity"
+                   class="opacity-group">
                 <span>Opacity</span>
               </div>
             </div>
@@ -216,7 +220,7 @@
     {{> views/loading}}
   </body>
 
-  <template id="ds-controls-template">
+  <template id="controls-template">
     <main>
       <div class="loading">
         <div class="spinner"></div>
@@ -245,112 +249,132 @@
     </main>
   </template>
 
-  <template id="ds-card-template">
+  <template id="card-template">
     <main>
       <handle>
         <i class="bi bi-grip-vertical"></i>
       </handle>
 
-      <div style="padding: 0.5em;">
+      <content>
         <header>
-          <span bind="name"></span>
+          <span bind-if="symbol"
+                bind="symbol" bind-replace></span>
 
-          <buttons>
-            <button bind-if="weight-group"
-                    bind-listen="click"
-                    bind-func="settings">
-              <i class="bi-gear"></i>
-            </button>
+          <div class="names">
+            <div bind="name"></div>
 
-            <button bind-listen="click"
-                    bind-func="close">
-              <i class="bi-x-lg"></i>
-            </button>
-          </buttons>
+            <div bind-if="index"
+                 class="index">
+              (<span bind="index"></span>)
+            </div>
+          </div>
+
+          <div bind-tmpl="#card-header-buttons"></div>
         </header>
-
-        <subheader bind-if="index">
-          (<span bind="index"></span>)
-        </subheader>
-
-        <br bind-unless="index">
-
-        <span bind="range"></span>
-        <span bind="ramp"></span>
-        <span bind="legends-list"></span>
 
         <span bind-if="hosts"
               bind="mutant-options"
               class="mutant-options"></span>
-      </div>
+
+        <span bind="range" class="range"></span>
+
+        <span bind-tmpl="#value-multiselect-template"></span>
+
+        <span bind="ramp"></span>
+
+        <span bind-if="pvna">
+          <div style="display: inline-block;
+	                  width: 64px;
+	                  height: 5px;
+	                  background-color: rgba(155,155,155,1);
+	                  margin: 15px 15px 0 0;">
+          </div>
+          <div style="display: inline-block;
+                      font-size: x-small;">
+            Not Available
+          </div>
+        </span>
+
+        <span bind-tmpl="#legends-template"></span>
+      </content>
     </main>
 
     <aside style="display: none;">
-      <div class="group">
+      <div class="group"
+           bind-if="manual-inputs">
+        <strong bind="unit-label">Range</strong>
+
+        <p class="explain"
+           bind="category.unit-explain">
+          Analysis will restrict the dataset to the selected range.
+        </p>
+
         <div style="display: flex;
                     justify-content: space-around;">
           <div bind-if="manual-min">
-            Min <span bind="manual-min"></span>
+            <span bind="manual-min"></span> Min
           </div>
 
           <div>
             Max <span bind="manual-max"></span>
           </div>
+        </div>
+      </div>
 
+      <div bind-if="weight-group"
+           class="group">
+        <strong>Importance</strong>
+
+        <p class="explain">
+          Change importance to provide different weightings for data in the
+          analysis calculation.
+        </p>
+
+        <span bind="weight-group"></span>
+      </div>
+
+      <div class="group">
+        <div class="visibility-group">
           <div>
-            Importance <span bind="weight-group"></span>
+            <label>
+              <input type="checkbox"
+                     bind-listen="change"
+                     bind-func="visibility"
+                     checked />
+              &nbsp;
+              Visibility
+            </label>
+          </div>
+
+          <div class="opacity-group">
+            <span>Opacity</span>
+            <span bind="opacity" bind-replace></span>
           </div>
         </div>
       </div>
 
-      <div class="group"
-           style="display: flex;
-                  justify-content: space-between;">
-        <div style="display: flex;">
-          Visibility <input type="checkbox"
-                            bind-listen="change"
-                            bind-func="visibility"
-                            checked />
-        </div>
+      <div class="group">
+        <buttons>
+          <button bind-listen="click"
+                  bind-func="info">
+            <i class="bi-info-circle"></i> <span>About</span>
+          </button>
 
-        <div style="display: flex;">
-          Opacity <span bind="opacity"></span>
-        </div>
+          <button bind-if="has-geojson"
+                  bind-listen="click"
+                  bind-func="table">
+            <i class="bi-table"></i> <span>Table</span>
+          </button>
+        </buttons>
       </div>
-
-      <buttons>
-        <button bind-listen="click"
-                bind-func="info">
-          <i class="bi-info-circle"></i> <span>About</span>
-        </button>
-
-        <button bind-if="has-geojson"
-                bind-listen="click"
-                bind-func="table">
-          <i class="bi-table"></i> <span>Table</span>
-        </button>
-      </buttons>
     </aside>
   </template>
 
   <template id="ramp">
-    <div class="ramp-container">
-      <style>
-        .ramp {
-          display: flex;
-          font-size: 0.8em;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-          margin: auto 1em;
-        }
-
-        .unit-ramp {
-          font-weight: bold;
-          color: darkgray;
-        }
-      </style>
-
-      <div class="ramp"></div>
+    <div class="ramp">
+      <div bind="left"></div>
+      <div bind="middle" class="unit-ramp"></div>
+      <div bind="right"></div>
     </div>
   </template>
 
@@ -576,6 +600,53 @@
               class="big-green-button"
               style="font-size: 0.8em; margin: auto;">Add point</button>
     </form>
+  </template>
+
+  <template id="value-multiselect-template">
+    <label bind-each="value-multiselect"
+           class="multiselect-row">
+      <span bind-init="color"
+            style="display:block;
+                   height: 20px;
+                   width: 20px;"></span>
+
+      <span bind="name"></span>
+
+      <input type="checkbox"
+             class="multiselect"
+             bind-attr-checked="checked"
+             bind-value="value"
+             bind-listen="change"
+             bind-func="change">
+    </label>
+  </template>
+
+  <template id="legends-template">
+    <label bind-each="legends"
+           class="multiselect-row">
+      <span bind="csymbol"></span>
+
+      <span bind="cname"></span>
+
+      <input type="checkbox"
+             bind-attr-checked="checked"
+             bind-listen="change"
+             bind-func="change">
+    </label>
+  </template>
+
+  <template id="card-header-buttons">
+    <buttons>
+      <button bind-listen="click"
+              bind-func="advanced">
+        <i class="bi-chevron-down"></i>
+      </button>
+
+      <button bind-listen="click"
+              bind-func="close">
+        <i class="bi-x-lg"></i>
+      </button>
+    </buttons>
   </template>
 
   {{> views/env }}

@@ -1,6 +1,5 @@
 import {
 	elem_collapse,
-	bi_icon,
 } from './utils.js';
 
 import DS from './ds.js';
@@ -67,7 +66,7 @@ export default class dscontrols extends HTMLElement {
 	render() {
 		this.checkbox = toggle_switch.call(this.ds, this.on);
 
-		this.append(tmpl('#ds-controls-template'));
+		this.append(tmpl('#controls-template'));
 
 		this.main = qs('main', this);
 		this.header = qs('header', this);

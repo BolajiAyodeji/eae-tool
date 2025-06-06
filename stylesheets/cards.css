@@ -18,22 +18,3 @@
   color: var(--the-color);
   border: 1px solid lightgray;
 }
-
-input[bind="min"],
-input[bind="max"] {
-  width: 4em !important;
-  border: 1px solid rgba(0,0,0,0.3);
-  appearance: none;
-  padding: 5px 12px;
-  text-align: center;
-  border-radius: 2px;
-  z-index: 2;
-}
-
-select[bind="weight"] {
-  width: 5em;
-}
-
-.legends-list {
-  margin-top: 2em;
-}

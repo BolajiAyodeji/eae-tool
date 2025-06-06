@@ -2,6 +2,8 @@ import {
 	enough_datasets,
 } from './analysis.js';
 
+import bind from '../lib/bind.js';
+
 import modal from '../lib/modal.js';
 
 import {
@@ -12,8 +14,6 @@ import {
 	svg_interval,
 	bi_icon,
 } from './utils.js';
-
-let checkbox;
 
 export let opacity = 1;
 
@@ -35,6 +35,8 @@ function variants() {
 };
 
 function toggle_init() {
+	const checkbox = qs('#output-on-map');
+
 	checkbox.onchange = _ => {
 		shown = checkbox.checked;
 		COMMIT();
@@ -45,6 +47,8 @@ export function opacity_init() {
 	const control = svg_interval({
 		"init":      { "min": 0, "max": 1 },
 		"sliders":   'single',
+		"height":    8,
+		"radius":    10,
 		"callback2": x => {
 			opacity = x;
 			COMMIT();
@@ -55,15 +59,14 @@ export function opacity_init() {
 };
 
 function ramp() {
-	const r = tmpl('#ramp');
-
-	qs('.ramp', r).append(
-		ce('div', "Low"),
-		ce('div', "Medium"),
-		ce('div', "High"),
+	qs('#output-ramp').append(
+		analysis_colorscale_svg,
+		bind(tmpl('#ramp'), {
+			"left":   "Low",
+			"middle": "Medium",
+			"right":  "High",
+		}),
 	);
-
-	qs('#output-ramp').append(analysis_colorscale_svg, r);
 };
 
 function index_info() {
@@ -122,8 +125,6 @@ export function indexes() {
 };
 
 export function init() {
-	checkbox = qs('#output-on-map');
-
 	variants();
 	indexes();
 	toggle_init();

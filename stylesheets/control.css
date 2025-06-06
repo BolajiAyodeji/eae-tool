@@ -18,7 +18,6 @@ ds-controls header {
   justify-content: space-between;
 
   padding: 0.7em;
-  padding-right: 0.4em;
 
   cursor: pointer;
 }
@@ -53,10 +52,6 @@ ds-controls [bind=checkbox] {
 
 ds-controls .svg-interval {
   filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.3));
-}
-
-ds-controls .ramp {
-  font-size: 0.8em;
 }
 
 ds-controls .control-option {
@@ -121,7 +116,11 @@ ds-controls buttons {
 }
 
 ds-controls buttons button {
-  margin: 0 0.25em;
+  height: 2em;
+  width: 2em;
+  text-align: center;
+  padding: unset;
+  margin-left: 0.25em;
 }
 
 ds-controls:hover buttons {

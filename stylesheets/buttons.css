@@ -10,10 +10,6 @@ buttons button {
 
   background-color: white;
   color: var(--the-color);
-
-  padding: 5px 6px;
-
-  margin: 0 0.25em;
 }
 
 buttons button:hover {

@@ -40,6 +40,34 @@ input[type=checkbox]:checked {
   filter: drop-shadow( 0px 1px 1px rgba(0, 0, 0, 0.3));
 }
 
+.opacity-group {
+  display: flex;
+  align-items: center;
+}
+
+.visibility-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 1.5em;
+  border: 1px solid lightgray;
+  background-color: white;
+  padding: 0.5em;
+  border-radius: 2px;
+}
+
+.ramp {
+  display: flex;
+  font-size: 0.8em;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: auto 0.5em;
+}
+
+.unit-ramp {
+  font-weight: bold;
+  color: darkgray;
+}
+
 bubble-message {
   max-width: 42em;
 }

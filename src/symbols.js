@@ -18,6 +18,7 @@ export function points_symbol({size, fill, stroke, strokewidth}) {
 
 export function lines_symbol({size, dasharray, stroke, fill, strokewidth = 1}) {
 	const svg = d3.create('svg')
+		.attr('class', 'svg-line')
 		.attr('width', size)
 		.attr('height', size);
 
@@ -35,9 +36,9 @@ export function lines_symbol({size, dasharray, stroke, fill, strokewidth = 1}) {
 export function polygons_symbol({size, stroke, strokewidth, fill, opacity}) {
 	const svg = d3.create('svg')
 		.attr('class', 'svg-polygon')
-		.attr('style', "vertical-align: middle;")
 		.attr('width', size)
-		.attr('height', size);
+		.attr('height', size)
+		.attr('viewBox', "0 0 28 28");
 
 	svg
 		.append('path')
@@ -62,7 +63,7 @@ export function lines_legends_svg(l) {
 
 export function points_legends_svg(l) {
 	return points_symbol({
-		"size":         18,
+		"size":         22,
 		"fill":         this.ds.vectors.fill,
 		"stroke":       l['stroke'] || 'black',
 		"stroke-width": l['stroke-width'],
@@ -71,7 +72,7 @@ export function points_legends_svg(l) {
 
 export function polygons_legends_svg(l) {
 	return polygons_symbol({
-		"size":   24,
+		"size":   22,
 		"fill":   this.ds.vectors.fill,
 		"stroke": l['stroke'],
 	});

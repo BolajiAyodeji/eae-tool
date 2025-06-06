@@ -1,3 +1,5 @@
+import bind from '../lib/bind.js';
+
 import modal from '../lib/modal.js';
 
 import bubblemessage from '../lib/bubblemessage.js';
@@ -38,12 +40,11 @@ async function summary() {
 	const graphs = ce('div', null, { "id": "summary-graphs" });
 	const graphs_tab = ce('div', graphs, { "class": 'tab' });
 
-	const r = tmpl('#ramp');
-	qs('.ramp', r).append(
-		ce('div', "Low"),
-		ce('div', "Medium"),
-		ce('div', "High"),
-	);
+	const r = bind(tmpl('#ramp'), {
+		"left":   "Low",
+		"middle": "Medium",
+		"right":  "High",
+	});
 
 	SUMMARY = {};
 

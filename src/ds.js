@@ -704,9 +704,9 @@ This is not fatal but the dataset is now disabled.`,
 			if (this.disabled) return;
 		}
 
-		if (!this.card) this.card = new dscard(this);
+		if (this.hosts) await this.mutate(this.host);
 
-		if (this.hosts) this.mutate(this.host);
+		if (!this.card) this.card = new dscard(this);
 
 		if (this.controls) this.controls.turn(v);
 

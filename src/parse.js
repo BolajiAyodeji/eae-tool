@@ -492,9 +492,6 @@ export function vectors_csv() {
 	}
 
 	this.update_source(this.vectors.geojson);
-
-	if (this._domain)
-		Object.assign(this._domain, this.domain);
 };
 
 function vectors_timeline() {
