@@ -323,7 +323,7 @@ This is fatal. Thanks for all the fish.`;
 		await OUTLINE.load('vectors');
 		await OUTLINE.load('raster');
 
-		OUTLINE.vectors.geojson.features[0].id = 0;
+		OUTLINE.vectors.data.features[0].id = 0;
 	})();
 
 	await (function fetch_divisions() {
@@ -483,7 +483,7 @@ async function reload(k,v) {
 			if (!MAPBOX.getSource(`filtered-source-${i}`)) {
 				MAPBOX.addSource(`filtered-source-${i}`, {
 					"type": 'geojson',
-					"data": d.vectors.geojson,
+					"data": d.vectors.data,
 				});
 			}
 
@@ -508,7 +508,7 @@ async function reload(k,v) {
 
 				MAPBOX.addSource(`priority-source-${i}`, {
 					"type": 'geojson',
-					"data": json_clone(d.vectors.geojson),
+					"data": json_clone(d.vectors.data),
 				});
 			}
 
@@ -832,7 +832,7 @@ export async function sort(ordered) {
 };
 
 function reset_features_visibility() {
-	const fs = maybe(this, 'vectors', 'geojson');
+	const fs = maybe(this, 'vectors', 'data');
 	if (!fs) return;
 
 	fs.features.forEach(f => f.properties['__visible'] = true);

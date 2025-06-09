@@ -188,13 +188,13 @@ function geojson() {
 	if (this.vectors.geojson) return Whatever;
 
 	return fetchcheck.call(this, this.vectors.endpoint, "GEOJSON")
-		.then(async r => this.vectors.geojson = await r.json());
+		.then(async r => this.vectors.data = await r.json());
 };
 
 export async function geojson_summary() {
-	await until(_ => maybe(this.vectors.geojson, 'features'));
+	await until(_ => maybe(this.vectors.data, 'features'));
 
-	const features = this.vectors.geojson.features;
+	const features = this.vectors.data.features;
 	const properties = Array.from(new Set(features.map(x => Object.keys(x.properties)).flat()));
 
 	const o = {
@@ -315,7 +315,7 @@ function specs_set(fs, specs) {
 export function points() {
 	return geojson.call(this)
 		.then(_ => {
-			for (const p of this.vectors.geojson.features) {
+			for (const p of this.vectors.data.features) {
 				const rp = coordinates_to_raster_pixel(p.geometry.coordinates);
 
 				p.properties['__rasterindex'] = maybe(rp, 'index');
@@ -325,13 +325,13 @@ export function points() {
 		.then(_ => {
 			this.criteria = specs_set.call(
 				this,
-				this.vectors.geojson.features,
+				this.vectors.data.features,
 				this.config.features_specs,
 			);
 
 			this.add_source({
 				"type":             'geojson',
-				"data":             this.vectors.geojson,
+				"data":             this.vectors.data,
 				"cluster":          true,
 				"clusterMaxZoom":   10,
 				"clusterMinPoints": 4,
@@ -378,7 +378,7 @@ export function points() {
 export function lines() {
 	return geojson.call(this)
 		.then(_ => {
-			for (const f of this.vectors.geojson.features) {
+			for (const f of this.vectors.data.features) {
 				if (f.geometry.type === "LineString") {
 					f.properties['__rasterindexes'] = f.geometry.coordinates.map(t => maybe(coordinates_to_raster_pixel(t), 'index')).sort();
 				} else {
@@ -400,13 +400,13 @@ export function lines() {
 
 			this.criteria = specs_set.call(
 				this,
-				this.vectors.geojson.features,
+				this.vectors.data.features,
 				this.config.features_specs,
 			);
 
 			this.add_source({
 				"type":      "geojson",
-				"data":      this.vectors.geojson,
+				"data":      this.vectors.data,
 				"tolerance": 0,
 			});
 
@@ -430,7 +430,7 @@ export function lines() {
 export function polygons() {
 	return geojson.call(this)
 		.then(_ => {
-			for (const p of this.vectors.geojson.features) {
+			for (const p of this.vectors.data.features) {
 				p.properties['__extent'] = geojsonExtent(p);
 				p.properties['__visible'] = true;
 			}
@@ -438,13 +438,13 @@ export function polygons() {
 		.then(_ => {
 			this.criteria = specs_set.call(
 				this,
-				this.vectors.geojson.features,
+				this.vectors.data.features,
 				this.config.features_specs,
 			);
 
 			this.add_source({
 				"type": "geojson",
-				"data": this.vectors.geojson,
+				"data": this.vectors.data,
 			});
 
 			this.add_layers({
@@ -483,7 +483,7 @@ export function vectors_csv() {
 
 	const v = this.timeline ? STATE.timeline : this.csv.column;
 
-	for (let f of this.vectors.geojson.features) {
+	for (let f of this.vectors.data.features) {
 		f.id = f.properties[this.vectors.id];
 		f.properties['__visible'] = !nil(data.find(r => r[this.csv.key] === f.id));
 
@@ -491,7 +491,7 @@ export function vectors_csv() {
 		f.properties['__fill'] = this.colorscale ? s(maybe(row, v)) : this.vectors.fill;
 	}
 
-	this.update_source(this.vectors.geojson);
+	this.update_source(this.vectors.data);
 
 	if (this._domain)
 		Object.assign(this._domain, this.domain);
