@@ -185,7 +185,7 @@ OUTLINE: ${OUTLINE.raster.width} × ${OUTLINE.raster.height}`);
 };
 
 function geojson() {
-	if (this.vectors.geojson) return Whatever;
+	if (this.vectors.data) return Whatever;
 
 	return fetchcheck.call(this, this.vectors.endpoint, "GEOJSON")
 		.then(async r => this.vectors.data = await r.json());
