@@ -1,5 +1,5 @@
 export async function self() {
-	SELF = { "data": { "circles": [], "envs": [] } };
+	SELF = {};
 
 	const token = localStorage['token'];
 
