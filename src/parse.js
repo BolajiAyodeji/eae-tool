@@ -61,12 +61,24 @@ export function csv() {
 };
 
 function table_setup() {
-	// TODO: polygons_valued_columns will get replaced with
-	//
-	// this.csv.column = this.config.csv_column;
-	// this.csv.key = this.csv.data.columns[0];
-	this.csv.column = maybe(this.config, 'polygons_valued_columns', 'value') || this.config.csv_column;
-	this.csv.key = maybe(this.config, 'polygons_valued_columns', 'key') || this.csv.data.columns[0];
+	switch (this.type) {
+	case 'raster-valued': {
+		this.csv.key = this.csv.data.columns[0];
+		this.csv.column = this.csv.data.columns[1];
+		break;
+	}
+
+	default: {
+		// TODO: polygons_valued_columns will get replaced with
+		//
+		// this.csv.key = this.csv.data.columns[0];
+		// this.csv.column = this.config.csv_column;
+		//
+		this.csv.key = maybe(this.config, 'polygons_valued_columns', 'key') || this.csv.data.columns[0];
+		this.csv.column = maybe(this.config, 'polygons_valued_columns', 'value') || this.config.csv_column;
+		break;
+	}
+	}
 
 	this.csv.table = table_refresh.call(this);
 
@@ -492,9 +504,6 @@ export function vectors_csv() {
 	}
 
 	this.update_source(this.vectors.data);
-
-	if (this._domain)
-		Object.assign(this._domain, this.domain);
 };
 
 function vectors_timeline() {
