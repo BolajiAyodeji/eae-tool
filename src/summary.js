@@ -109,7 +109,7 @@ async function summary() {
 
 		for (let k in SUMMARY) {
 			let tr = ce('tr', ce('td', EAE['indexes'][k]['name'], { "class": 'index-name' }));
-			s.forEach((x,i) => tr.append(ce('td', (SUMMARY[k][j]['amounts'][i]).toLocaleString())));
+			s.forEach((x,i) => tr.append(ce('td', Math.round(SUMMARY[k][j]['amounts'][i]).toLocaleString())));
 
 			tbody.append(tr);
 		}
@@ -207,24 +207,24 @@ export default async function analyse(raster) {
 		}
 	}
 
-	const ptotal = population_groups.reduce((a,b) => a + b, 0);
-	const atotal = area_groups.reduce((a,b) => a + b, 0);
-
 	const e = (1000/GEOGRAPHY.resolution)**2;
 	const outline_cover = OUTLINE.raster.data.filter(x => x != OUTLINE.raster.nodata).length;
 	const f = GEOGRAPHY.area ? (GEOGRAPHY.area / outline_cover) : (1/e);
+
+	const ptotal = population_groups.reduce((a,b) => a + b, 0);
+	const atotal = area_groups.reduce((a,b) => a + b, 0);
 
 	const o = {};
 	if (ds.id === 'population-density')
 		o['population-density'] = {
 			"total":        ptotal / e,
-			"amounts":      population_groups,
+			"amounts":      population_groups.map(x => x / e),
 			"distribution": population_groups.reduce((a,b) => { a.push(b/ptotal); return a; }, []),
 		};
 
 	o['area'] = {
 		"total":        atotal * f,
-		"amounts":      area_groups,
+		"amounts":      area_groups.map(x => x * f),
 		"distribution": area_groups.reduce((a,b) => { a.push(b/atotal); return a; }, []),
 	};
 

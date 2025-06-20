@@ -351,7 +351,7 @@ function geography_indexes_right($) {
 
 			r.push({ "text": EAE['indexes'][k]['name'], "options": { bold } });
 
-			r.push(...SUMMARY[k][c]['amounts'].map(i => ({ "text": (i).toLocaleString() })));
+			r.push(...SUMMARY[k][c]['amounts'].map(i => ({ "text": Math.round(i).toLocaleString() })));
 
 			rows.push(r);
 		}
@@ -396,6 +396,8 @@ function analysis(index) {
 	const pop = DST.get('population-density');
 	const pop_data = pop.raster.data;
 
+	const e = (1000/GEOGRAPHY.resolution)**2;
+
 	let right_rows = [];
 	switch (index) {
 	case 'demand': {
@@ -410,7 +412,7 @@ function analysis(index) {
 		right_rows = [
 			row({
 				"text":  "Population where demand is medium-high or high",
-				"value": population_demand,
+				"value": Math.round(population_demand / e),
 			}),
 		];
 
@@ -488,7 +490,7 @@ function analysis(index) {
 			right_rows.push(
 				row({
 					"text":  "Aproximate amount of people living with 1km of an electricity line",
-					"value": population_lines,
+					"value": Math.round(population_lines / e),
 				}),
 			);
 		}
@@ -572,7 +574,7 @@ function analysis(index) {
 		right_rows = [
 			row({
 				"text":  "Aproximate amount of people living in the area covered by the analysis",
-				"value": population_count,
+				"value": Math.round(population_count / e),
 			}),
 		];
 
@@ -580,7 +582,7 @@ function analysis(index) {
 			right_rows.push(
 				row({
 					"text":  "Aproximate amount of people living with 1km of an electricity line",
-					"value": population_lines,
+					"value": Math.round(population_lines / e),
 				}),
 			);
 		}
