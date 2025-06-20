@@ -487,7 +487,7 @@ This is not fatal but the dataset is now disabled.`,
 
 		this.layers.map(l => MAPBOX.setLayoutProperty(l.id, 'visibility', t ? 'visible' : 'none'));
 
-		const c = qs('[bind=visibility] input', this.card);
+		const c = qs('[bind-func=visibility]', this.card);
 		if (c) c.checked = t;
 
 		if (this.host) {
