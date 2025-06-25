@@ -187,6 +187,7 @@ export default async function analyse(raster) {
 
 	let population_groups = [0, 0, 0, 0, 0];
 	let area_groups = [0, 0, 0, 0, 0];
+	let covered = 0;
 
 	for (let i = 0; i < a.length; i += 1) {
 		let x = a[i];
@@ -202,17 +203,24 @@ export default async function analyse(raster) {
 		else if (x >= 0.8 && x <= 1)  t = 4;
 
 		if (x !== -1) {
+			covered += 1;
 			area_groups[t] += 1;
 			population_groups[t] += v;
 		}
 	}
 
 	const e = (1000/GEOGRAPHY.resolution)**2;
-	const outline_cover = OUTLINE.raster.data.filter(x => x != OUTLINE.raster.nodata).length;
-	const f = GEOGRAPHY.area ? (GEOGRAPHY.area / outline_cover) : (1/e);
+	const c = OUTLINE.raster.data.filter(x => x !== OUTLINE.raster.nodata).length;
 
 	const ptotal = population_groups.reduce((a,b) => a + b, 0);
 	const atotal = area_groups.reduce((a,b) => a + b, 0);
+
+	const s = STATE.divtier ?
+		x => x / e :
+		d3.scaleLinear()
+			.domain([0, c])
+			.range([0, (GEOGRAPHY.area || c/e)])
+			.clamp(true);
 
 	const o = {};
 	if (ds.id === 'population-density')
@@ -223,8 +231,8 @@ export default async function analyse(raster) {
 		};
 
 	o['area'] = {
-		"total":        atotal * f,
-		"amounts":      area_groups.map(x => x * f),
+		"total":        s(covered),
+		"amounts":      area_groups.map(x => s(x)),
 		"distribution": area_groups.reduce((a,b) => { a.push(b/atotal); return a; }, []),
 	};
 
