@@ -204,9 +204,8 @@ export default async function analyse(raster) {
 		else if (x >= 0.6 && x < 0.8) t = 3;
 		else if (x >= 0.8 && x <= 1)  t = 4;
 
-		covered += 1;
-
 		if (x !== -1) {
+			covered += 1;
 			area_groups[t] += 1;
 			population_groups[t] += v;
 		}
@@ -218,8 +217,12 @@ export default async function analyse(raster) {
 	const ptotal = population_groups.reduce((a,b) => a + b, 0);
 	const atotal = area_groups.reduce((a,b) => a + b, 0);
 
-	const s = d3.scaleLinear().domain([0, c]).range([0, (GEOGRAPHY.area || c/e)]);
-	if (GEOGRAPHY.area) s.clamp(true);
+	const s = STATE.divtier ?
+		x => x / e :
+		d3.scaleLinear()
+			.domain([0, c])
+			.range([0, (GEOGRAPHY.area || c/e)])
+			.clamp(true);
 
 	const o = {};
 	if (ds.id === 'population-density')
