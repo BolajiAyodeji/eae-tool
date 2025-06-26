@@ -54,7 +54,7 @@ export default class DS {
 
 		this.on = false;
 
-		this.selection = null;
+		this.selection = [];
 
 		this._layers = [];
 

@@ -828,7 +828,7 @@ function load_datasets(array) {
 		} else
 			console.warn(`Could not initialise domain for '${ds.id}' - ${ds.type}.`);
 
-		ds.selection = d.selection;
+		ds.selection = d.selection || [];
 
 		if (and(maybe(d.selection, 0), ds.hosts))
 			ds.mutate(DST.get(d.selection[0]));

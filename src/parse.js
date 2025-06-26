@@ -316,7 +316,7 @@ function specs_set(fs, specs) {
 
 		fs[i].properties['__criteria'] = c;
 
-		fs[i].properties['__visible'] = this.selection ?
+		fs[i].properties['__visible'] = this.selection.length ?
 			this.selection.includes(c[c.params[0]]) :
 			true;
 	}

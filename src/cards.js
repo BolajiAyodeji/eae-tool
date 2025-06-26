@@ -286,12 +286,12 @@ function legends() {
 				.filter(c => c[1])
 				.map(c => c[0] || 'default');
 
-			const fs = this.ds.vectors.geojson.features;
+			const fs = this.ds.vectors.data.features;
 			for (let i = 0; i < fs.length; i += 1)
 				if (same(fs[i].properties['__criteria'], l))
 					fs[i].properties['__visible'] = e.target.checked;
 
-			MAPBOX.getSource(this.ds.id).setData(this.ds.vectors.geojson);
+			MAPBOX.getSource(this.ds.id).setData(this.ds.vectors.data);
 		};
 
 		this.checkboxes.push([id, true]);
