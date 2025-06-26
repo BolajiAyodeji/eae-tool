@@ -464,7 +464,7 @@ export function init() {
 			COMMIT();
 		});
 
-	const ca = ce('button', 'Remove all datasets', { "style": "color: #c30000;" });
+	const ca = ce('button', 'Remove all layers', { "style": "color: #c30000;" });
 	ca.onclick = _ => {
 		STATE.datasets.forEach(x => x.turn(false));
 		COMMIT("datasets");
@@ -489,7 +489,14 @@ export function init() {
 		});
 	};
 
-	qs('#cards #cards-buttons').append(cs,cv,cp,ca);
+	const cc = ce('button', 'Collapse all settings');
+	cc.onclick = _ => {
+		STATE.datasets.forEach(d => {
+			d.card.toggle_settings(false);
+		});
+	};
+
+	qs('#cards #cards-buttons').append(cs,cv,cc,cp,ca);
 };
 
 export function update() {
@@ -505,6 +512,19 @@ export function update() {
 	if (list.length) sortable(cards_list, 'enable');
 };
 
+function settings(_, button, value) {
+	console.log(...arguments);
+
+	if (value === null || value === undefined) {
+		this.show_settings = !this.show_settings;
+	} else {
+		this.show_settings = value;
+	}
+
+	qs('aside', this).style.display = this.show_settings ? 'block' : 'none';
+	qs('i', button).className = this.show_settings ? 'bi-chevron-up' : 'bi-chevron-down';
+};
+
 export default class dscard extends HTMLElement {
 	manual_min;
 	manual_max;
@@ -512,7 +532,7 @@ export default class dscard extends HTMLElement {
 	multiselection = [];
 	checkboxes = [];
 
-	show_advanced = false;
+	show_settings = false;
 	opacity_value = 1;
 
 	constructor(d) {
@@ -552,16 +572,13 @@ export default class dscard extends HTMLElement {
 			"opacity":           opacity.call(this),
 			"close":             _ => { this.ds.turn(false); COMMIT("datasets"); },
 			"weight-group":      weight_group.call(this),
-			"advanced":          (_, e) => {
-				qs('aside', this).style.display = (this.show_advanced = !this.show_advanced) ? 'block' : 'none';
-				qs('i', e.target.closest('button')).className = this.show_advanced ? 'bi-chevron-up' : 'bi-chevron-down';
-			},
-			"table":          _ => this.ds.features_table_modal(),
-			"has-geojson":    maybe(this.ds, 'vectors', 'geojson'),
-			"manual-inputs":  manual_inputs.call(this),
-			"manual-min":     this.manual_min,
-			"manual-max":     this.manual_max,
-			"mutant-options": mutant_options.call(this),
+			"settings":          (_, e) => settings.call(this, _, e.target.closest('button')),
+			"table":             _ => this.ds.features_table_modal(),
+			"has-geojson":       maybe(this.ds, 'vectors', 'geojson'),
+			"manual-inputs":     manual_inputs.call(this),
+			"manual-min":        this.manual_min,
+			"manual-max":        this.manual_max,
+			"mutant-options":    mutant_options.call(this),
 		}), { "final": false });
 	};
 
@@ -588,7 +605,11 @@ export default class dscard extends HTMLElement {
 	discover() {
 		left_panel('cards');
 		this.scrollIntoView();
-	}
+	};
+
+	toggle_settings(v) {
+		settings.call(this, null, qs('button[bind-func=settings]', this), v);
+	};
 };
 
 customElements.define('ds-card', dscard);

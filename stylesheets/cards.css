@@ -9,12 +9,14 @@
 
 #cards-buttons {
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
-  padding: 1em 1em 0.5em 1em;
+  padding: 0.5em;
 }
 
 #cards-buttons button {
   background-color: white;
   color: var(--the-color);
   border: 1px solid lightgray;
+  margin: 0.25em 0.25em;
 }
