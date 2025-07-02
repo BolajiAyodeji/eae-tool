@@ -574,7 +574,6 @@ export default class dscard extends HTMLElement {
 			"weight-group":      weight_group.call(this),
 			"settings":          (_, e) => settings.call(this, _, e.target.closest('button')),
 			"table":             _ => this.ds.features_table_modal(),
-			"has-geojson":       maybe(this.ds, 'vectors', 'geojson'),
 			"manual-inputs":     manual_inputs.call(this),
 			"manual-min":        this.manual_min,
 			"manual-max":        this.manual_max,
