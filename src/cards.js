@@ -54,17 +54,15 @@ function mutant_options() {
 function value_multiselect() {
 	const ds = this.ds;
 
-	this.multiselection = ds._domain_select = ds.csv.data.map(x => x['KEY']);
+	ds.domain_select = ds._domain_select = ds.csv.data.map(x => x['KEY']);
 
 	const pick = _ => {
-		const inputs = qsa('input.multiselect', this, true);
-		return this.multiselection = [...new Set(inputs.filter(i => i.checked).map(i => +i.value))];
+		this.checkboxes = qsa('input.multiselect', this, true);
+		return ds._domain_select = [...new Set(this.checkboxes.filter(i => i.checked).map(i => +i.value))];
 	};
 
 	const change = _ => {
 		pick();
-		ds._domain_select = this.multiselection;
-		ds._domain = Object.assign({}, ds.domain);
 		COMMIT("datasets");
 	};
 
@@ -72,7 +70,7 @@ function value_multiselect() {
 		"name":    x['VALUE'],
 		"value":   x['KEY'],
 		"color":   d => d.style['background-color'] = `rgba(${ ds.colorscale.fn(+x['KEY']) })`,
-		"checked": (!this.multiselection.length ? true : this.multiselection.indexOf(x['KEY']) > -1),
+		"checked": (!ds._domain_select.length ? true : ds._domain_select.indexOf(x['KEY']) > -1),
 		change,
 	}));
 
@@ -485,6 +483,8 @@ export function init() {
 	cp.onclick = _ => {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain);
+			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
+			d.card.values();
 			COMMIT("datasets");
 		});
 	};
@@ -529,7 +529,6 @@ export default class dscard extends HTMLElement {
 	manual_min;
 	manual_max;
 
-	multiselection = [];
 	checkboxes = [];
 
 	show_settings = false;
@@ -597,6 +596,7 @@ export default class dscard extends HTMLElement {
 			"min": this.ds.fn(d['min']),
 			"max": this.ds.fn(d['max']),
 		});
+		for (const c of this.checkboxes) c.checked = true;
 
 		COMMIT("datasets");
 	};
