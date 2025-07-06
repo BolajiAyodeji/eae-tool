@@ -588,8 +588,8 @@ export default class dscard extends HTMLElement {
 	values(d) {
 		if (d === undefined) d = this.ds._domain;
 
-		this.manual_min.value = d['min'];
-		this.manual_max.value = d['max'];
+		if (this.manual_min) this.manual_min.value = d['min'];
+		if (this.manual_max) this.manual_max.value = d['max'];
 
 		if (!this.range_svg) return;
 
