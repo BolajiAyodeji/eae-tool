@@ -366,12 +366,10 @@ export function elem_collapse(el, t, open) {
 	}
 };
 
-export function loading(msg, perc) {
+export function loading(msg, _perc) {
 	const el = qs('#app-loading');
 	el.style['display'] = msg ? 'block' : 'none';
 	qs('#loading-message', el).innerText = (typeof msg === 'string') ? msg : "Loading...";
-
-	if (perc) console.log("perc?", perc);
 };
 
 export function super_error(t, m, e = "error") {

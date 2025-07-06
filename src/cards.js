@@ -513,8 +513,6 @@ export function update() {
 };
 
 function settings(_, button, value) {
-	console.log(...arguments);
-
 	if (value === null || value === undefined) {
 		this.show_settings = !this.show_settings;
 	} else {
@@ -590,12 +588,13 @@ export default class dscard extends HTMLElement {
 		if (this.manual_min) this.manual_min.value = d['min'];
 		if (this.manual_max) this.manual_max.value = d['max'];
 
-		if (!this.range_svg) return;
+		if (this.range_svg) {
+			this.range_svg.change({
+				"min": this.ds.fn(d['min']),
+				"max": this.ds.fn(d['max']),
+			});
+		}
 
-		this.range_svg.change({
-			"min": this.ds.fn(d['min']),
-			"max": this.ds.fn(d['max']),
-		});
 		for (const c of this.checkboxes) c.checked = true;
 
 		COMMIT("datasets");
