@@ -52,8 +52,20 @@ function mutant_options() {
 	return container;
 };
 
-function value_multiselect() {
+function value_checkboxes() {
 	const ds = this.ds;
+
+	if (!ds._domain_select) return null;
+
+	switch (ds.type) {
+	case 'raster-valued-mutant':
+	case 'raster-valued':	{
+		break;
+	}
+
+	default:
+		return null;
+	};
 
 	ds.domain_select = ds._domain_select = ds.csv.data.map(x => x['KEY']);
 
@@ -76,22 +88,6 @@ function value_multiselect() {
 	}));
 
 	return payload;
-};
-
-function value_multiselect_el() {
-	if (!this.ds._domain_select) return null;
-
-	switch (this.ds.type) {
-	case 'raster-valued-mutant':
-	case 'raster-valued':	{
-		break;
-	}
-
-	default:
-		return null;
-	};
-
-	return value_multiselect.call(this);
 };
 
 function manual_inputs() {
@@ -414,9 +410,21 @@ function symbol() {
 };
 
 function colorscale() {
-	return this.ds.colorscale ?
-		colorscale_svg(this.ds.colorscale.stops) :
-		null;
+	switch (this.ds.type) {
+	case 'polygons-valued':
+	case 'polygons-timeline':
+	case 'raster-mutant':
+	case 'raster-timeline':
+	case 'raster': {
+		return this.ds.colorscale ?
+			colorscale_svg(this.ds.colorscale.stops) :
+			null;
+
+	}
+
+	default:
+		return null;
+	}
 };
 
 function ramp() {
@@ -565,7 +573,7 @@ export default class dscard extends HTMLElement {
 		bind(this, Object.assign({}, this.ds, {
 			"unit-label":       coalesce(cat.controls.range_label, cat.unit, 'Range'),
 			"range":            maybe(range_el.call(this), 'svg'),
-			"value-checkboxes": value_multiselect_el.call(this),
+			"value-checkboxes": value_checkboxes.call(this),
 			"pvna":             (this.ds.type === 'polygons-valued'),
 			"info":             _ => this.ds.info_modal(),
 			"specs":            specs.call(this),
