@@ -176,14 +176,14 @@ ds-card .visibility-group {
   margin: 0em;
 }
 
-ds-card .multiselect-row {
+ds-card .checkbox-row {
   display: flex;
   justify-content: space-between;
   margin: 0.5em 0;
   height: 26px;
 }
 
-ds-card .multiselect-row span:nth-child(2) {
+ds-card .checkbox-row span:nth-child(2) {
   margin-left: 1em;
   flex-grow: 1;
 }

@@ -281,7 +281,7 @@
           <span bind="ramp"></span>
         </div>
 
-        <span bind-tmpl="#value-multiselect-template"></span>
+        <span bind-tmpl="#value-checkboxes-template"></span>
 
         <span bind-if="pvna">
           <div style="display: inline-block;
@@ -296,7 +296,7 @@
           </div>
         </span>
 
-        <span bind-tmpl="#legends-template"></span>
+        <span bind-tmpl="#specs-list-template"></span>
       </content>
     </main>
 
@@ -605,9 +605,9 @@
     </form>
   </template>
 
-  <template id="value-multiselect-template">
-    <label bind-each="value-multiselect"
-           class="multiselect-row">
+  <template id="value-checkboxes-template">
+    <label bind-each="value-checkboxes"
+           class="checkbox-row">
       <span bind-init="color"
             style="display:block;
                    height: 20px;
@@ -616,7 +616,6 @@
       <span bind="name"></span>
 
       <input type="checkbox"
-             class="multiselect"
              bind-attr-checked="checked"
              bind-value="value"
              bind-listen="change"
@@ -624,9 +623,9 @@
     </label>
   </template>
 
-  <template id="legends-template">
-    <label bind-each="legends"
-           class="multiselect-row">
+  <template id="specs-list-template">
+    <label bind-each="specs"
+           class="checkbox-row">
       <span bind="csymbol"></span>
 
       <span bind="cname"></span>

@@ -58,7 +58,7 @@ function value_multiselect() {
 	ds.domain_select = ds._domain_select = ds.csv.data.map(x => x['KEY']);
 
 	const pick = _ => {
-		this.checkboxes = qsa('input.multiselect', this, true);
+		this.checkboxes = qsa('.checkbox-row > input', this, true);
 		return ds._domain_select = [...new Set(this.checkboxes.filter(i => i.checked).map(i => +i.value))];
 	};
 
@@ -253,7 +253,7 @@ function weight_group() {
 	return el;
 };
 
-function legends() {
+function specs() {
 	if (!this.ds.criteria || this.ds.criteria.length < 2) return;
 
 	let f;
@@ -563,25 +563,25 @@ export default class dscard extends HTMLElement {
 		const cat = this.ds.category;
 
 		bind(this, Object.assign({}, this.ds, {
-			"unit-label":        coalesce(cat.controls.range_label, cat.unit, 'Range'),
-			"range":             maybe(range_el.call(this), 'svg'),
-			"value-multiselect": value_multiselect_el.call(this),
-			"pvna":              (this.ds.type === 'polygons-valued'),
-			"info":              _ => this.ds.info_modal(),
-			"legends":           legends.call(this),
-			"symbol":            symbol.call(this),
-			"colorscale":        colorscale.call(this),
-			"ramp":              ramp.call(this),
-			"visibility":        (_, e) => this.ds.visibility(e.target.checked),
-			"opacity":           opacity.call(this),
-			"close":             _ => { this.ds.turn(false); COMMIT("datasets"); },
-			"weight-group":      weight_group.call(this),
-			"settings":          (_, e) => settings.call(this, _, e.target.closest('button')),
-			"table":             _ => this.ds.features_table_modal(),
-			"manual-inputs":     manual_inputs.call(this),
-			"manual-min":        this.manual_min,
-			"manual-max":        this.manual_max,
-			"mutant-options":    mutant_options.call(this),
+			"unit-label":       coalesce(cat.controls.range_label, cat.unit, 'Range'),
+			"range":            maybe(range_el.call(this), 'svg'),
+			"value-checkboxes": value_multiselect_el.call(this),
+			"pvna":             (this.ds.type === 'polygons-valued'),
+			"info":             _ => this.ds.info_modal(),
+			"specs":            specs.call(this),
+			"symbol":           symbol.call(this),
+			"colorscale":       colorscale.call(this),
+			"ramp":             ramp.call(this),
+			"visibility":       (_, e) => this.ds.visibility(e.target.checked),
+			"opacity":          opacity.call(this),
+			"close":            _ => { this.ds.turn(false); COMMIT("datasets"); },
+			"weight-group":     weight_group.call(this),
+			"settings":         (_, e) => settings.call(this, _, e.target.closest('button')),
+			"table":            _ => this.ds.features_table_modal(),
+			"manual-inputs":    manual_inputs.call(this),
+			"manual-min":       this.manual_min,
+			"manual-max":       this.manual_max,
+			"mutant-options":   mutant_options.call(this),
 		}), { "final": false });
 	};
 
