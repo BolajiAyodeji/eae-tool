@@ -73,11 +73,13 @@ ds-card .explain {
 
 ds-card .index {
   font-size: 0.9em;
-  color: #777;
+  color: #999;
+  text-transform: capitalize;
+  margin: 0.5em 0;
 }
 
 ds-card .range .svg-interval {
-  margin: 1em 0 0.5em;
+  margin-top: 0.1em;
 }
 
 ds-card [name=title] {
@@ -155,6 +157,10 @@ ds-card aside buttons button {
   border: 1px solid lightgray;
   padding: 7px 12px;
   margin-right: 1em;
+}
+
+ds-card [bind="colorscale"] {
+  margin: 0.75em 0;
 }
 
 ds-card select,

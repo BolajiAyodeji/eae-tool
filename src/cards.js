@@ -4,6 +4,7 @@ import bind from '../lib/bind.js';
 
 import {
 	svg_interval,
+	colorscale_svg,
 } from './utils.js';
 
 import {
@@ -22,7 +23,7 @@ import {
 
 const cards_list = qs('#cards-list');
 
-const slider_width = 485;
+const slider_width = 320;
 
 function mutant_options() {
 	if (!maybe(this.ds, 'hosts', 'length')) return "";
@@ -190,7 +191,6 @@ function range() {
 	};
 
 	this.range_svg = svg_interval({
-		"colors":       ds.colorscale?.stops,
 		"sliders":      ds.category.controls.range,
 		"width":        slider_width,
 		"height":       8,
@@ -413,6 +413,12 @@ function symbol() {
 	return e;
 };
 
+function colorscale() {
+	return this.ds.colorscale ?
+		colorscale_svg(this.ds.colorscale.stops) :
+		null;
+};
+
 function ramp() {
 	const ds = this.ds;
 	const cat = this.ds.category;
@@ -564,6 +570,7 @@ export default class dscard extends HTMLElement {
 			"info":              _ => this.ds.info_modal(),
 			"legends":           legends.call(this),
 			"symbol":            symbol.call(this),
+			"colorscale":        colorscale.call(this),
 			"ramp":              ramp.call(this),
 			"visibility":        (_, e) => this.ds.visibility(e.target.checked),
 			"opacity":           opacity.call(this),

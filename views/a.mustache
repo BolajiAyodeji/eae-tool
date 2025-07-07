@@ -264,8 +264,8 @@
             <div bind="name"></div>
 
             <div bind-if="index"
-                 class="index">
-              (<span bind="index"></span>)
+                 class="index"
+                 bind="index">
             </div>
           </div>
 
@@ -276,11 +276,12 @@
               bind="mutant-options"
               class="mutant-options"></span>
 
-        <span bind="range" class="range"></span>
+        <div bind-if="colorscale">
+          <div bind="colorscale"></div>
+          <span bind="ramp"></span>
+        </div>
 
         <span bind-tmpl="#value-multiselect-template"></span>
-
-        <span bind="ramp"></span>
 
         <span bind-if="pvna">
           <div style="display: inline-block;
@@ -310,13 +311,15 @@
         </p>
 
         <div style="display: flex;
-                    justify-content: space-around;">
+                    justify-content: space-between;">
           <div bind-if="manual-min">
-            <span bind="manual-min"></span> Min
+            <span bind="manual-min"></span>
           </div>
 
+          <span bind="range" class="range"></span>
+
           <div>
-            Max <span bind="manual-max"></span>
+            <span bind="manual-max"></span>
           </div>
         </div>
       </div>
