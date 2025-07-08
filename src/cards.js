@@ -162,6 +162,22 @@ function range() {
 	const ds = this.ds;
 	const cat = this.ds.category;
 
+	switch (ds.type) {
+	case 'points':
+	case 'lines':
+	case 'polygons':
+	case 'polygons-valued':
+	case 'polygons-timeline':
+	case 'raster-mutant':
+	case 'raster-timeline':
+	case 'raster': {
+		break;
+	}
+
+	default:
+		return null;
+	}
+
 	let {min,max} = ds.domain;
 
 	const diff = Math.abs(max - min);
@@ -205,26 +221,6 @@ function range() {
 	});
 
 	return this.range_svg;
-};
-
-function range_el() {
-	switch (this.ds.type) {
-	case 'points':
-	case 'lines':
-	case 'polygons':
-	case 'polygons-valued':
-	case 'polygons-timeline':
-	case 'raster-mutant':
-	case 'raster-timeline':
-	case 'raster': {
-		break;
-	}
-
-	default:
-		return null;
-	}
-
-	return range.call(this);
 };
 
 function weight_group() {
@@ -580,7 +576,7 @@ export default class dscard extends HTMLElement {
 
 		bind(this, Object.assign({}, this.ds, {
 			"unit-label":       coalesce(cat.controls.range_label, cat.unit, 'Range'),
-			"range":            maybe(range_el.call(this), 'svg'),
+			"range":            maybe(range.call(this), 'svg'),
 			"value-checkboxes": value_checkboxes.call(this),
 			"pvna":             (this.ds.type === 'polygons-valued'),
 			"info":             _ => this.ds.info_modal(),
