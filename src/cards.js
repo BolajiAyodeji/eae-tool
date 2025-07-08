@@ -274,11 +274,11 @@ function specs() {
 		const id = l[l.params[0]] || 'default';
 
 		const change = (d,e) => {
-			this.checkboxes.find(c => c[0] === d['cname'])[1] = e.target.checked;
+			this.checkboxes = qsa('.checkbox-row > input', this, true);
 
 			this.ds.selection = this.checkboxes
-				.filter(c => c[1])
-				.map(c => c[0] || 'default');
+				.filter(c => c.checked)
+				.map(c => c.value || 'default');
 
 			const fs = this.ds.vectors.data.features;
 			for (let i = 0; i < fs.length; i += 1)
@@ -288,7 +288,6 @@ function specs() {
 			MAPBOX.getSource(this.ds.id).setData(this.ds.vectors.data);
 		};
 
-		this.checkboxes.push([id, true]);
 		this.ds.selection.push(id);
 
 		return {
@@ -499,6 +498,15 @@ export function init() {
 			d._domain = Object.assign({}, d.domain);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
 			d.card.values();
+
+			if (d.vectors?.data) {
+				const fs = d.vectors.data.features;
+				for (let i = 0; i < fs.length; i += 1)
+					fs[i].properties['__visible'] = true;
+
+				MAPBOX.getSource(d.id).setData(d.vectors.data);
+			}
+
 			COMMIT("datasets");
 		});
 	};
