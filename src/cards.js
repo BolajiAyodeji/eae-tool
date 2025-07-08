@@ -11,9 +11,6 @@ import {
 	points_symbol,
 	lines_symbol,
 	polygons_symbol,
-	lines_legends_svg,
-	points_legends_svg,
-	polygons_legends_svg,
 } from './symbols.js';
 
 import {
@@ -251,15 +248,30 @@ function specs() {
 	let f;
 	switch (this.ds.type) {
 	case "lines":
-		f = lines_legends_svg;
+		f = x => lines_symbol({
+			"size":             20,
+			"fill":             'none',
+			"stroke":           x['stroke'] || 'black',
+			"stroke-width":     x['stroke-width'],
+			"stroke-dasharray": x['dasharray'],
+		});
 		break;
 
 	case "points":
-		f = points_legends_svg;
+		f = x => points_symbol({
+			"size":         20,
+			"fill":         this.ds.vectors.fill,
+			"stroke":       x['stroke'] || 'black',
+			"stroke-width": x['stroke-width'],
+		});
 		break;
 
 	case "polygons":
-		f = polygons_legends_svg;
+		f = x => polygons_symbol({
+			"size":   20,
+			"fill":   this.ds.vectors.fill,
+			"stroke": x['stroke'],
+		});
 		break;
 
 	default:

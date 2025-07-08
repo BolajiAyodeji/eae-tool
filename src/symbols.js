@@ -50,30 +50,3 @@ export function polygons_symbol({size, stroke, strokewidth, fill, opacity}) {
 
 	return svg.node();
 };
-
-export function lines_legends_svg(l) {
-	return lines_symbol({
-		"size":             22,
-		"fill":             'none',
-		"stroke":           l['stroke'] || 'black',
-		"stroke-width":     l['stroke-width'],
-		"stroke-dasharray": l['dasharray'],
-	});
-};
-
-export function points_legends_svg(l) {
-	return points_symbol({
-		"size":         22,
-		"fill":         this.ds.vectors.fill,
-		"stroke":       l['stroke'] || 'black',
-		"stroke-width": l['stroke-width'],
-	});
-};
-
-export function polygons_legends_svg(l) {
-	return polygons_symbol({
-		"size":   22,
-		"fill":   this.ds.vectors.fill,
-		"stroke": l['stroke'],
-	});
-};
