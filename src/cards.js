@@ -519,13 +519,12 @@ export function init() {
 
 export function update() {
 	const list = STATE.datasets
-		.map(d => d.card);
+		.map(d => d.card)
+		.filter(c => c);
 
 	if (list.length) sortable(cards_list, 'disable');
 
-	for (let i of list) {
-		cards_list.append(i);
-	}
+	cards_list.append(...list);
 
 	if (list.length) sortable(cards_list, 'enable');
 };
