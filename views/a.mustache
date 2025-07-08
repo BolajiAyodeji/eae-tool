@@ -345,7 +345,7 @@
                      bind-func="visibility"
                      checked />
               &nbsp;
-              Visibility
+              Show layer
             </label>
           </div>
 
@@ -641,12 +641,14 @@
   <template id="card-header-buttons">
     <buttons>
       <button bind-listen="click"
-              bind-func="settings">
+              bind-func="settings"
+              title="Hide/Show settings">
         <i class="bi-chevron-down"></i>
       </button>
 
       <button bind-listen="click"
-              bind-func="close">
+              bind-func="close"
+              title="Remove dataset">
         <i class="bi-x-lg"></i>
       </button>
     </buttons>
