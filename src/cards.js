@@ -2,9 +2,12 @@ import DS from './ds.js';
 
 import bind from '../lib/bind.js';
 
+import bubblemessage from '../lib/bubblemessage.js';
+
 import {
 	svg_interval,
 	colorscale_svg,
+	uniform_split,
 } from './utils.js';
 
 import {
@@ -417,16 +420,51 @@ function symbol() {
 };
 
 function colorscale() {
+	if (!this.ds.colorscale) return null;
+
+	let bubble;
+
+	function mouseenter(t, _i, message) {
+		if (!message) return;
+		bubble = new bubblemessage({ message, "position": "E", "close": false, "noevents": true }, t);
+	};
+
+	function mouseleave() {
+		if (bubble) bubble.remove();
+	};
+
 	switch (this.ds.type) {
 	case 'polygons-valued':
 	case 'polygons-timeline':
 	case 'raster-mutant':
 	case 'raster-timeline':
 	case 'raster': {
-		return this.ds.colorscale ?
-			colorscale_svg(this.ds.colorscale.stops) :
-			null;
+		let x = i => i;
 
+		if (this.ds.raster.intervals) {
+			x = i => this.ds.colorscale.intervals[i] + " - " + this.ds.colorscale.intervals[i+1];
+		} else {
+			const s = uniform_split(this.ds.colorscale.stops.length + 1);
+			x = i => this.ds.fn.invert(s[i]).toFixed(2) + " - " + this.ds.fn.invert(s[i+1]).toFixed(2);
+		}
+
+		return colorscale_svg(
+			this.ds.colorscale.stops,
+			16,
+			(t,i) => mouseenter(t, i, x(i)),
+			mouseleave,
+		);
+	}
+
+	case 'raster-valued':
+	case 'raster-valued-mutant': {
+		let ds = this.ds.hosts ? this.ds.host : this.ds;
+		return colorscale_svg(
+			ds.colorscale.stops,
+			16,
+			(t,i) => mouseenter(t, i, maybe(ds.csv.table, i)),
+			mouseleave,
+		);
 	}
 
 	default:

@@ -55,6 +55,7 @@ export default [{
 			"or": "readonly",
 			"coalesce": "readonly",
 			"tmpl": "readonly",
+			"noop": "readonly",
 			"Whatever": "readonly",
 			"same": "readonly",
 			"json_clone": "readonly",

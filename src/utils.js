@@ -62,7 +62,7 @@ export function colorscale({intervals, stops, domain}) {
 	};
 };
 
-export function colorscale_svg(stops, height = 16) {
+export function colorscale_svg(stops, height = 16, mouseenter = noop, mouseleave = noop) {
 	const svg = d3.create("svg")
 		.attr('class', 'svg-interval');
 
@@ -74,7 +74,9 @@ export function colorscale_svg(stops, height = 16) {
 			.attr('stroke', 'none')
 			.attr('x', `${(100/stops.length) * i}%`)
 			.attr('width', `${100/stops.length}%`)
-			.attr('height', "100%");
+			.attr('height', "100%")
+			.on("mouseenter", function() { mouseenter(this, i); })
+			.on("mouseleave", function() { mouseleave(this, i); });
 	});
 
 	svg
