@@ -263,10 +263,8 @@
           <div class="names">
             <div bind="name"></div>
 
-            <div bind-if="index"
-                 class="index"
-                 bind="index">
-            </div>
+            <div class="index"
+                 bind="index"></div>
           </div>
 
           <div bind-tmpl="#card-header-buttons"></div>
@@ -281,26 +279,33 @@
           <span bind="ramp"></span>
         </div>
 
-        <span bind-tmpl="#value-checkboxes-template"></span>
-
         <span bind-if="pvna">
           <div style="display: inline-block;
-	                  width: 64px;
-	                  height: 5px;
-	                  background-color: rgba(155,155,155,1);
-	                  margin: 15px 15px 0 0;">
+                      width: 64px;
+                      height: 5px;
+                      background-color: rgba(155,155,155,1);
+                      margin: 15px 15px 0 0;">
           </div>
+
           <div style="display: inline-block;
                       font-size: x-small;">
             Not Available
           </div>
         </span>
-
-        <span bind-tmpl="#specs-list-template"></span>
       </content>
     </main>
 
     <aside style="display: none;">
+      <div class="group"
+           bind-if="value-checkboxes.length"
+           bind-tmpl="#value-checkboxes-template">
+      </div>
+
+      <div class="group"
+           bind-if="specs.length"
+           bind-tmpl="#specs-list-template">
+      </div>
+
       <div class="group"
            bind-if="manual-inputs">
         <strong bind="unit-label">Range</strong>

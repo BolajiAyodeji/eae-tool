@@ -588,6 +588,10 @@ async function reload(k,v) {
 	filtered_visibility('none');
 	filtered_valued_polygons();
 
+	if (k === "layers") {
+		await mapbox_sort();
+	}
+
 	if (k === "datasets") {
 		cards_update();
 		await mapbox_sort();

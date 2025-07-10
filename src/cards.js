@@ -478,7 +478,11 @@ function ramp() {
 
 	if (!ds.domain) return "";
 
-	if (ds._domain_select) return "";
+	if (ds._domain_select) {
+		return bind(tmpl('#ramp'), {
+			"middle": coalesce(cat.controls.range_label, cat.unit),
+		});
+	}
 
 	let {min,max} = ds.domain;
 
@@ -541,7 +545,7 @@ export function init() {
 	const cp = ce('button', 'Reset all settings');
 	cp.onclick = _ => {
 		STATE.datasets.forEach(d => {
-			d._domain = Object.assign({}, d.domain);
+			d._domain = Object.assign({}, d.domain, d.category.domain_init);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
 			d.card.values();
 
@@ -621,14 +625,13 @@ export default class dscard extends HTMLElement {
 	};
 
 	bind() {
-		const cat = this.ds.category;
-
 		bind(this, Object.assign({}, this.ds, {
-			"unit-label":       coalesce(cat.controls.range_label, cat.unit, 'Range'),
+			"unit-label":       coalesce(this.ds.category.controls.range_label, this.ds.category.unit, 'Range'),
 			"range":            maybe(range.call(this), 'svg'),
 			"value-checkboxes": value_checkboxes.call(this),
 			"pvna":             (this.ds.type === 'polygons-valued'),
-			"info":             _ => this.ds.info_modal(),
+			"info":             this.ds.info_modal.bind(this.ds),
+			"index":            this.ds.index?.replace('ani', 'ANI').replace('eai', 'EAI') || "Filter",
 			"specs":            specs.call(this),
 			"symbol":           symbol.call(this),
 			"colorscale":       colorscale.call(this),
@@ -638,7 +641,7 @@ export default class dscard extends HTMLElement {
 			"close":            _ => { this.ds.turn(false); COMMIT("datasets"); },
 			"weight-group":     weight_group.call(this),
 			"settings":         (_, e) => settings.call(this, _, e.target.closest('button')),
-			"table":            _ => this.ds.features_table_modal(),
+			"table":            this.ds.features_table_modal.bind(this.ds),
 			"manual-inputs":    manual_inputs.call(this),
 			"manual-min":       this.manual_min,
 			"manual-max":       this.manual_max,
