@@ -12,6 +12,7 @@ import {
 
 import {
 	analysis_colorscale,
+	analysis_colorscale_svg,
 	medhigh_point_count,
 	getpoints as toplocations_fetch,
 } from './analysis.js';
@@ -621,7 +622,7 @@ function analysis_left($, index) {
 		textopts({ x, "y": 1, bold, "w": "45%" }),
 	);
 
-	const s = btoa(new XMLSerializer().serializeToString(analysis_colorscale.svg));
+	const s = btoa(new XMLSerializer().serializeToString(analysis_colorscale_svg));
 
 	$.addImage({
 		x,
