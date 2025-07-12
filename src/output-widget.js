@@ -1,12 +1,9 @@
-import {
-	enough_datasets,
-} from './analysis.js';
-
 import bind from '../lib/bind.js';
 
 import modal from '../lib/modal.js';
 
 import {
+	enough_datasets,
 	analysis_colorscale_svg,
 } from './analysis.js';
 
@@ -20,16 +17,24 @@ export let opacity = 1;
 export let shown = true;
 
 function variants() {
-	const variant_select = qs('#output-variant-select');
+	const s = qs('#output-variant-select');
+	let u = "m²";
+	let r = GEOGRAPHY.resolution;
+
+	if ((r % 1000) === 0) {
+		u = "km²";
+		r = r / 1000;
+	}
+	s.append(ce('option', `Raster Analysis - ${r}${u}`, { "value": "raster" }));
 
 	GEOGRAPHY.divisions.forEach((d,i) => {
 		if (i === 0) return;
-		variant_select.append(ce('option', `Administrative Priority - ${d.name}`, { "value": i }));
+		s.append(ce('option', `Administrative Priority - ${d.name}`, { "value": i }));
 	});
 
-	variant_select.value = STATE.variant;
-	variant_select.onchange = _ => {
-		STATE.variant = variant_select.value;
+	s.value = STATE.variant;
+	s.onchange = _ => {
+		STATE.variant = s.value;
 		COMMIT("datasets");
 	};
 };
