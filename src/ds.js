@@ -269,6 +269,7 @@ This is not fatal but the dataset is now disabled.`,
 
 		const configs = [
 			'analysis',
+			'colorstops',
 			'controls',
 			'csv',
 			'description',
