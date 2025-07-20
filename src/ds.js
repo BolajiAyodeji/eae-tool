@@ -267,7 +267,20 @@ This is not fatal but the dataset is now disabled.`,
 	category_overrides(ovrr) {
 		if (!ovrr) return;
 
-		const configs = ['description', 'domain', 'domain_init', 'raster', 'vectors', 'csv', 'analysis', 'timeline', 'controls'];
+		const configs = [
+			'analysis',
+			'controls',
+			'csv',
+			'description',
+			'domain',
+			'domain_init',
+			'name',
+			'name_long',
+			'raster',
+			'timeline',
+			'unit',
+			'vectors',
+		];
 
 		for (let c of configs) {
 			if (!ovrr.hasOwnProperty(c)) continue;
@@ -277,7 +290,12 @@ This is not fatal but the dataset is now disabled.`,
 				continue;
 			}
 
-			if (!maybe(this.category, c)) {
+			if (!this.category.hasOwnProperty(c)) {
+				this.category[c] = json_clone(ovrr[c]);
+				continue;
+			}
+
+			if (Array.isArray(ovrr[c])) {
 				this.category[c] = json_clone(ovrr[c]);
 				continue;
 			}
@@ -285,12 +303,6 @@ This is not fatal but the dataset is now disabled.`,
 			for (let a in ovrr[c]) {
 				this.category[c][a] = ovrr[c][a];
 			}
-		}
-
-		const attrs = ['unit', 'name', 'name_long'];
-		for (let a of attrs) {
-			if (!ovrr[a]) continue;
-			this.category[a] = ovrr[a];
 		}
 	};
 
