@@ -22,6 +22,11 @@ import snapshot from './qa-snapshot.js';
 
 import indexes from './qa-indexes.js';
 
+import {
+	qs,
+	qsa,
+} from '../lib/helpers.js';
+
 const batches = {
 	"clear": [
 		{

@@ -91,6 +91,20 @@ import {
 	init as right_panel_init,
 } from './right-panel.js';
 
+import {
+	and,
+	ce,
+	debounce,
+	delay,
+	json_clone,
+	maybe,
+	or,
+	qs,
+	qsa,
+	unique,
+	Whatever,
+} from '../lib/helpers.js';
+
 import DS from './ds.js';
 
 import admintiers from './admin-tiers.js';

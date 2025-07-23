@@ -9,6 +9,14 @@ import bubblemessage from '../lib/bubblemessage.js';
 
 import selectlist from '../lib/selectlist.js';
 
+import {
+	and,
+	ce,
+	maybe,
+	or,
+	qs,
+} from '../lib/helpers.js';
+
 function preload_boundaries(id) {
 	return API.get('datasets', {
 		"select":        ['processed_files'],

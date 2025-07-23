@@ -27,6 +27,19 @@ import {
 	crop_to,
 } from './rasters.js';
 
+import {
+	and,
+	ce,
+	coalesce,
+	json_clone,
+	maybe,
+	or,
+	qs,
+	tmpl,
+	until,
+	Whatever,
+} from '../lib/helpers.js';
+
 export const default_colorscale = colorscale({
 	"stops":  d3.schemeRdBu[5].reverse(),
 	"domain": { "min": 0, "max": 1 },

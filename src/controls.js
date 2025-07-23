@@ -14,6 +14,14 @@ import {
 
 import bind from '../lib/bind.js';
 
+import {
+	ce,
+	maybe,
+	qs,
+	qsa,
+	tmpl,
+} from '../lib/helpers.js';
+
 const contents_el = qs('#controls-contents');
 
 function branch_recount() {

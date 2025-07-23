@@ -14,6 +14,13 @@ import {
 	updated_plot as indexes_updated_plot,
 } from './right-panel.js';
 
+import {
+	and,
+	json_clone,
+	maybe,
+	until,
+} from '../lib/helpers.js';
+
 const filter_types = ["key-delta", "exclusion-buffer", "inclusion-buffer"];
 
 const inclusion_filters = ["key-delta", "inclusion-buffer"];

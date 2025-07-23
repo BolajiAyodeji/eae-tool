@@ -58,13 +58,12 @@ build-m:
 	@ cp \
 		${SRC}/user.js \
 		${SRC}/utils.js \
-		${SRC}/m.js \
 		${SRC}/tabs.js \
+		${SRC}/m.js \
 		${DIST}/m/
 
 	@ cat \
 		${LIB}/jwt-decode.js \
-		${LIB}/helpers.js \
 		${LIB}/d3.js \
 		> ${DIST}/m/libs.js
 
@@ -96,7 +95,6 @@ build-p:
 
 	@ cat \
 		${LIB}/jwt-decode.js \
-		${LIB}/helpers.js \
 		> ${DIST}/p/libs.js
 
 	@ echo "window.EAE = {};" | cat - \
@@ -149,13 +147,13 @@ build-a:
 		${SRC}/timeline.js \
 		${SRC}/user.js \
 		${SRC}/help.js \
-		${SRC}/a.js \
 		${SRC}/qa.js \
 		${SRC}/complicated.js \
 		${SRC}/qa-controls.js \
 		${SRC}/qa-outputs.js \
 		${SRC}/qa-snapshot.js \
 		${SRC}/qa-indexes.js \
+		${SRC}/a.js \
 		${DIST}/a/
 
 	@ cat \
@@ -166,7 +164,6 @@ build-a:
 		${LIB}/sphericalmercator.js \
 		${LIB}/html5sortable.js \
 		${LIB}/jwt-decode.js \
-		${LIB}/helpers.js \
 		> ${DIST}/a/libs.js
 
 	@ echo "window.EAE = {};" | cat - \
@@ -213,7 +210,6 @@ build-s:
 	@ cat \
 		${LIB}/d3.js \
 		${LIB}/jwt-decode.js \
-		${LIB}/helpers.js \
 		> ${DIST}/s/libs.js
 
 	@ echo "window.EAE = {};" | cat - \

@@ -17,6 +17,13 @@ import {
 	analysis,
 } from './analysis.js';
 
+import {
+	and,
+	maybe,
+	qs,
+	until,
+} from '../lib/helpers.js';
+
 export function context(rc, f) {
 	const dict = [];
 	const props = {};

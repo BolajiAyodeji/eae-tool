@@ -4,6 +4,13 @@ import {
 	elem_collapse,
 } from './utils.js';
 
+import {
+	ce,
+	maybe,
+	qs,
+	qsa,
+} from '../lib/helpers.js';
+
 const contents_el = qs('#controls-contents');
 
 const tabs_el = qs('#controls-tabs');

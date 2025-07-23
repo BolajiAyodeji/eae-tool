@@ -7,6 +7,18 @@ import {
 	drawcanvas as plot_drawcanvas,
 } from './plot.js';
 
+import {
+	and,
+	ce,
+	has,
+	maybe,
+	nil,
+	or,
+	same,
+	until,
+	Whatever,
+} from '../lib/helpers.js';
+
 async function fetchcheck(endpoint, format) {
 	await until(_ => MAPBOX.isStyleLoaded()); // <-- magic line. If you remove it, no more unicorns!
 

@@ -25,6 +25,15 @@ import {
 	snapshot,
 } from  './session.js';
 
+import {
+	and,
+	ce,
+	fake_blob_download,
+	maybe,
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
 const PIES = {};
 
 const bubble = (v,e) => new bubblemessage({ "message": v + "%", "position": "C", "close": false, "noevents": true }, e);

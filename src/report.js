@@ -21,6 +21,13 @@ import {
 	coords_search_pois,
 } from './mapbox.js';
 
+import {
+	and,
+	coalesce,
+	maybe,
+	or,
+} from '../lib/helpers.js';
+
 const N_POINTS = 20;
 
 const green = "#00794C";

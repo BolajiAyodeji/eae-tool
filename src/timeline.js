@@ -1,5 +1,15 @@
 import bubblemessage from '../lib/bubblemessage.js';
 
+import {
+	and,
+	ce,
+	has,
+	maybe,
+	or,
+	qs,
+	until,
+} from '../lib/helpers.js';
+
 function slider(opts) {
 	const {steps, drag, width, init} = opts;
 

@@ -19,6 +19,14 @@ import {
 	clean,
 } from './a.js';
 
+import {
+	ce,
+	delay,
+	maybe,
+	or,
+	qs,
+} from '../lib/helpers.js';
+
 import DS from './ds.js';
 
 const welcome = (_ => {

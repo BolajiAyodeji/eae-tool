@@ -31,6 +31,13 @@ import {
 	pptx as report_pptx,
 } from './report.js';
 
+import {
+	ce,
+	delay,
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
 async function summary() {
 	const pop = DST.get('population-density');
 	await pop.load('raster');

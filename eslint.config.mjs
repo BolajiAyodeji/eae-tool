@@ -42,36 +42,13 @@ export default [{
 			"STATE": "writable",
 			"COMMIT": "writable",
 			"SUMMARY": "writable",
-			"qs": "readonly",
-			"qsa": "readonly",
-			"ce": "readonly",
-			"delay": "readonly",
-			"debounce": "readonly",
-			"until": "readonly",
-			"maybe": "readonly",
-			"has": "readonly",
-			"nil": "readonly",
-			"and": "readonly",
-			"or": "readonly",
-			"coalesce": "readonly",
-			"tmpl": "readonly",
-			"noop": "readonly",
-			"Whatever": "readonly",
-			"same": "readonly",
-			"json_clone": "readonly",
-			"fake_blob_download": "readonly",
-			"unique": "readonly",
-			"unique_by": "readonly",
 		},
-
 		"ecmaVersion": "latest",
 		"sourceType": "module",
 	},
-
 	"rules": {
 		"comma-dangle": ["error", "always-multiline"],
 		"indent": ["error", "tab"],
-
 		"key-spacing": ["error", {
 			"align": {
 				"beforeColon": false,
@@ -80,7 +57,6 @@ export default [{
 				"mode": "minimum",
 			},
 		}],
-
 		"linebreak-style": ["error", "unix"],
 		"quotes": "off",
 		"quote-props": ["error", "always"],
@@ -91,7 +67,6 @@ export default [{
 		"no-extra-semi": "off",
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 		"no-prototype-builtins": "off",
-
 		"no-unused-vars": ["warn", {
 			"varsIgnorePattern": "^_",
 			"argsIgnorePattern": "^_",

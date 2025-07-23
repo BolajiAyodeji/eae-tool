@@ -3,6 +3,13 @@ import {
 	zoom,
 } from './search.js';
 
+import {
+	ce,
+	maybe,
+	qs,
+	until,
+} from '../lib/helpers.js';
+
 let ul, input, resultscontainer;
 
 let ds, resultsinfo, attr, searchable, searchable_attrs;

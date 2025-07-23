@@ -1,3 +1,12 @@
+import {
+	and,
+	ce,
+	maybe,
+	noop,
+	or,
+	qs,
+} from '../lib/helpers.js';
+
 export async function self() {
 	SELF = {};
 

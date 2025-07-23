@@ -12,6 +12,12 @@ import {
 	bi_icon,
 } from './utils.js';
 
+import {
+	ce,
+	qs,
+	tmpl,
+} from '../lib/helpers.js';
+
 export let opacity = 1;
 
 export let shown = true;

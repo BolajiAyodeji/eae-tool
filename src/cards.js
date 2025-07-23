@@ -21,6 +21,19 @@ import {
 	sort,
 } from './a.js';
 
+import {
+	and,
+	ce,
+	coalesce,
+	debounce,
+	maybe,
+	or,
+	qs,
+	qsa,
+	same,
+	tmpl,
+} from '../lib/helpers.js';
+
 const cards_list = qs('#cards-list');
 
 const slider_width = 320;

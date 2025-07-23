@@ -13,6 +13,16 @@ import {
 	lowmedhigh_scale,
 } from './analysis.js';
 
+import {
+	ce,
+	delay,
+	maybe,
+	qs,
+	qsa,
+	unique_by,
+	until,
+} from '../lib/helpers.js';
+
 import bubblemessage from '../lib/bubblemessage.js';
 
 const default_styles = [{
