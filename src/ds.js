@@ -283,28 +283,11 @@ This is not fatal but the dataset is now disabled.`,
 			'vectors',
 		];
 
-		for (let c of configs) {
-			if (!ovrr.hasOwnProperty(c)) continue;
+		for (const a in ovrr) if (!configs.includes(a)) delete ovrr[a];
 
-			if (typeof ovrr[c] !== 'object') {
-				this.category[c] = ovrr[c];
-				continue;
-			}
+		console.log("Overriding category", this.id, ovrr);
 
-			if (!this.category.hasOwnProperty(c)) {
-				this.category[c] = json_clone(ovrr[c]);
-				continue;
-			}
-
-			if (Array.isArray(ovrr[c])) {
-				this.category[c] = json_clone(ovrr[c]);
-				continue;
-			}
-
-			for (let a in ovrr[c]) {
-				this.category[c][a] = ovrr[c][a];
-			}
-		}
+		Object.assign(this.category, ovrr);
 	};
 
 	disable(msg = "") {
