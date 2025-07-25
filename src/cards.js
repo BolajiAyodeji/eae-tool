@@ -107,7 +107,7 @@ function manual_inputs() {
 	const ds = this.ds;
 	const cat = this.ds.category;
 
-	let {min,max} = ds.domain;
+	const {min,max} = ds.domain;
 
 	const input_change = (e,i) => {
 		const v = +e.value;
@@ -191,7 +191,7 @@ function range() {
 		return null;
 	}
 
-	let {min,max} = ds.domain;
+	const {min,max} = ds.domain;
 
 	const diff = Math.abs(max - min);
 	let f = 3 - Math.ceil(Math.log10(diff || 1));
@@ -471,7 +471,7 @@ function colorscale() {
 
 	case 'raster-valued':
 	case 'raster-valued-mutant': {
-		let ds = this.ds.hosts ? this.ds.host : this.ds;
+		const ds = this.ds.hosts ? this.ds.host : this.ds;
 		return colorscale_svg(
 			ds.colorscale.stops,
 			16,
@@ -497,7 +497,7 @@ function ramp() {
 		});
 	}
 
-	let {min,max} = ds.domain;
+	const {min,max} = ds.domain;
 
 	const diff = Math.abs(max - min);
 	let i = 3 - Math.ceil(Math.log10(diff || 1));

@@ -21,7 +21,7 @@ function openall() {
 	input.dispatchEvent(new Event('input'));
 
 	select_tab(qs('#controls-tab-all'), "all");
-	for (let sb of qsa('.controls-container')) {
+	for (const sb of qsa('.controls-container')) {
 		elem_collapse(sb, sb.previousSibling, "open");
 	}
 };
@@ -34,8 +34,8 @@ function sort_datasets() {
 	const controls_elements = qsa('ds-controls', contents_el);
 
 	if (maybe(sort_datasets, 'length'))
-		for (let id of sort_datasets.slice(0).reverse()) {
-			for (let el of controls_elements) {
+		for (const id of sort_datasets.slice(0).reverse()) {
+			for (const el of controls_elements) {
 				if (el.ds.id === id)
 					el.closest('.controls-container').prepend(el);
 			}
@@ -44,8 +44,8 @@ function sort_datasets() {
 	const subbranches_elements = qsa('.controls-subbranch', contents_el);
 
 	if (maybe(sort_subbranches, 'length'))
-		for (let subbranch of sort_subbranches.slice(0).reverse()) {
-			for (let el of subbranches_elements) {
+		for (const subbranch of sort_subbranches.slice(0).reverse()) {
+			for (const el of subbranches_elements) {
 				if (el.id === 'controls-subbranch-' + subbranch) el.closest('.controls-branch').prepend(el);
 			}
 		}
@@ -53,8 +53,8 @@ function sort_datasets() {
 	const branches_elements = qsa('.controls-branch', contents_el);
 
 	if (maybe(sort_branches, 'length'))
-		for (let branch of sort_branches.slice(0).reverse()) {
-			for (let el of branches_elements) {
+		for (const branch of sort_branches.slice(0).reverse()) {
+			for (const el of branches_elements) {
 				if (el.id === 'controls-branch-' + branch) {
 					qs('#controls-contents').prepend(el);
 
@@ -67,10 +67,10 @@ function sort_datasets() {
 };
 
 export function select_tab(tab, name) {
-	for (let e of qsa('.controls-branch-tab', tabs_el))
+	for (const e of qsa('.controls-branch-tab', tabs_el))
 		e.classList.remove('active');
 
-	for (let e of qsa('.controls-branch', contents_el))
+	for (const e of qsa('.controls-branch', contents_el))
 		e.style.display = name === 'all' ? '' : 'none';
 
 	if (tab) tab.classList.add('active');
@@ -83,7 +83,7 @@ export function select_tab(tab, name) {
 async function trigger(value) {
 	const containers = qsa('.controls-container');
 
-	for (let c of containers)
+	for (const c of containers)
 		c.previousSibling.style.display = '';
 
 	const r = DS.array.filter(d => !d.disabled && (d.id + ";" + d.name).match(value));
@@ -92,7 +92,7 @@ async function trigger(value) {
 		.filter(d => d.controls)
 		.forEach(d => d.controls.style.display = r.indexOf(d) > -1 ? '' : 'none');
 
-	for (let c of containers) {
+	for (const c of containers) {
 		if (Array.from(qsa('ds-controls', c)).every(d => d.style.display === 'none'))
 			c.previousSibling.style.display = 'none';
 	}
@@ -127,10 +127,10 @@ export function init() {
 	tabs_el.append(tab_all);
 
 	tab_all.onclick = function() {
-		for (let e of qsa('.controls-branch-tab', tabs_el))
+		for (const e of qsa('.controls-branch-tab', tabs_el))
 			e.classList.remove('active');
 
-		for (let e of qsa('.controls-branch', contents_el))
+		for (const e of qsa('.controls-branch', contents_el))
 			e.style.display = '';
 
 		tab_all.classList.add('active');

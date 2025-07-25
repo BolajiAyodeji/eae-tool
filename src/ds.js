@@ -108,7 +108,7 @@ export default class DS {
 		let go = true;
 
 		if (this.category.name.match(/^(timeline-)?indicator/)) {
-			let b = GEOGRAPHY.divisions[this.config.divisions_tier];
+			const b = GEOGRAPHY.divisions[this.config.divisions_tier];
 
 			if (!b) {
 				FLASH.push({
@@ -160,7 +160,7 @@ This is not fatal but the dataset is now disabled.`,
 		};
 
 		if (o.category.vectors) {
-			let f = this.processed_files.find(x => x.func === 'vectors');
+			const f = this.processed_files.find(x => x.func === 'vectors');
 
 			if (!f) go = ok.call(this, 'vectors');
 			else {
@@ -342,7 +342,7 @@ This is not fatal but the dataset is now disabled.`,
 	add_layers(...arr) {
 		if (this.layers.length) return;
 
-		for (let a of arr) {
+		for (const a of arr) {
 			a['id'] = a['id'] || this.id;
 			a['source'] = this.id;
 
@@ -789,7 +789,7 @@ This is not fatal but the dataset is now disabled.`,
 		}
 		}
 
-		for (let a of t)
+		for (const a of t)
 			MAPBOX.setPaintProperty(this.id, a, v);
 	};
 

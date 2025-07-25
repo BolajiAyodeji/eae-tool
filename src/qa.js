@@ -39,7 +39,7 @@ const batches = {
 
 				COMMIT("datasets");
 
-				for (let e of qsa('.controls-subbranch'))
+				for (const e of qsa('.controls-subbranch'))
 					elem_collapse(qs('.controls-container', e), e);
 
 				left_panel('controls');

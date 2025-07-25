@@ -305,7 +305,7 @@ On your OS, you can do this by pressing (${mac ? "⌘" : "ctrl"} −) a couple t
 };
 
 async function init_2(conf) {
-	let select = ["*", "type", "category:categories(*)"];
+	const select = ["*", "type", "category:categories(*)"];
 
 	const divisions = maybe(GEOGRAPHY.configuration, 'divisions').filter(d => d.dataset_id !== null);
 
@@ -552,7 +552,7 @@ async function reload(k,v) {
 		const a = STATE.datasets.map(d => maybe(d, 'config', 'divisions_tier'));
 
 		GEOGRAPHY.divisions.forEach((_,i) => {
-			let y = (a.indexOf(i) < 0) ? 'none' : v;
+			const y = (a.indexOf(i) < 0) ? 'none' : v;
 
 			if (MAPBOX.getLayer(`filtered-layer-${i}`))
 				MAPBOX.setLayoutProperty(`filtered-layer-${i}`, 'visibility', y);
@@ -562,7 +562,7 @@ async function reload(k,v) {
 	function output_visibility() {
 		if (!MAPBOX.getLayer('output-layer')) return;
 
-		let v = STATE.variant === 'raster' && output_shown;
+		const v = STATE.variant === 'raster' && output_shown;
 
 		MAPBOX.setLayoutProperty('output-layer', 'visibility', v ? 'visible' : 'none');
 
@@ -643,7 +643,7 @@ export function clean() {
 	qs('input#controls-search').value = "";
 	qs('input#controls-search').dispatchEvent(new Event('input'));
 
-	for (let e of qsa('.controls-subbranch'))
+	for (const e of qsa('.controls-subbranch'))
 		elem_collapse(qs('.controls-container', e), e);
 };
 
@@ -679,20 +679,20 @@ function mobile() {
 	function mobile_switch(v) {
 		switch (v) {
 		case 'controls':{
-			for (let e of ['#left-panel'])
+			for (const e of ['#left-panel'])
 				qs(e).style.display = '';
 
-			for (let e of ['#right-panel'])
+			for (const e of ['#right-panel'])
 				qs(e).style.display = 'none';
 
 			break;
 		}
 
 		case 'outputs': {
-			for (let e of ['#left-panel'])
+			for (const e of ['#left-panel'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#right-panel'])
+			for (const e of ['#right-panel'])
 				qs(e).style.display = '';
 
 			break;
@@ -700,10 +700,10 @@ function mobile() {
 
 		case 'map':
 		default: {
-			for (let e of ['#right-panel'])
+			for (const e of ['#right-panel'])
 				qs(e).style.display = 'none';
 
-			for (let e of ['#left-panel'])
+			for (const e of ['#left-panel'])
 				qs(e).style.display = '';
 
 			break;
@@ -711,9 +711,9 @@ function mobile() {
 		}
 	};
 
-	for (let e of tabs) {
+	for (const e of tabs) {
 		e.onclick = function() {
-			for (let t of tabs) t.classList.remove('active');
+			for (const t of tabs) t.classList.remove('active');
 
 			mobile_switch(this.getAttribute('bind'));
 			e.classList.add('active');
@@ -726,14 +726,14 @@ function mobile() {
 };
 
 export function left_panel(t) {
-	for (let m of qsa('bubble-message')) m.remove();
+	for (const m of qsa('bubble-message')) m.remove();
 
-	for (let e of qsa('#left-panel > div'))
+	for (const e of qsa('#left-panel > div'))
 		e.style.display = 'none';
 
 	const as = qsa('#drawer a');
 
-	for (let a of as) {
+	for (const a of as) {
 		if (a.getAttribute('for') === t) a.classList.add('active');
 		else a.classList.remove('active');
 	}
@@ -764,7 +764,7 @@ function drawer_init() {
 
 	let p;
 
-	for (let a of as) {
+	for (const a of as) {
 		a.onclick = function() {
 			left_panel(this.classList.contains('active') ? null : (STATE.tab = this.getAttribute('for')));
 		};

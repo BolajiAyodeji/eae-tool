@@ -87,7 +87,7 @@ function index_info() {
 	info.onclick = function() {
 		const c = ce('div');
 
-		for (let i in EAE['indexes']) {
+		for (const i in EAE['indexes']) {
 			c.append(
 				ce('h3', EAE['indexes'][i]['name']),
 				ce('p', EAE['indexes'][i]['info']),
@@ -122,7 +122,7 @@ export function indexes() {
 		return d;
 	};
 
-	for (let t in EAE['indexes'])
+	for (const t in EAE['indexes'])
 		nodes.push(i_elem(t, EAE['indexes'][t]['name'], EAE['indexes'][t]['description']));
 
 	select.append(...nodes);

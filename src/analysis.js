@@ -68,7 +68,7 @@ export default async function run(type) {
 	// analysis.
 	//
 	const singles = {};
-	for (let i in EAE['indexes']) {
+	for (const i in EAE['indexes']) {
 		const compound = EAE['indexes'][i].compound;
 		if (compound.length < 2) singles[i] = 0;
 	}
@@ -80,7 +80,7 @@ export default async function run(type) {
 		return a;
 	}, singles);
 
-	for (let s in singles) if (singles[s] === 0) delete singles[s];
+	for (const s in singles) if (singles[s] === 0) delete singles[s];
 
 	const weights = {};
 	list.forEach(d => {
@@ -140,7 +140,7 @@ export default async function run(type) {
 		if (subdiv && divraster.data[i] !== sd) a = -1;
 
 		for (let j = 0; j < list.length; j += 1) {
-			let c = list[j];
+			const c = list[j];
 
 			// For the rest of the datasets, we 'annihilate' points that are already
 			// as -1 (or nodata) since we wouldn't know what value to assign for the

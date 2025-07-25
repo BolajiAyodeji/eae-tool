@@ -49,7 +49,7 @@ export function valued_polygons() {
 		const n = datasets.filter(t => t.config.divisions_tier === k);
 		if (!n.length) return;
 
-		let ul = ce('ul');
+		const ul = ce('ul');
 		const details = ce('details', [ce('summary', d.name), ul], { "id": `filtered-divisions-${k}` });
 		if (opens.find(t => t === details.id)) details.setAttribute('open', '');
 

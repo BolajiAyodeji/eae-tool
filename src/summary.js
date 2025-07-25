@@ -106,7 +106,7 @@ async function summary() {
 
 	const tables_tab = ce('div', null, { "class": 'tab hidden' });
 
-	for (let j of ['area', 'population-density']) {
+	for (const j of ['area', 'population-density']) {
 		const table = ce('table', null, { "class": 'summary' });
 		let thead, tbody, thr;
 
@@ -116,8 +116,8 @@ async function summary() {
 		thead.append(thr = ce('tr', ce('th'), { "class": 'number-labels-row' }));
 		s.forEach((x,i) => thr.append(ce('th', lowmedhigh(i), { "style": `background-color: ${x};`})));
 
-		for (let k in SUMMARY) {
-			let tr = ce('tr', ce('td', EAE['indexes'][k]['name'], { "class": 'index-name' }));
+		for (const k in SUMMARY) {
+			const tr = ce('tr', ce('td', EAE['indexes'][k]['name'], { "class": 'index-name' }));
 			s.forEach((x,i) => tr.append(ce('td', Math.round(SUMMARY[k][j]['amounts'][i]).toLocaleString())));
 
 			tbody.append(tr);
@@ -183,7 +183,7 @@ export default async function analyse(raster) {
 	const p = ds.raster.data;
 	const nodata = ds.raster.nodata;
 
-	let a = new Float32Array(raster.length).fill(-1);
+	const a = new Float32Array(raster.length).fill(-1);
 
 	const fn = d3.scaleQuantize()
 		.domain([0,1])
@@ -194,13 +194,13 @@ export default async function analyse(raster) {
 		a[i] = (r === -1) ? -1 : fn(r);
 	}
 
-	let population_groups = [0, 0, 0, 0, 0];
-	let area_groups = [0, 0, 0, 0, 0];
+	const population_groups = [0, 0, 0, 0, 0];
+	const area_groups = [0, 0, 0, 0, 0];
 	let covered = 0;
 
 	for (let i = 0; i < a.length; i += 1) {
-		let x = a[i];
-		let v = p[i];
+		const x = a[i];
+		const v = p[i];
 		let t = 0;
 
 		if (v == nodata) continue;

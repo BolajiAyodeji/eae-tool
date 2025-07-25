@@ -404,7 +404,7 @@ export function table_data(dict, props, lnglat) {
 	const s = ce('tr', [ce('td', "&nbsp;"), ce('td', "&nbsp;")]);
 
 	let prev;
-	for (let e of dict) {
+	for (const e of dict) {
 		if (prev === null && e === null) continue;
 		prev = e;
 

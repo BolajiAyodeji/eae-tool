@@ -38,7 +38,7 @@ async function geography(c) {
 	if (c.datasets_count > 2) coll.unshift(c); // 2 datasets: outline and admin-tiers
 
 	const data = {};
-	for (let x of coll) data[x.name] = x.name;
+	for (const x of coll) data[x.name] = x.name;
 
 	const sl = new selectlist(`geographies-select-` + c.id, data, {
 		'change': function(_) {
@@ -58,7 +58,7 @@ async function geography(c) {
 		return;
 	}
 
-	let content = ce('div');
+	const content = ce('div');
 	content.append(
 		ce('p', `We have several geographies for ${c.name}. Please do select one.`),
 		sl.el,
@@ -194,7 +194,7 @@ export async function init() {
 	};
 
 	function list(geographies) {
-		for (let co of geographies) {
+		for (const co of geographies) {
 			const d = ce('div', ce('h2', co.name, { "class": 'country-name' }), { "class": 'country-item', "ripple": "" });
 			d.onclick = async _ => {
 				preload_boundaries(co.id);

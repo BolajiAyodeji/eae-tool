@@ -58,7 +58,7 @@ class MapboxThemeControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', bi_icon('layers-fill'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		const button = ce('button', ce('div', bi_icon('layers-fill'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 
@@ -80,7 +80,7 @@ class MapboxProjectionControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', bi_icon('dribbble'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		const button = ce('button', ce('div', bi_icon('dribbble'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 
@@ -102,7 +102,7 @@ class MapboxInfoControl {
 		this._container.className = 'mapboxgl-ctrl';
 		this._container.classList.add('mapboxgl-ctrl-group');
 
-		let button = ce('button', ce('div', bi_icon('info-circle'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
+		const button = ce('button', ce('div', bi_icon('info-circle'), { "style": "transform: scale(0.75)" }), { "type": 'button', "class": 'mapboxgl-ctrl-icon'});
 
 		this._container.append(button);
 
@@ -147,11 +147,11 @@ export function init() {
 };
 
 function projection_control_popup(_) {
-	let x = ce('div', null, { "class": 'mapbox-control-popup' });
-	let radios = ce('div');
+	const x = ce('div', null, { "class": 'mapbox-control-popup' });
+	const radios = ce('div');
 
-	for (let t of projections) {
-		let e = ce('div', null, { "class": 'radio-group' });
+	for (const t of projections) {
+		const e = ce('div', null, { "class": 'radio-group' });
 
 		e.append(
 			ce('input', null, {
@@ -166,7 +166,7 @@ function projection_control_popup(_) {
 		radios.append(e);
 	}
 
-	let current = qs(`input[value="${MAPBOX.getProjection()?.name}"]`, radios);
+	const current = qs(`input[value="${MAPBOX.getProjection()?.name}"]`, radios);
 	if (current) current.setAttribute('checked', true);
 
 	qsa('input[name="mapbox_projection"]', radios)
@@ -190,11 +190,11 @@ padding: 16px;
 };
 
 function theme_control_popup(_) {
-	let x = ce('div', null, { "class": 'mapbox-control-popup' });
-	let radios = ce('div');
+	const x = ce('div', null, { "class": 'mapbox-control-popup' });
+	const radios = ce('div');
 
-	for (let t of styles) {
-		let e = ce('div', null, { "class": 'radio-group' });
+	for (const t of styles) {
+		const e = ce('div', null, { "class": 'radio-group' });
 
 		e.append(
 			ce('input', null, {
@@ -209,7 +209,7 @@ function theme_control_popup(_) {
 		radios.append(e);
 	}
 
-	let current = qs(`input[value="${EAE['settings'].mapbox_theme}"]`, radios);
+	const current = qs(`input[value="${EAE['settings'].mapbox_theme}"]`, radios);
 	if (current) current.setAttribute('checked', true);
 
 	qsa('input[name="mapbox_theme"]', radios)
@@ -233,7 +233,7 @@ padding: 16px;
 };
 
 function theme_pick(theme) {
-	let t = (theme === "" ? null : theme);
+	const t = (theme === "" ? null : theme);
 
 	return (t ? `mapbox://styles/${t}` : {
 		"version": 8,
