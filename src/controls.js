@@ -111,7 +111,7 @@ export default class dscontrols extends HTMLElement {
 		const ds = this.ds;
 		const path = maybe(ds.category, 'controls', 'path');
 
-		if (!path.length) return;
+		if (!maybe(path, 'length')) return;
 
 		function create_tab(name) {
 			const t = ce('div', humanformat(name), { "id": 'controls-tab-' + name, "class": 'controls-branch-tab up-title' });
