@@ -31,11 +31,11 @@ function variants() {
 		u = "km²";
 		r = r / 1000;
 	}
-	s.append(ce('option', `Raster Analysis - ${r}${u}`, { "value": "raster" }));
+	s.append(ce('option', `Prioritised Areas - ${r}${u}`, { "value": "raster" }));
 
 	GEOGRAPHY.divisions.forEach((d,i) => {
 		if (i === 0) return;
-		s.append(ce('option', `Administrative Priority - ${d.name}`, { "value": i }));
+		s.append(ce('option', d.name, { "value": i }));
 	});
 
 	s.value = STATE.variant;

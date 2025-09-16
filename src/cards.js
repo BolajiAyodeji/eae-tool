@@ -5,14 +5,14 @@ import bind from '../lib/bind.js';
 import bubblemessage from '../lib/bubblemessage.js';
 
 import {
-	svg_interval,
 	colorscale_svg,
+	svg_interval,
 	uniform_split,
 } from './utils.js';
 
 import {
-	points_symbol,
 	lines_symbol,
+	points_symbol,
 	polygons_symbol,
 } from './symbols.js';
 
@@ -95,7 +95,7 @@ function value_checkboxes() {
 	const payload = ds.csv.data.map(x => ({
 		"name":    x['VALUE'],
 		"value":   x['KEY'],
-		"color":   d => d.style['background-color'] = `rgba(${ ds.colorscale.fn(+x['KEY']) })`,
+		"color":   d => d.style['background-color'] = `rgba(${ds.colorscale.fn(+x['KEY'])})`,
 		"checked": (!ds._domain_select.length ? true : ds._domain_select.indexOf(x['KEY']) > -1),
 		change,
 	}));

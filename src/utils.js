@@ -117,7 +117,7 @@ export function svg_pie(data, outer, inner, colors, inner_text, parse, bubble) {
 		.attr("height", height);
 
 	const g = svg.append("g")
-		.attr("transform", `translate(${ width / 2 }, ${ height / 2 })`);
+		.attr("transform", `translate(${width / 2}, ${height / 2})`);
 
 	let n;
 
