@@ -33,6 +33,7 @@ import {
 	coalesce,
 	json_clone,
 	maybe,
+	nil,
 	or,
 	qs,
 	tmpl,
@@ -296,7 +297,7 @@ This is not fatal but the dataset is now disabled.`,
 			'vectors',
 		];
 
-		for (let c of configs) {
+		for (const c of configs) {
 			if (!ovrr.hasOwnProperty(c)) continue;
 
 			if (typeof ovrr[c] !== 'object') {
@@ -304,7 +305,7 @@ This is not fatal but the dataset is now disabled.`,
 				continue;
 			}
 
-			if (!this.category.hasOwnProperty(c)) {
+			if (nil(this.category[c])) {
 				this.category[c] = json_clone(ovrr[c]);
 				continue;
 			}
@@ -314,7 +315,7 @@ This is not fatal but the dataset is now disabled.`,
 				continue;
 			}
 
-			for (let a in ovrr[c]) {
+			for (const a in ovrr[c]) {
 				this.category[c][a] = ovrr[c][a];
 			}
 		}
