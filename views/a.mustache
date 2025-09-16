@@ -45,7 +45,13 @@
       <div id="left-panel" style="display: none;">
         <div id="cards" class="search-panel">
           <div id="output-widget">
-            <h4>Generate Analysis</h4>
+            <h4>
+              Generate Analysis
+              <button id="eae-info-button">
+                <i class="bi-info-circle"></i>
+                <span>About</span>
+              </button>
+            </h4>
 
             <div id="selects">
               <div>
@@ -54,7 +60,7 @@
               </div>
 
               <div>
-                Prioritisation Index <span id="index-info"></span>
+                Prioritisation Index
                 <select id="index-select"></select>
               </div>
             </div>
@@ -472,6 +478,78 @@
         <strong>Power outages in firms in a typical month:</strong> <span bind="outages_average"></span>
       </section>
     </div>
+  </template>
+
+  <template id="eae-info-modal-template">
+    <h2>About Energy Access Explorer prioritizaton</h2>
+    <p>
+      Energy Access Explorer enables you to identify high-priority areas for
+      energy access interventions. EAE uses multi-criteria analysis that uses
+      location-specific resource availability and infrastructure data to
+      represent energy supply, and incorporates demographic data and data on
+      social and productive uses to visualize demand for energy services.
+    </p>
+
+    <br><hr>
+
+    <h3>Analysis areas</h3>
+    <p>
+      Energy Access Explorer offers the option to generate an analysis across
+      various different administrative priorities.
+    </p>
+
+    <h4>Priority areas (1km²)</h4>
+    <p>
+      Selecting this analysis area provides a raster analysis in 1km2 tiles
+      across the entirity of the selected geography.
+    </p>
+
+    <h4>Other analysis areas</h4>
+    <p>
+      Depending on the currently selected geography, it is possible to change
+      the priotitization output to wider geographical areas such as districts,
+      regions or zones for more high level analysis.
+    </p>
+
+    <br><hr>
+
+    <h3>Prioritization indexes</h3>
+    <p>
+      There are 4 different methods to generate a prioritization, depending on
+      the aim of your analysis; these are known as the different
+      “indexes”. Energy Access Potential is the standard recommended index as it
+      is an aggregation across demand and supply categories.
+    </p>
+
+    <h4>Energy Access Potential</h4>
+    <p>
+      Identifies areas with higher energy demand and supply which are
+      characterized with higher index values. It is an aggregated measure of all
+      selected data sets under both Demand and Supply categories.
+    </p>
+
+    <h4>Demand Index</h4>
+    <p>
+      Identifies areas with higher energy demand which are characterized with
+      higher index values. It is an aggregated and weighted measure of all
+      selected data sets under Demographics and Socio-economic activities.
+    </p>
+
+    <h4>Supply Index</h4>
+    <p>
+      Identifies areas with higher energy supply which are characterized with
+      higher index values. It is an aggregated and weighted measure of all
+      selected data sets under Resource Availability and Infrastructure.
+    </p>
+
+    <h4>Assistance Need Index</h4>
+    <p>
+      Identifies areas where market assistance is needed the most which are
+      characterized with higher index values. It is an aggregated and weighted
+      measure of selected data sets under both Demand and Supply categories
+      indicating high energy demand, low economic activity, and low access to
+      infrastructure and resources.
+    </p>
   </template>
 
   <template id="ds-info-modal">

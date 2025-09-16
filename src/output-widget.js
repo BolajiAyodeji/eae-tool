@@ -9,7 +9,6 @@ import {
 
 import {
 	svg_interval,
-	bi_icon,
 } from './utils.js';
 
 import {
@@ -81,25 +80,15 @@ function ramp() {
 };
 
 function index_info() {
-	const info = qs('#index-info');
+	const b = qs('#eae-info-button');
 
-	info.append(bi_icon('info-circle'));
-	info.onclick = function() {
-		const c = ce('div');
-
-		for (const i in EAE['indexes']) {
-			c.append(
-				ce('h3', EAE['indexes'][i]['name']),
-				ce('p', EAE['indexes'][i]['info']),
-			);
-		}
-
+	b.onclick = function() {
 		new modal({
-			"id":      'indexes-modal',
-			"header":  "Indexes Descriptions",
-			"content": c,
-			"footer":  ce('a', "See technical note for more detailed methodology", {
-				"style": "text-align: right; display: block;",
+			"id":      'eae-info-modal',
+			"header":  "Generate prioritization",
+			"content": tmpl('#eae-info-modal-template'),
+			"footer":  ce('a', "View technical note", {
+				"style": "display: block;",
 				"href":  "https://www.wri.org/publication/energy-access-explorer-data-and-methods",
 			}),
 			"destroy": true,
@@ -123,7 +112,7 @@ export function indexes() {
 	};
 
 	for (const t in EAE['indexes'])
-		nodes.push(i_elem(t, EAE['indexes'][t]['name'], EAE['indexes'][t]['description']));
+		nodes.push(i_elem(t, EAE['indexes'][t]['name']));
 
 	select.append(...nodes);
 

@@ -81,3 +81,18 @@ bubble-message {
   overflow-y: scroll;
   max-height: calc(100% - 8em);
 }
+
+#eae-info-modal {
+  max-width: 40em;
+  margin: auto !important;
+  overflow-y: hidden !important;
+}
+
+#eae-info-modal main {
+  height: 70em;
+}
+
+#eae-info-modal content {
+  overflow-y: scroll;
+  height: 61em;
+}

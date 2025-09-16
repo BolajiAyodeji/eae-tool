@@ -14,6 +14,7 @@
   padding: 0.5em;
 }
 
+#eae-info-button,
 #cards-buttons button {
   background-color: white;
   color: var(--the-color);

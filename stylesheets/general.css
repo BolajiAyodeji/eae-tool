@@ -15,6 +15,10 @@ button {
   padding: 7px 12px;
 }
 
+button i ~ span  {
+  margin-left: 0.75em;
+}
+
 .big-green-button {
   text-align: center;
   background-color: var(--the-green);

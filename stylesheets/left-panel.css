@@ -57,3 +57,9 @@
 #output-widget #output-ramp svg {
   margin: 0.5em 0;
 }
+
+#output-widget #eae-info-button {
+  position: absolute;
+  right: 0;
+  top: -8px;
+}
