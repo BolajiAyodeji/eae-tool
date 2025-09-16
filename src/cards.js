@@ -107,6 +107,8 @@ function manual_inputs() {
 	const ds = this.ds;
 	const cat = this.ds.category;
 
+	if (!ds.domain) return "";
+
 	const {min,max} = ds.domain;
 
 	const input_change = (e,i) => {
