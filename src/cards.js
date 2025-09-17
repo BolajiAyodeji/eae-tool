@@ -532,21 +532,23 @@ export function init() {
 			COMMIT();
 		});
 
-	const remove_all = _ => {
+	const remove_all = function() {
 		STATE.datasets.forEach(x => x.turn(false));
 		COMMIT("datasets");
 		update();
 	};
 
-	const show_all = _ => {
-		STATE.datasets.forEach(x => x.visibility(true));
+	let visible = true;
+	const visible_all = function() {
+		visible = !visible;
+
+		STATE.datasets.forEach(x => x.visibility(visible));
+
+		qs('span', this).innerText = visible ? "Hide all layers" : "Show all layers";
+		qs('i', this).className = visible ? 'bi-eye-slash-fill' : 'bi-eye-fill';
 	};
 
-	const hide_all = _ => {
-		STATE.datasets.forEach(x => x.visibility(false));
-	};
-
-	const reset_all = _ => {
+	const reset_all = function() {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain, d.category.domain_init);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
@@ -564,16 +566,19 @@ export function init() {
 		});
 	};
 
-	const collapse_all = _ => {
-		STATE.datasets.forEach(d => {
-			d.card.toggle_settings(false);
-		});
+	let collapsed = true;
+	const collapse_all = function() {
+		collapsed = !collapsed;
+
+		STATE.datasets.forEach(d => d.card.toggle_settings(!collapsed));
+
+		qs('span', this).innerText = collapsed ? "Expand all settings" : "Collapse all settings";
+		qs('i', this).className = collapsed ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract';
 	};
 
 	bind(qs('#cards #cards-buttons'), {
 		remove_all,
-		show_all,
-		hide_all,
+		visible_all,
 		reset_all,
 		collapse_all,
 	});
