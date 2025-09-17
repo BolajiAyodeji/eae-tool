@@ -86,7 +86,41 @@
             </div>
           </div>
 
-          <div id="cards-buttons"></div>
+          <h4>Active Data Layers</h4>
+
+          <div id="cards-buttons">
+            <button bind-listen="click"
+                    bind-func="show_all">
+              <i class="bi bi-eye-fill"></i>
+              <span>Show all layers</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="hide_all">
+              <i class="bi bi-eye-slash-fill"></i>
+              <span>Hide all layers</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="reset_all">
+              <i class="bi bi-arrow-repeat"></i>
+              <span>Reset all settings</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="collapse_all">
+              <i class="bi bi-arrows-angle-contract"></i>
+              <span>Collapse all settings</span>
+            </button>
+
+            <button bind-listen="click"
+                    bind-func="remove_all">
+              <span style="color: #c30000;">
+                <i class="bi-x-lg"></i>
+                <span>Remove all layers</span>
+              </span>
+            </button>
+          </div>
 
           <div id="cards-list" class="search-results"></div>
         </div>

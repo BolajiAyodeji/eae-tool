@@ -540,25 +540,21 @@ export function init() {
 			COMMIT();
 		});
 
-	const ca = ce('button', 'Remove all layers', { "style": "color: #c30000;" });
-	ca.onclick = _ => {
+	const remove_all = _ => {
 		STATE.datasets.forEach(x => x.turn(false));
 		COMMIT("datasets");
 		update();
 	};
 
-	const cs = ce('button', 'Show all layers');
-	cs.onclick = _ => {
+	const show_all = _ => {
 		STATE.datasets.forEach(x => x.visibility(true));
 	};
 
-	const cv = ce('button', 'Hide all layers');
-	cv.onclick = _ => {
+	const hide_all = _ => {
 		STATE.datasets.forEach(x => x.visibility(false));
 	};
 
-	const cp = ce('button', 'Reset all settings');
-	cp.onclick = _ => {
+	const reset_all = _ => {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain, d.category.domain_init);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
@@ -576,14 +572,19 @@ export function init() {
 		});
 	};
 
-	const cc = ce('button', 'Collapse all settings');
-	cc.onclick = _ => {
+	const collapse_all = _ => {
 		STATE.datasets.forEach(d => {
 			d.card.toggle_settings(false);
 		});
 	};
 
-	qs('#cards #cards-buttons').append(cs,cv,cc,cp,ca);
+	bind(qs('#cards #cards-buttons'), {
+		remove_all,
+		show_all,
+		hide_all,
+		reset_all,
+		collapse_all,
+	});
 };
 
 export function update() {
