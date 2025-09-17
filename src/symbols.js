@@ -16,19 +16,20 @@ export function points_symbol({size, fill, stroke, strokewidth}) {
 	return svg.node();
 };
 
-export function lines_symbol({size, dasharray, stroke, fill, strokewidth = 1}) {
+export function lines_symbol({size, stroke}) {
 	const svg = d3.create('svg')
 		.attr('class', 'svg-line')
 		.attr('width', size)
 		.attr('height', size);
 
 	svg
-		.append('path')
-		.attr('d', "M 0.5625,23.71875 C 2.0625,8.0625 14.439788,10.706994 17.625,7.5 20.810212,4.2930056 23.71875,0.375 23.71875,0.375")
-		.attr('fill', fill)
-		.attr('stroke-dasharray', dasharray)
-		.attr('stroke', stroke)
-		.attr('stroke-width', strokewidth * 2);
+		.append('rect')
+		.attr('width', size - 2)
+		.attr('height', size/4)
+		.attr('x', 0)
+		.attr('y', (size) * (3/8))
+		.attr('fill', stroke)
+		.attr('stroke', 'none');
 
 	return svg.node();
 };

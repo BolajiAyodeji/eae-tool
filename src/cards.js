@@ -268,10 +268,7 @@ function specs() {
 	case "lines":
 		f = x => lines_symbol({
 			"size":             20,
-			"fill":             'none',
 			"stroke":           x['stroke'] || 'black',
-			"stroke-width":     x['stroke-width'],
-			"stroke-dasharray": x['dasharray'],
 		});
 		break;
 
@@ -353,9 +350,7 @@ function symbol() {
 	case 'lines-timeline': {
 		e = lines_symbol({
 			"size":        24,
-			"fill":        ds.vectors.fill,
 			"stroke":      ds.vectors.stroke,
-			"strokewidth": 2,
 		});
 		break;
 	}
@@ -363,10 +358,7 @@ function symbol() {
 	case 'lines': {
 		e = lines_symbol({
 			"size":      24,
-			"dasharray": ds.vectors.dasharray,
 			"stroke":    ds.vectors.stroke,
-			"width":     ds.vectors.width * 2,
-			"fill":      'none',
 		});
 		break;
 	}
