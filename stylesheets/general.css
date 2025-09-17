@@ -19,6 +19,7 @@ button {
   padding: 7px 12px;
 }
 
+a i ~ span,
 button i ~ span  {
   margin-left: 0.75em;
 }

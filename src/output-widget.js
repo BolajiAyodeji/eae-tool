@@ -87,10 +87,6 @@ function index_info() {
 			"id":      'eae-info-modal',
 			"header":  "Generate prioritization",
 			"content": tmpl('#eae-info-modal-template'),
-			"footer":  ce('a', "View technical note", {
-				"style": "display: block;",
-				"href":  "https://www.wri.org/publication/energy-access-explorer-data-and-methods",
-			}),
 			"destroy": true,
 		}).show();
 	};
