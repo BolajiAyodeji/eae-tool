@@ -58,8 +58,26 @@
   margin: 0.5em 0;
 }
 
+#output-widget #output-ramp .unit-ramp {
+  font-weight: unset;
+  color: unset;
+}
+
 #output-widget #eae-info-button {
   position: absolute;
   right: 0;
   top: -8px;
+}
+
+#left-panel h1,
+#left-panel h2,
+#left-panel h3,
+#left-panel h4 {
+  color: var(--the-color);
+}
+
+#left-panel h4 {
+  position: relative;
+  font-size: 1.25em;
+  margin: 1em;
 }

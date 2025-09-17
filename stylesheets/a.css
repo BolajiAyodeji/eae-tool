@@ -89,10 +89,10 @@ bubble-message {
 }
 
 #eae-info-modal main {
-  height: 70em;
+  max-height: calc(100% - 8em);
+  overflow-y: scroll;
 }
 
 #eae-info-modal content {
-  overflow-y: scroll;
-  height: 61em;
+  max-height: calc(100% - 17em);
 }
