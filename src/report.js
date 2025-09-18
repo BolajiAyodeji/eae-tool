@@ -925,5 +925,5 @@ export async function pptx() {
 		toplocations_index.call(p, 'supply', points);
 	}
 
-	p.writeFile();
+	p.writeFile({ "filename": null });
 };
