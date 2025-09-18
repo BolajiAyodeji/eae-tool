@@ -179,7 +179,7 @@ function share_url() {
 
 export function updated_plot(type, index) {
 	qs('#index-graphs-title').innerText = index['name'];
-	qs('#index-graphs-description').innerText = index['description'];
+	qs('#index-graphs-subtext').innerText = index['subtext'];
 };
 
 function toggle() {

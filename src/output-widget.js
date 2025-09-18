@@ -79,14 +79,14 @@ function ramp() {
 	);
 };
 
-function index_info() {
+function eae_info_modal() {
 	const b = qs('#eae-info-button');
 
 	b.onclick = function() {
 		new modal({
 			"id":      'eae-info-modal',
 			"header":  "Generate prioritization",
-			"content": tmpl('#eae-info-modal-template'),
+			"content": bind(tmpl('#eae-info-modal-template'), EAE['indexes']),
 			"destroy": true,
 		}).show();
 	};
@@ -125,6 +125,6 @@ export function init() {
 	indexes();
 	toggle_init();
 	opacity_init();
-	index_info();
+	eae_info_modal();
 	ramp();
 };

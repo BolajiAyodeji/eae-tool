@@ -213,7 +213,7 @@
 
         <div id="index-graphs">
           <div id="index-graphs-title" class="up-title"></div>
-          <div id="index-graphs-description"></div>
+          <div id="index-graphs-subtext"></div>
         </div>
 
         <div id="filtered-pane" style="display: none;">
@@ -549,35 +549,17 @@
       is an aggregation across demand and supply categories.
     </p>
 
-    <h4>Energy Access Potential</h4>
-    <p>
-      Identifies areas with higher energy demand and supply which are
-      characterized with higher index values. It is an aggregated measure of all
-      selected data sets under both Demand and Supply categories.
-    </p>
+    <h4 bind="eai.name"></h4>
+    <p bind="eai.explain"></p>
 
-    <h4>Demand Index</h4>
-    <p>
-      Identifies areas with higher energy demand which are characterized with
-      higher index values. It is an aggregated and weighted measure of all
-      selected data sets under Demographics and Socio-economic activities.
-    </p>
+    <h4 bind="demand.name"></h4>
+    <p bind="demand.explain"></p>
 
-    <h4>Supply Index</h4>
-    <p>
-      Identifies areas with higher energy supply which are characterized with
-      higher index values. It is an aggregated and weighted measure of all
-      selected data sets under Resource Availability and Infrastructure.
-    </p>
+    <h4 bind="supply.name"></h4>
+    <p bind="supply.explain"></p>
 
-    <h4>Assistance Need Index</h4>
-    <p>
-      Identifies areas where market assistance is needed the most which are
-      characterized with higher index values. It is an aggregated and weighted
-      measure of selected data sets under both Demand and Supply categories
-      indicating high energy demand, low economic activity, and low access to
-      infrastructure and resources.
-    </p>
+    <h4 bind="ani.name"></h4>
+    <p bind="ani.explain"></p>
 
     <br><hr>
 

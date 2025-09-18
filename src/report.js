@@ -320,10 +320,10 @@ function geography_indexes_left($) {
 		$.addText(
 			[
 				{
-					"text":    index.name + " ",
+					"text":    index['name'] + " ",
 					"options": { bold },
 				}, {
-					"text": index.info.replace(/\n/g, ' '),
+					"text": index['explain'].replace(/\n/g, ' '),
 				},
 			],
 			textopts({ x, y, "w": "45%", "fontSize": 11 }),
