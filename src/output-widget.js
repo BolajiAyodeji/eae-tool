@@ -30,7 +30,7 @@ function variants() {
 		u = "km²";
 		r = r / 1000;
 	}
-	s.append(ce('option', `Prioritised Areas - ${r}${u}`, { "value": "raster" }));
+	s.append(ce('option', `Prioritized Areas - ${r}${u}`, { "value": "raster" }));
 
 	GEOGRAPHY.divisions.forEach((d,i) => {
 		if (i === 0) return;
