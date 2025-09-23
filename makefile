@@ -249,11 +249,6 @@ synced:
 		--info=name1,progress0 \
 		${DIST}/ ${SSH_USER}@${SSH_HOST}:${TOOL_DEST}
 
-deploy-all:
-	bmake deploy env=production
-	bmake deploy env=staging
-	bmake deploy env=training
-
 deploy:
 	@ touch ${env}.diff development.diff
 
