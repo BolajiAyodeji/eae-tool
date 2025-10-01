@@ -37,6 +37,11 @@ async function geography(c) {
 
 	if (c.datasets_count > 2) coll.unshift(c); // 2 datasets: outline and admin-tiers
 
+	if (!coll.length) {
+		alert("No available geographies. Need: outline, admin-tiers and population-density datasets");
+		return;
+	}
+
 	const data = {};
 	for (const x of coll) data[x.name] = x.name;
 
