@@ -509,7 +509,7 @@
   </template>
 
   <template id="eae-info-modal-template">
-    <h2>About Energy Access Explorer prioritizaton</h2>
+    <h3>About Energy Access Explorer prioritizaton</h3>
     <p>
       Energy Access Explorer enables you to identify high-priority areas for
       energy access interventions. EAE uses multi-criteria analysis that uses
@@ -518,7 +518,7 @@
       social and productive uses to visualize demand for energy services.
     </p>
 
-    <br><hr>
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
 
     <h3>Analysis areas</h3>
     <p>
@@ -526,12 +526,14 @@
       various different administrative priorities.
     </p>
 
+    <br>
     <h4>Priority areas (1km²)</h4>
     <p>
       Selecting this analysis area provides a raster analysis in 1km2 tiles
       across the entirity of the selected geography.
     </p>
 
+    <br>
     <h4>Other analysis areas</h4>
     <p>
       Depending on the currently selected geography, it is possible to change
@@ -539,7 +541,7 @@
       regions or zones for more high level analysis.
     </p>
 
-    <br><hr>
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
 
     <h3>Prioritization indexes</h3>
     <p>
@@ -549,19 +551,23 @@
       is an aggregation across demand and supply categories.
     </p>
 
+    <br>
     <h4 bind="eai.name"></h4>
     <p bind="eai.explain"></p>
 
+    <br>
     <h4 bind="demand.name"></h4>
     <p bind="demand.explain"></p>
 
+    <br>
     <h4 bind="supply.name"></h4>
     <p bind="supply.explain"></p>
 
+    <br>
     <h4 bind="ani.name"></h4>
     <p bind="ani.explain"></p>
 
-    <br><hr>
+    <br><div style="border-bottom: 1px solid lightgray;"></div><br><br>
 
     <p>
       <a href="https://www.wri.org/publication/energy-access-explorer-data-and-methods">

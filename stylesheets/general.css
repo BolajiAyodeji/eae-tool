@@ -2,8 +2,7 @@ h1, h2, h3, h4 {
   color: var(--the-green);
   border: none;
   margin: unset;
-  padding-left: 0;
-  padding-bottom: 0.5em;
+  padding: unset;
 }
 
 a {
@@ -17,6 +16,11 @@ a {
 button {
   font-family: without-serif, sans-serif !important;
   padding: 7px 12px;
+}
+
+button,
+select {
+  border-radius: 3px;
 }
 
 a i ~ span,
