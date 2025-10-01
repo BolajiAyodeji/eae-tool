@@ -245,8 +245,8 @@ export async function init() {
 		"deployment": `ov.{${ENV}}`,
 	};
 
-	if (and(or(ENV.includes('training'),
-	           ENV.includes('staging')),
+	if (and(or(ENV.includes('protected'),
+	           ENV.includes('training')),
 	        !["director", "root"].includes(SELF.role))) {
 		params['with_access'] = "is.true";
 	}

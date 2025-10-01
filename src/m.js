@@ -176,7 +176,7 @@ function drop(snapshots) {
 function base(e) {
 	if (location.hostname.match('localhost')) return "";
 
-	const subdomain = e === "production" ? "www" : e;
+	const subdomain = e === "public" ? "www" : e;
 
 	return `https://${subdomain}.energyaccessexplorer.org`;
 };
