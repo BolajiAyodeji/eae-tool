@@ -644,7 +644,7 @@ export default class dscard extends HTMLElement {
 			"value-checkboxes": value_checkboxes.call(this),
 			"pvna":             (this.ds.type === 'polygons-valued'),
 			"info":             this.ds.info_modal.bind(this.ds),
-			"index":            this.ds.index?.replace('ani', 'ANI').replace('eai', 'EAI') || "Filter",
+			"index":            this.ds.index?.replace(/(ani|eai)/, "Filter"),
 			"specs":            specs.call(this),
 			"symbol":           symbol.call(this),
 			"colorscale":       colorscale.call(this),
