@@ -567,7 +567,7 @@ export function init() {
 	};
 
 	let collapsed = true;
-	const collapse_all = function() {
+	const expand_all = function() {
 		collapsed = !collapsed;
 
 		STATE.datasets.forEach(d => d.card.toggle_settings(!collapsed));
@@ -580,7 +580,7 @@ export function init() {
 		remove_all,
 		visible_all,
 		reset_all,
-		collapse_all,
+		expand_all,
 	});
 };
 
