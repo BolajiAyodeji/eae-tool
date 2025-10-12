@@ -257,6 +257,8 @@ function weight_group() {
 		COMMIT("datasets");
 	};
 
+	this.weight = el;
+
 	return el;
 };
 
@@ -552,6 +554,8 @@ export function init() {
 		STATE.datasets.forEach(d => {
 			d._domain = Object.assign({}, d.domain, d.category.domain_init);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
+			d.weight = 3;
+
 			d.card.values();
 
 			if (d.vectors?.data) {
@@ -671,6 +675,8 @@ export default class dscard extends HTMLElement {
 
 		if (this.manual_min) this.manual_min.value = d['min'];
 		if (this.manual_max) this.manual_max.value = d['max'];
+
+		if (this.weight) this.weight.value = this.ds.weight;
 
 		if (this.range_svg) {
 			this.range_svg.change({
