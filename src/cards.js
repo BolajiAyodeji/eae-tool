@@ -511,7 +511,7 @@ function ramp() {
 };
 
 function opacity() {
-	return svg_interval({
+	this.opacity = svg_interval({
 		"init":      { "min": 0, "max": this.opacity_value },
 		"sliders":   'single',
 		"height":    8,
@@ -520,7 +520,9 @@ function opacity() {
 			this.opacity_value = x;
 			this.ds.opacity(x);
 		},
-	}).svg;
+	});
+
+	return this.opacity.svg;
 };
 
 export function init() {
@@ -555,6 +557,7 @@ export function init() {
 			d._domain = Object.assign({}, d.domain, d.category.domain_init);
 			d._domain_select = d.domain_select ? [...d.domain_select] : undefined;
 			d.weight = 3;
+			d.opacity(1);
 
 			d.card.values();
 
@@ -677,6 +680,12 @@ export default class dscard extends HTMLElement {
 		if (this.manual_max) this.manual_max.value = d['max'];
 
 		if (this.weight) this.weight.value = this.ds.weight;
+
+		this.opacity_value = this.ds.opacity;
+		this.opacity.change({
+			"min": 0,
+			"max": 1,
+		});
 
 		if (this.range_svg) {
 			this.range_svg.change({
