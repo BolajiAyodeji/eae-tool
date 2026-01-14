@@ -482,7 +482,7 @@ function colorscale() {
 };
 
 function ramp() {
-	const ds = this.ds;
+	const ds = this.ds.hosts ? this.ds.host : this.ds;
 	const cat = this.ds.category;
 
 	if (!ds.domain) return "";
