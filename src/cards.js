@@ -687,8 +687,6 @@ export default class dscard extends HTMLElement {
 			"max": 1,
 		});
 
-		this.ds.visibility(true);
-
 		if (this.range_svg) {
 			this.range_svg.change({
 				"min": this.ds.fn(d['min']),
