@@ -487,11 +487,9 @@ function ramp() {
 
 	if (!ds.domain) return "";
 
-	if (ds._domain_select) {
-		return bind(tmpl('#ramp'), {
-			"middle": coalesce(cat.controls.range_label, cat.unit),
-		});
-	}
+	if (ds._domain_select) return bind(tmpl('#ramp'), {
+		"middle": coalesce(cat.controls.range_label, cat.unit),
+	});
 
 	const {min,max} = ds.domain;
 
