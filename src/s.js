@@ -239,7 +239,7 @@ export async function init() {
 					if (!data) return;
 
 					d.append(ce('img', null, {
-						"src":   URL.createObjectURL((new Blob([hextostring(data['flag'])], {"type": 'image/svg+xml'}))),
+						"src":   URL.createObjectURL((new Blob([hextostring(data['flag'])], {"type": "image/svg+xml"}))),
 						"class": "flag",
 					}));
 				});
