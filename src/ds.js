@@ -402,6 +402,8 @@ This is not fatal but the dataset is now disabled.`,
 	};
 
 	async mutate(host) {
+		await host.loadall();
+
 		await host.raster.parse();
 
 		this.host = host;
